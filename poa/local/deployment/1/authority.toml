@@ -2,7 +2,19 @@
 chain = "/parity/chain.json"
 
 [account]
-unlock = ["0xc08c3def622af1476f2db0e3cc8ccaead07be3bb"]
+unlock = [
+"0xabcd1339ec7e762e639f4887e2bfe5ee8023e23e", 
+"0x240a500c9b3D45678D5F7e14401F138b9296A213",
+"0x241AF60fc6A83274698b04e139dc8D6144A0B8e4", 
+"0x000a9c787a972F70F0903890E266F41c795C4DcA",
+"0x1a69b2eb604db8eba185df03ea4f5288dcbbd248", 
+"0x2Ab2674aA374Fe6415d11f0a8FcbD8027fc1e6A9", 
+"0x3A3406E69ADf886c442Ff1791cbf67CEA679275D", 
+"0x4AEF50214110FdaD4e8B9128347F2Ba1eC72F614", 
+"0x242a4299EE6b1E467a7b3d4Bf9DC7F5Bf694AC98",
+"0x243a1360Eb0bdB806DFE3a7b9A1EbB5Ef05BdD0F",
+]
+
 password = ["/parity/password"]
 
 [network]
@@ -17,7 +29,7 @@ apis = ["web3", "eth", "net", "parity", "traces", "rpc", "personal", "parity_acc
 
 [mining]
 reseal_on_txs = "none"
-engine_signer = "0xc08c3def622af1476f2db0e3cc8ccaead07be3bb"
+engine_signer = "0xabcd1339ec7e762e639f4887e2bfe5ee8023e23e"
 
 [websockets]
 disable = false

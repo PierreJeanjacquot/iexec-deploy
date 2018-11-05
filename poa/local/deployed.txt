@@ -2,190 +2,233 @@ Starting migrations...
 ======================
 > Network name:    'development'
 > Network id:      17
-> Block gas limit: 37137503
+> Block gas limit: 37282921
 
 
 1_initial_migration.js
 ======================
+2018-11-05 15:17:28 UTC Imported #73 0x9e12…2c5b (0 txs, 0.00 Mgas, 0 ms, 0.57 KiB)
 
    Deploying 'Migrations'
    ----------------------
-   > transaction hash:    0xb5a6656d9b73a470c62d2ee6e33fe8b00e394b9141d4fee56c0b1d4e7a478641
+   > transaction hash:    0x4cd36daf5376efe6dea2d56c7653090ec73ab5836d04d1539c7ca582ba8099a6
 - Blocks: 0            Seconds: 0
+2018-11-05 15:17:29 UTC Transaction mined (hash 0x4cd36daf5376efe6dea2d56c7653090ec73ab5836d04d1539c7ca582ba8099a6)
    > Blocks: 0            Seconds: 0
-   > contract address:    0xF5d2becE318D19BFE198AD9c30639D8A124c3fC5
-   > account:             0xC08C3def622Af1476f2Db0E3CC8CcaeAd07BE3bB
-   > balance:             1000000000000000000000000
+   > contract address:    0xAa176d8d35530A5F586B221d3Cf927750917619c
+   > account:             0x000a9c787a972F70F0903890E266F41c795C4DcA
+   > balance:             999999999999999999999999.999775805
    > gas used:            224195
-   > gas price:           8 gwei
+   > gas price:           1 gwei
    > value sent:          0 ETH
-   > total cost:          0.00179356 ETH
+   > total cost:          0.000224195 ETH
 
    > Saving artifacts
    -------------------------------------
-   > Total cost:          0.00179356 ETH
+   > Total cost:         0.000224195 ETH
 
 
 2_deploy_contracts.js
 =====================
+2018-11-05 15:17:30 UTC Imported #75 0x0881…4f21 (0 txs, 0.00 Mgas, 0 ms, 0.57 KiB) + another 1 block(s) containing 1 tx(s)
 # web3 version: 1.0.0-beta.35
+Chainid is: 17
+Chaintype is: private
 
    Deploying 'RLC'
    ---------------
-   > transaction hash:    0x45d8a2d485a1b4af16127fd77a051900fe45d5095a395e6d5612d5a306df6f61
+   > transaction hash:    0x9ba90cdf39f81f015fe976a09aa984e53bc4eb9d78ae95b303bfc2cec5ab3137
 - Blocks: 0            Seconds: 0
+2018-11-05 15:17:32 UTC Imported #77 0xaeb0…e27b (1 txs, 0.96 Mgas, 0 ms, 3.70 KiB) + another 1 block(s) containing 0 tx(s)
+2018-11-05 15:17:32 UTC Transaction mined (hash 0x9ba90cdf39f81f015fe976a09aa984e53bc4eb9d78ae95b303bfc2cec5ab3137)
    > Blocks: 0            Seconds: 0
-   > contract address:    0x22274DBBd9d9b0f18F947e3CD2eb058253a05972
-   > account:             0xC08C3def622Af1476f2Db0E3CC8CcaeAd07BE3bB
-   > balance:             1000000000000000000000000
+   > contract address:    0x464f85C10c122230306E943a3FD5700890885246
+   > account:             0x000a9c787a972F70F0903890E266F41c795C4DcA
+   > balance:             999999999999999999999999.9988117
    > gas used:            964105
-   > gas price:           8 gwei
+   > gas price:           1 gwei
    > value sent:          0 ETH
-   > total cost:          0.00771284 ETH
+   > total cost:          0.000964105 ETH
 
-RLC deployed at address: 0x22274DBBd9d9b0f18F947e3CD2eb058253a05972
+RLC deployed at address: 0x464f85C10c122230306E943a3FD5700890885246
+2018-11-05 15:17:34 UTC Imported #79 0x6cc2…08a5 (1 txs, 0.01 Mgas, 0 ms, 0.68 KiB) + another 1 block(s) containing 0 tx(s)
+2018-11-05 15:17:34 UTC Transaction mined (hash 0xe64b19b3079b767201d889a5d40a369c1a7bf73afd67c67e5e03e14aa3e76ccb)
 RLC unlocked
-RLC faucet wallet is 0xC08C3def622Af1476f2Db0E3CC8CcaeAd07BE3bB
+RLC faucet wallet is 0x000a9c787a972F70F0903890E266F41c795C4DcA
 RLC faucet supply is 87000000000000000
 
    Deploying 'IexecODBLibOrders'
    -----------------------------
-   > transaction hash:    0x1d88106fdea3472933edb95997419ca7d09fbf36521c4f4b76738628189e9638
+   > transaction hash:    0x95947810f543d1403119e382bdc9e3993064072981ff1e46310a7c2a82a9238e
 - Blocks: 0            Seconds: 0
+2018-11-05 15:17:35 UTC Imported #80 0xda93…e6cf (1 txs, 0.79 Mgas, 0 ms, 3.41 KiB)
+2018-11-05 15:17:35 UTC Transaction mined (hash 0x95947810f543d1403119e382bdc9e3993064072981ff1e46310a7c2a82a9238e)
    > Blocks: 0            Seconds: 0
-   > contract address:    0x60E25C038D70A15364DAc11A042DB1dD7A2cccBC
-   > account:             0xC08C3def622Af1476f2Db0E3CC8CcaeAd07BE3bB
-   > balance:             1000000000000000000000000
-   > gas used:            782995
-   > gas price:           8 gwei
+   > contract address:    0x5df493e91aE066541C13d9a071137e850a56d609
+   > account:             0x000a9c787a972F70F0903890E266F41c795C4DcA
+   > balance:             999999999999999999999999.998008713
+   > gas used:            789406
+   > gas price:           1 gwei
    > value sent:          0 ETH
-   > total cost:          0.00626396 ETH
+   > total cost:          0.000789406 ETH
 
 
    Linking
    -------
-   * Contract: IexecClerk <--> Library: IexecODBLibOrders (at address: 0x60E25C038D70A15364DAc11A042DB1dD7A2cccBC)
+   * Contract: IexecClerk <--> Library: IexecODBLibOrders (at address: 0x5df493e91aE066541C13d9a071137e850a56d609)
 
    Deploying 'IexecHub'
    --------------------
-   > transaction hash:    0xae074395a0b37d26ca1055cfe6d6dbb40db598074b181341bbefeec5d3f5f376
+   > transaction hash:    0xad1991f62e5c6778fd4fee73310d9ed08160fdd2b6cfca864c956e971a77df7e
 - Blocks: 0            Seconds: 0
+2018-11-05 15:17:37 UTC Imported #82 0xb5d4…abc2 (1 txs, 4.90 Mgas, 0 ms, 18.49 KiB) + another 1 block(s) containing 0 tx(s)
+2018-11-05 15:17:37 UTC Transaction mined (hash 0xad1991f62e5c6778fd4fee73310d9ed08160fdd2b6cfca864c956e971a77df7e)
    > Blocks: 0            Seconds: 0
-   > contract address:    0x17ecF6E26363A806D85f904008f3417dA723E5b5
-   > account:             0xC08C3def622Af1476f2Db0E3CC8CcaeAd07BE3bB
-   > balance:             1000000000000000000000000
+   > contract address:    0x537C423A919110BcC8C05ecBDa39Ba8d30192061
+   > account:             0x000a9c787a972F70F0903890E266F41c795C4DcA
+   > balance:             999999999999999999999999.993112608
    > gas used:            4896105
-   > gas price:           8 gwei
+   > gas price:           1 gwei
    > value sent:          0 ETH
-   > total cost:          0.03916884 ETH
+   > total cost:          0.004896105 ETH
 
-IexecHub deployed at address: 0x17ecF6E26363A806D85f904008f3417dA723E5b5
+IexecHub deployed at address: 0x537C423A919110BcC8C05ecBDa39Ba8d30192061
 
    Deploying 'IexecClerk'
    ----------------------
-   > transaction hash:    0x9dd8bc69f934f2667a13e1af17ad6dcc48199d0037e901c7ff6bc24782d257df
+   > transaction hash:    0x5d3499285f1cf849f0d301057aa59743acb6bfb27af67bbd8fd4509baefbb60d
 - Blocks: 0            Seconds: 0
+2018-11-05 15:17:39 UTC Imported #84 0xf8f6…557e (1 txs, 4.75 Mgas, 0 ms, 18.56 KiB) + another 1 block(s) containing 0 tx(s)
+2018-11-05 15:17:39 UTC Transaction mined (hash 0x5d3499285f1cf849f0d301057aa59743acb6bfb27af67bbd8fd4509baefbb60d)
    > Blocks: 0            Seconds: 0
-   > contract address:    0xa18AAC574c5314CfE34B506Cd2fFDA2115Efe908
-   > account:             0xC08C3def622Af1476f2Db0E3CC8CcaeAd07BE3bB
-   > balance:             1000000000000000000000000
-   > gas used:            4726730
-   > gas price:           8 gwei
+   > contract address:    0x08Ea1699CEB1aC2a1b30A238eF58B3FFc871b95d
+   > account:             0x000a9c787a972F70F0903890E266F41c795C4DcA
+   > balance:             999999999999999999999999.988367301
+   > gas used:            4745307
+   > gas price:           1 gwei
    > value sent:          0 ETH
-   > total cost:          0.03781384 ETH
+   > total cost:          0.004745307 ETH
 
-IexecClerk deployed at address: 0xa18AAC574c5314CfE34B506Cd2fFDA2115Efe908
+IexecClerk deployed at address: 0x08Ea1699CEB1aC2a1b30A238eF58B3FFc871b95d
 
    Deploying 'DappRegistry'
    ------------------------
-   > transaction hash:    0x85b1e464474eacd04fbc7a2ba00c0c3730e5b4cfaae406c5467af4f68a29a356
 - Blocks: 0            Seconds: 0
+   > transaction hash:    0xa21bccd3c193cc6a3bb755d9dd78dd3790d54d3ad786c59cfa0c736d8cf49fba
+2018-11-05 15:17:40 UTC Imported #85 0x8238…ba2f (1 txs, 0.88 Mgas, 0 ms, 3.79 KiB)
+2018-11-05 15:17:40 UTC Transaction mined (hash 0xa21bccd3c193cc6a3bb755d9dd78dd3790d54d3ad786c59cfa0c736d8cf49fba)
    > Blocks: 0            Seconds: 0
-   > contract address:    0x0EC852F84D84C3437c8931a12d30f629d514c729
-   > account:             0xC08C3def622Af1476f2Db0E3CC8CcaeAd07BE3bB
-   > balance:             1000000000000000000000000
+   > contract address:    0x2a748e99C4116c29F3f84aad7c3984567287b5F3
+   > account:             0x000a9c787a972F70F0903890E266F41c795C4DcA
+   > balance:             999999999999999999999999.987483045
    > gas used:            884256
-   > gas price:           8 gwei
+   > gas price:           1 gwei
    > value sent:          0 ETH
-   > total cost:          0.007074048 ETH
+   > total cost:          0.000884256 ETH
 
 
    Deploying 'DataRegistry'
    ------------------------
-   > transaction hash:    0xac23c29914bee154cd87836b036dd7f933950c930ebb70487e0a5c5184737985
 - Blocks: 0            Seconds: 0
+   > transaction hash:    0x2764f9f4af3576eaecee59c2ed0ca3e4f9610b0ce29a2cc7c29eb4171c33c117
+2018-11-05 15:17:42 UTC Imported #87 0x8f15…099d (1 txs, 0.88 Mgas, 0 ms, 3.79 KiB) + another 1 block(s) containing 0 tx(s)
+2018-11-05 15:17:42 UTC Transaction mined (hash 0x2764f9f4af3576eaecee59c2ed0ca3e4f9610b0ce29a2cc7c29eb4171c33c117)
    > Blocks: 0            Seconds: 0
-   > contract address:    0xDB0F84380dBF886CE09E32416844969Eb9E42135
-   > account:             0xC08C3def622Af1476f2Db0E3CC8CcaeAd07BE3bB
-   > balance:             1000000000000000000000000
+   > contract address:    0x57D329161189f3DD3d032C76b7C98397FEEcC8ea
+   > account:             0x000a9c787a972F70F0903890E266F41c795C4DcA
+   > balance:             999999999999999999999999.986598597
    > gas used:            884448
-   > gas price:           8 gwei
+   > gas price:           1 gwei
    > value sent:          0 ETH
-   > total cost:          0.007075584 ETH
+   > total cost:          0.000884448 ETH
 
 
    Deploying 'PoolRegistry'
    ------------------------
-   > transaction hash:    0x2138294cdb54d1c5df0a6bb65a950a3380bc444d6aba3ac0cb0f7e6aadbc96ad
 - Blocks: 0            Seconds: 0
+   > transaction hash:    0x4673b35fc6da9dddd56f8692ce47806d18e89a5fec8f1c532437ee7ba677ccdf
+2018-11-05 15:17:44 UTC Transaction mined (hash 0x4673b35fc6da9dddd56f8692ce47806d18e89a5fec8f1c532437ee7ba677ccdf)
+2018-11-05 15:17:44 UTC Imported #89 0x361a…e9e2 (1 txs, 1.01 Mgas, 0 ms, 4.24 KiB) + another 1 block(s) containing 0 tx(s)
    > Blocks: 0            Seconds: 0
-   > contract address:    0x80E410d9553123Cd83fA28a7cb7818e457Ae1387
-   > account:             0xC08C3def622Af1476f2Db0E3CC8CcaeAd07BE3bB
-   > balance:             1000000000000000000000000
+   > contract address:    0x9aF85b827Dd74aAc5cB6DeA0b0ED97A73c6FCCc7
+   > account:             0x000a9c787a972F70F0903890E266F41c795C4DcA
+   > balance:             999999999999999999999999.985590609
    > gas used:            1007988
-   > gas price:           8 gwei
+   > gas price:           1 gwei
    > value sent:          0 ETH
-   > total cost:          0.008063904 ETH
+   > total cost:          0.001007988 ETH
 
-DappRegistry deployed at address: 0x0EC852F84D84C3437c8931a12d30f629d514c729
-DataRegistry deployed at address: 0xDB0F84380dBF886CE09E32416844969Eb9E42135
-PoolRegistry deployed at address: 0x80E410d9553123Cd83fA28a7cb7818e457Ae1387
+DappRegistry deployed at address: 0x2a748e99C4116c29F3f84aad7c3984567287b5F3
+DataRegistry deployed at address: 0x57D329161189f3DD3d032C76b7C98397FEEcC8ea
+PoolRegistry deployed at address: 0x9aF85b827Dd74aAc5cB6DeA0b0ED97A73c6FCCc7
+2018-11-05 15:17:46 UTC Imported #91 0x156b…65ac (1 txs, 0.11 Mgas, 0 ms, 0.81 KiB) + another 1 block(s) containing 0 tx(s)
+2018-11-05 15:17:46 UTC Transaction mined (hash 0xc7ec88862bac56694f80f05e939d1624d5f91cbda93fba54caef2ccc77b7fd97)
 attach Contracts to IexecHub done
-setCategoriesCreator to 0xC08C3def622Af1476f2Db0E3CC8CcaeAd07BE3bB
 create category : Mega
+2018-11-05 15:17:48 UTC Imported #93 0xe3ef…d96f (1 txs, 0.11 Mgas, 0 ms, 0.90 KiB) + another 1 block(s) containing 0 tx(s)
+2018-11-05 15:17:48 UTC Transaction mined (hash 0x42898c18c4f8aa60093f2c914ad920cc13446aad13186f9c7641260a38a6f5de)
 create category : MegaPlus
+2018-11-05 15:17:49 UTC Imported #94 0x88d5…7b11 (0 txs, 0.00 Mgas, 0 ms, 0.57 KiB)
+2018-11-05 15:17:50 UTC    0/25 peers    104 KiB chain  358 KiB db  0 bytes queue 448 bytes sync  RPC:  0 conn,   12 req/s,  392 µs
+2018-11-05 15:17:50 UTC Transaction mined (hash 0xbb4b7e2482d4320ae5a71809aee57651fec77bc62278c3ebceaef2848ba806fd)
 create category : Giga
+2018-11-05 15:17:51 UTC Imported #96 0x747a…caab (0 txs, 0.00 Mgas, 0 ms, 0.57 KiB) + another 1 block(s) containing 1 tx(s)
+2018-11-05 15:17:52 UTC Imported #97 0xf4ab…f9fe (1 txs, 0.10 Mgas, 0 ms, 0.90 KiB)
+2018-11-05 15:17:52 UTC Transaction mined (hash 0xa3077196e5cec0b5dab69c7c6ece65286fceb0df48c53d4486933365b6cd2739)
 create category : GigaPlus
+2018-11-05 15:17:53 UTC Imported #98 0xc57b…4602 (0 txs, 0.00 Mgas, 0 ms, 0.57 KiB)
+2018-11-05 15:17:54 UTC Transaction mined (hash 0xc270283356d7ba1dddb5a9c55ce326ef670148622989541744e736e985e9b155)
 create category : GigaGrande
+2018-11-05 15:17:55 UTC Imported #100 0x01b9…a056 (1 txs, 0.10 Mgas, 0 ms, 0.90 KiB) + another 1 block(s) containing 1 tx(s)
+2018-11-05 15:17:55 UTC Transaction mined (hash 0xab4a62013b59c8fff5fece5b6c033ee8e0494ecec5abbd7d71184069b8792f45)
 create category : GigaMax
+2018-11-05 15:17:56 UTC Imported #101 0x404c…c460 (0 txs, 0.00 Mgas, 0 ms, 0.57 KiB)
+2018-11-05 15:17:57 UTC Transaction mined (hash 0x05e5e4b2465b36e2a163f64a90f97865b2c4680e4b7b39b819e51e7632589c46)
 countCategory is now: 6
+2018-11-05 15:17:58 UTC Imported #103 0xa004…1628 (0 txs, 0.00 Mgas, 0 ms, 0.57 KiB) + another 1 block(s) containing 1 tx(s)
+2018-11-05 15:17:59 UTC Imported #104 0x78de…28e0 (1 txs, 0.03 Mgas, 0 ms, 0.71 KiB)
+2018-11-05 15:17:59 UTC Transaction mined (hash 0x6f442489c4c6cbedb16a5d118b9eda50acf49030827598161b9e234e354790f3)
+setCategoriesCreator to 0x000a9c787a972F70F0903890E266F41c795C4DcA
 
-   Deploying 'Beacon'
-   ------------------
-   > transaction hash:    0x59bef86b1e0bf60f582080419bd0f5170df96286a57679947592fea83c71866c
+   Deploying 'Relay'
+   -----------------
+   > transaction hash:    0x36a771253e28d3ed418e0e9c4b7a05bd21a1e328f4289436387745537fc457e8
 - Blocks: 0            Seconds: 0
+2018-11-05 15:18:01 UTC Transaction mined (hash 0x36a771253e28d3ed418e0e9c4b7a05bd21a1e328f4289436387745537fc457e8)
+2018-11-05 15:18:01 UTC Imported #106 0xc100…00d4 (1 txs, 0.80 Mgas, 0 ms, 3.43 KiB) + another 1 block(s) containing 0 tx(s)
    > Blocks: 0            Seconds: 0
-   > contract address:    0xf3B971204049A979F49307C3f2B847b6b5CBc704
-   > account:             0xC08C3def622Af1476f2Db0E3CC8CcaeAd07BE3bB
-   > balance:             1000000000000000000000000
-   > gas used:            788531
-   > gas price:           8 gwei
+   > contract address:    0x81Ce57EF7f6d129A38D6Cd13cBCf006732550059
+   > account:             0x000a9c787a972F70F0903890E266F41c795C4DcA
+   > balance:             999999999999999999999999.984054036
+   > gas used:            799806
+   > gas price:           1 gwei
    > value sent:          0 ETH
-   > total cost:          0.006308248 ETH
+   > total cost:          0.000799806 ETH
 
 
    Deploying 'Broker'
    ------------------
+   > transaction hash:    0x44b2a7639d5b927ad5a11ecb50af3178e772c1549a921f4062d497e1a6c66ab3
 - Blocks: 0            Seconds: 0
-   > transaction hash:    0x562c2859f8af2a0acc1df6c1cbd35ffb7de35f00b7fba4a0de70f8a7a3837eeb
+2018-11-05 15:18:03 UTC Imported #108 0x99d8…accb (1 txs, 1.10 Mgas, 0 ms, 4.52 KiB) + another 1 block(s) containing 0 tx(s)
+2018-11-05 15:18:03 UTC Transaction mined (hash 0x44b2a7639d5b927ad5a11ecb50af3178e772c1549a921f4062d497e1a6c66ab3)
    > Blocks: 0            Seconds: 0
-   > contract address:    0x0930Ffc98a56B62F69457f290b98cd49754211eD
-   > account:             0xC08C3def622Af1476f2Db0E3CC8CcaeAd07BE3bB
-   > balance:             1000000000000000000000000
-   > gas used:            1084817
-   > gas price:           8 gwei
+   > contract address:    0x24EeD66326c190950F9d9581682d08F35b6C7ed3
+   > account:             0x000a9c787a972F70F0903890E266F41c795C4DcA
+   > balance:             999999999999999999999999.982958201
+   > gas used:            1095835
+   > gas price:           1 gwei
    > value sent:          0 ETH
-   > total cost:          0.008678536 ETH
+   > total cost:          0.001095835 ETH
 
-Beacon deployed at address: 0xf3B971204049A979F49307C3f2B847b6b5CBc704
-Broker deployed at address: 0x0930Ffc98a56B62F69457f290b98cd49754211eD
+Relay deployed at address: 0x81Ce57EF7f6d129A38D6Cd13cBCf006732550059
+Broker deployed at address: 0x24EeD66326c190950F9d9581682d08F35b6C7ed3
    > Saving artifacts
    -------------------------------------
-   > Total cost:           0.1281598 ETH
+   > Total cost:         0.016067256 ETH
 
 
 Summary
 =======
 > Total deployments:   10
-> Final cost:          0.12995336 ETH
-
+> Final cost:          0.016291451 ETH

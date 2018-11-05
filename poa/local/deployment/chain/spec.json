@@ -7,7 +7,7 @@
                 "gasLimitBoundDivisor": "0x400",
                 "stepDuration": "1",
                 "validators" : {
-                    "list": [ "0xc08c3def622af1476f2db0e3cc8ccaead07be3bb" ]
+                    "list": [ "0xabcd1339ec7e762e639f4887e2bfe5ee8023e23e" ]
                 }
             }
         }
@@ -42,8 +42,8 @@
         "0x0000000000000000000000000000000000000006": { "builtin": { "name": "alt_bn128_add", "activate_at": "0x0", "pricing": { "linear": { "base": 500, "word": 0 } } } },
         "0x0000000000000000000000000000000000000007": { "builtin": { "name": "alt_bn128_mul", "activate_at": "0x0", "pricing": { "linear": { "base": 40000, "word": 0 } } } },
         "0x0000000000000000000000000000000000000008": { "builtin": { "name": "alt_bn128_pairing", "activate_at": "0x0", "pricing": { "alt_bn128_pairing": { "base": 100000, "pair": 80000 } } } },
-    "0xC08C3def622Af1476f2Db0E3CC8CcaeAd07BE3bB": { "balance": "1000000000000000000000000000000000000000000" },
-    "0x0513425AE000f5bAEaD0ed485ED8c36E737e3586": { "balance": "1000000000000000000000000000000000000000000" },
+    "0xabcd1339ec7e762e639f4887e2bfe5ee8023e23e": { "balance": "1000000000000000000000000000000000000000000" },
+    "0x000a9c787a972F70F0903890E266F41c795C4DcA": { "balance": "1000000000000000000000000000000000000000000" },
     "0x1a69b2eb604db8eba185df03ea4f5288dcbbd248": { "balance": "1000000000000000000000" },
     "0x2Ab2674aA374Fe6415d11f0a8FcbD8027fc1e6A9": { "balance": "1000000000000000000000" },
     "0x3A3406E69ADf886c442Ff1791cbf67CEA679275D": { "balance": "1000000000000000000000" },
