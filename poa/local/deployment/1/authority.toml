@@ -22,6 +22,7 @@ reserved_peers = "/parity/reserved_peers"
 
 
 [rpc]
+disable = false
 interface = "0.0.0.0"
 cors = ["all"]
 hosts = ["all"]
