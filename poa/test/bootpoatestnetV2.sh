@@ -3,7 +3,7 @@
 
 help()  {
 
-  echo "bootpoatestnet.sh OPTIONS
+  echo "bootpoatestnetV2.sh OPTIONS
 Usage:
 REQUIRED:
         --name    : blockchainName
@@ -153,7 +153,7 @@ sed -i 's/0/4/g' migrations/2_deploy_contracts.js
 #copy existing truffle.js
 cp truffle.js truffle.ori
 
-PKEY=$(cat ../wallets/richman/wallet.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1)
+PKEY=$(cat ../wallets/admin/wallet.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1)
 
 sed "s/__PRIVATE_KEY__/${PKEY}/g" ../truffle.tmpl > truffle.js
 sed -i 's/0x//' truffle.js
@@ -175,8 +175,8 @@ cd -
 
 cd wallets
 # set the right IexecHub find in PoCo/build/contracts/IexecHub.json contract address
-sed -i "s/0xc4e4a08bf4c6fd11028b714038846006e27d7be8/${IexecHubAddress}/g" richman/chain.json
-sed -i 's/1337/17/g' richman/chain.json
+sed -i "s/0xc4e4a08bf4c6fd11028b714038846006e27d7be8/${IexecHubAddress}/g" admin/chain.json
+sed -i 's/1337/17/g' admin/chain.json
 ./topUpWallets --from=1 --to=${NB_WALLETS} --minETH=${ETH_AMOUNT} --maxETH=${ETH_AMOUNT} --chain=dev --minRLC=${RLC_AMOUNT}
 
 echo "POA test chain ${CHAIN_NAME} is installed and up "

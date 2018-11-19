@@ -7,26 +7,30 @@ chmod +x bootstrap-ubuntu-aws.sh
 ./bootstrap-ubuntu-aws.sh
 ```
 
-# config and launch
+# config and launch V3
+
+TODO
+
+# config and launch V2
 ```
 su - ubuntu
 git clone https://github.com/iExecBlockchainComputing/iexec-deploy.git
 cd iexec-deploy/poa/test/
-chmod +x bootpoatestnet.sh 
-./bootpoatestnet.sh --name tototest --nodes 2
+chmod +x bootpoatestnetV2.sh
+./bootpoatestnetV2.sh --name tototest --nodes 2
 
 ```
 exemple creation homechain et foreign chain to test bridge between 2 poa
 ```
-./bootpoatestnet.sh --name homechain --nodes 1
-./bootpoatestnet.sh --name foreignchain --nodes 1
+./bootpoatestnetV2.sh --name homechain --nodes 1
+./bootpoatestnetV2.sh --name foreignchain --nodes 1
 
 ```
 # check on IP:3001 dashborad
 
 # script usage
 ```
-"bootpoatestnet.sh OPTIONS
+"bootpoatestnetV2.sh OPTIONS
 Usage:
 REQUIRED:
       --name    : blockchainName
