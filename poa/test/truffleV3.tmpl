@@ -1,0 +1,25 @@
+const HDWalletProvider = require("truffle-hdwallet-provider");
+
+const privateKeys = [__PRIVATE_KEY__]; // private keys
+
+module.exports = {
+  networks: {
+    localPOAWithHDwallet: {
+      provider: () =>
+        new HDWalletProvider(privateKeys, "http://localhost:8545"),
+      network_id: "17",
+      gas: 6721975,
+      gasPrice: 1000000000,
+  }
+ }
+,
+    solc: {
+        optimizer: {
+            enabled: true,
+            runs: 200
+        }
+    },
+    mocha: {
+        enableTimeouts: false
+    }
+};

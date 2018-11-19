@@ -1,5 +1,27 @@
-# prerequiste
 
+# config and launch V3
+
+
+## prerequiste
+```
+sudo su
+wget https://raw.githubusercontent.com/branciard/blockchain-dev-env/master/bootstrap-ubuntu-aws-next.sh
+chmod +x bootstrap-ubuntu-aws-next.sh
+./bootstrap-ubuntu-aws-next.sh
+```
+
+```
+su - ubuntu
+git clone https://github.com/iExecBlockchainComputing/iexec-deploy.git
+cd iexec-deploy/poa/test/
+chmod +x bootpoatestnetV3.sh
+./bootpoatestnetV3.sh --name tototest --nodes 1
+
+```
+
+# config and launch V2
+
+## prerequiste
 ```
 sudo su
 wget https://raw.githubusercontent.com/branciard/blockchain-dev-env/master/bootstrap-ubuntu-aws.sh
@@ -7,11 +29,6 @@ chmod +x bootstrap-ubuntu-aws.sh
 ./bootstrap-ubuntu-aws.sh
 ```
 
-# config and launch V3
-
-TODO
-
-# config and launch V2
 ```
 su - ubuntu
 git clone https://github.com/iExecBlockchainComputing/iexec-deploy.git
