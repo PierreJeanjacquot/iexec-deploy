@@ -2,10 +2,12 @@
 chain = "/parity/chain.json"
 
 [account]
+unlock = ["0xc08c3def622af1476f2db0e3cc8ccaead07be3bb"]
 password = ["/parity/password"]
 
 [network]
 reserved_peers = "/parity/reserved_peers"
+
 
 [rpc]
 interface = "0.0.0.0"
