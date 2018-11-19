@@ -177,6 +177,11 @@ cd wallets
 # set the right IexecHub find in PoCo/build/contracts/IexecHub.json contract address
 sed -i "s/0xc4e4a08bf4c6fd11028b714038846006e27d7be8/${IexecHubAddress}/g" admin/chain.json
 sed -i 's/1337/17/g' admin/chain.json
+
+rm -rf richman
+mkdir richman
+cp -rf admin richman
+# richman used in topUpWallets
 ./topUpWallets --from=1 --to=${NB_WALLETS} --minETH=${ETH_AMOUNT} --maxETH=${ETH_AMOUNT} --chain=dev --minRLC=${RLC_AMOUNT}
 
 echo "POA test chain ${CHAIN_NAME} is installed and up "
