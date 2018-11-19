@@ -180,7 +180,7 @@ sed -i 's/1337/17/g' admin/chain.json
 
 rm -rf richman
 mkdir richman
-cp -rf admin richman
+cp -rf admin/* richman
 # richman used in topUpWallets
 ./topUpWallets --from=1 --to=${NB_WALLETS} --minETH=${ETH_AMOUNT} --maxETH=${ETH_AMOUNT} --chain=dev --minRLC=${RLC_AMOUNT}
 
