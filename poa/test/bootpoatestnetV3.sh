@@ -36,6 +36,8 @@ PASSWORD_LENGTH=24
 NB_WALLETS=10
 ETH_AMOUNT=10000000000000000000
 RLC_AMOUNT=10000000000
+GIT_LOGIN=""
+GIT_TOKEN=""
 
 
 ARGS="$@"
@@ -55,10 +57,10 @@ while [ "$1" != "" ]; do
     --nodes )          shift
       CHAIN_NODES=$1
       ;;
-    --wallets )           shift
+    --wallets )               shift
       NB_WALLETS=$1
       ;;
-    --stepDuration )           shift
+    --stepDuration )          shift
       STEP_DURATION=$1
       ;;
     --eth )                   shift
@@ -66,6 +68,12 @@ while [ "$1" != "" ]; do
       ;;
     --rlc )                   shift
       RLC_AMOUNT=$1
+      ;;
+    --gitlogin )              shift
+      GIT_LOGIN=$1
+      ;;
+    --gittoken )              shift
+      GIT_TOKEN=$1
       ;;
     -h | --help )           help
       exit
@@ -77,6 +85,18 @@ done
 
 
 #check mandatory
+if [ -z $GIT_LOGIN ] ; then
+  echo "--gitlogin  arg is mandatory"
+  help
+  exit 1
+fi
+
+if [ -z $GIT_TOKEN ] ; then
+  echo "--gittoken  arg is mandatory"
+  help
+  exit 1
+fi
+
 if [ -z $CHAIN_NAME ] ; then
   echo "--name  arg is mandatory"
   help
@@ -114,8 +134,8 @@ fi
 
 
 echo "git clone ..."
-git clone https://github.com/iExecBlockchainComputing/wallets.git
-git clone https://github.com/iExecBlockchainComputing/PoCo-dev.git
+git clone https://"$GIT_LOGIN":"$GIT_TOKEN"@github.com/iExecBlockchainComputing/wallets.git
+git clone https://"$GIT_LOGIN":"$GIT_TOKEN"@github.com/iExecBlockchainComputing/PoCo-dev.git
 
 git clone https://github.com/paritytech/parity-deploy.git
 cd parity-deploy
