@@ -1,5 +1,6 @@
 #!/bin/sh
 
+SCRIPT_DIR=`dirname $0`
 
 help()  {
 
@@ -174,9 +175,9 @@ npm install truffle@beta
 #copy existing truffle.js
 cp truffle.js truffle.ori
 
-PKEY=$(cat ../wallets/admin/wallet.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1)
+PKEY=$(cat ${SCRIPT_DIR}/wallets/admin/wallet.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1)
 
-sed "s/__PRIVATE_KEY__/${PKEY}/g" ../truffleV3.tmpl > truffle.js
+sed "s/__PRIVATE_KEY__/${PKEY}/g" ${SCRIPT_DIR}/truffleV3.tmpl > truffle.js
 #remove 0x of privatekey
 sed -i 's/0x//' truffle.js
 
