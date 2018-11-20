@@ -175,7 +175,7 @@ npm install truffle@beta
 #copy existing truffle.js
 cp truffle.js truffle.ori
 
-PKEY=$(cat ${SCRIPT_DIR}/wallets/admin/wallet.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1)
+PKEY=$(cat ../wallets/admin/wallet.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1)
 
 sed "s/__PRIVATE_KEY__/${PKEY}/g" ${SCRIPT_DIR}/truffleV3.tmpl > truffle.js
 #remove 0x of privatekey
