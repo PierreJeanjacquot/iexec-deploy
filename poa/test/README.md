@@ -10,12 +10,24 @@ chmod +x bootstrap-ubuntu-aws-next.sh
 ./bootstrap-ubuntu-aws-next.sh
 ```
 
+
+master
 ```
 su - ubuntu
 git clone https://github.com/iExecBlockchainComputing/iexec-deploy.git
 cd iexec-deploy/poa/test/
-chmod +x bootpoatestnetV3.sh
-./bootpoatestnetV3.sh --name tototest --nodes 1
+chmod +x bootpoatestnetV3master.sh
+./bootpoatestnetV3master.sh --name tototest --nodes 1
+
+```
+
+ABILegacy
+```
+su - ubuntu
+git clone https://github.com/iExecBlockchainComputing/iexec-deploy.git
+cd iexec-deploy/poa/test/
+chmod +x bootpoatestnetV3ABILegacy.sh
+./bootpoatestnetV3ABILegacy.sh --name tototest --nodes 1
 
 ```
 
