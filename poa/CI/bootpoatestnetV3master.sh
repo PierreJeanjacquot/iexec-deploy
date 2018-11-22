@@ -251,13 +251,14 @@ cd -
 echo "deploy smart contract poa bridges on network"
 
 git clone -b $REPO_POA_BRIDGE_CONTRACTS https://github.com/poanetwork/poa-bridge-contracts.git
-cd poa-bridge-contracts/deploy
-
+cd poa-bridge-contracts
+npm run compile
 
 cp -rf ${SCRIPT_DIR}/poa-bridge-contracts-dev.env ${SCRIPT_DIR}/poa-bridge-contracts-dev.env.ori
 sed -i "s/__ADMIN_WALLET_PRIVATEKEY__/${PKEY}/g" ${SCRIPT_DIR}/poa-bridge-contracts-dev.env
 sed -i "s/__ADMIN_WALLET__/0xabcd1339Ec7e762e639f4887E2bFe5EE8023E23E/g" ${SCRIPT_DIR}/poa-bridge-contracts-dev.env
 cp ${SCRIPT_DIR}/poa-bridge-contracts-dev.env .env
-docker-compose up --build
+
+./deploy.sh
 
 exit 0
