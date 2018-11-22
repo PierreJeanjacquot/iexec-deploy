@@ -90,9 +90,13 @@ while [ "$1" != "" ]; do
 done
 
 #overwrite env by .env
-echo "REPO_WALLETS_TAG=$REPO_WALLETS_TAG"
-export $(grep -v '^#' .env | xargs -d '\n')
-echo "REPO_WALLETS_TAG=$REPO_WALLETS_TAG"
+if [ -f .env ] 
+then
+  cat .env
+  echo "REPO_WALLETS_TAG=$REPO_WALLETS_TAG"
+  export $(egrep -v '^#' .env | xargs)
+  echo "REPO_WALLETS_TAG=$REPO_WALLETS_TAG"
+fi
 
 
 #check mandatory
