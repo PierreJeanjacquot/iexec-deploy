@@ -42,6 +42,8 @@ RLC_AMOUNT=10000000000
 GIT_LOGIN=""
 GIT_TOKEN=""
 REPO_WALLETS_TAG="master"
+REPO_POCO_TAG="master"
+REPO_PARITY_DEPLOY_TAG="master"
 
 
 ARGS="$@"
@@ -82,6 +84,13 @@ while [ "$1" != "" ]; do
     --repo-wallet-tag )       shift
       REPO_WALLETS_TAG=$1
       ;;
+    --repo-poco-tag )       shift
+      REPO_POCO_TAG=$1
+      ;;
+    --repo-parity-deploy-tag )       shift
+      REPO_PARITY_DEPLOY_TAG=$1
+      ;;
+
     -h | --help )           help
       exit
       ;;
@@ -92,10 +101,7 @@ done
 #overwrite env by .env
 if [ -f ${SCRIPT_DIR}/.env ]
 then
-  cat .env
-  echo "REPO_WALLETS_TAG=$REPO_WALLETS_TAG"
   export $(egrep -v '^#' ${SCRIPT_DIR}/.env | xargs)
-  echo "REPO_WALLETS_TAG=$REPO_WALLETS_TAG"
 fi
 
 
@@ -150,9 +156,9 @@ fi
 
 echo "git clone ..."
 git clone -b $REPO_WALLETS_TAG  https://"$GIT_LOGIN":"$GIT_TOKEN"@github.com/iExecBlockchainComputing/wallets.git
-git clone https://"$GIT_LOGIN":"$GIT_TOKEN"@github.com/iExecBlockchainComputing/PoCo-dev.git
+git clone -b $REPO_POCO_TAG https://"$GIT_LOGIN":"$GIT_TOKEN"@github.com/iExecBlockchainComputing/PoCo-dev.git
 
-git clone https://github.com/paritytech/parity-deploy.git
+git clone -b v1.0.0 https://github.com/iExecBlockchainComputing/parity-deploy.git
 cd parity-deploy
 echo "generate pwd"
 
