@@ -45,6 +45,7 @@ PARITY_DOCKER_VERSION=stable
 REPO_WALLETS_TAG="master"
 REPO_POCO_TAG="master"
 REPO_PARITY_DEPLOY_TAG="master"
+REPO_POA_BRIDGE_CONTRACTS="master"
 
 
 ARGS="$@"
@@ -91,7 +92,9 @@ while [ "$1" != "" ]; do
     --repo-parity-deploy-tag )       shift
       REPO_PARITY_DEPLOY_TAG=$1
       ;;
-
+    --repo-poa-bridge-contracts-tag )       shift
+      REPO_POA_BRIDGE_CONTRACTS=$1
+      ;;
     -h | --help )           help
       exit
       ;;
@@ -243,4 +246,12 @@ cp -rf admin/* richman
 ./topUpWallets --from=1 --to=${NB_WALLETS} --minETH=${ETH_AMOUNT} --maxETH=${ETH_AMOUNT} --chain=dev --minRLC=${RLC_AMOUNT}
 
 echo "POA test chain ${CHAIN_NAME} is installed and up "
+
+
+echo "deploy smart contract poa bridges on network"
+
+git clone -b $REPO_POA_BRIDGE_CONTRACTS https://github.com/poanetwork/poa-bridge-contracts.git
+
+
+
 exit 0
