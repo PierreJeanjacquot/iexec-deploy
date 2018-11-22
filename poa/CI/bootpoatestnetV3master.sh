@@ -252,6 +252,7 @@ echo "deploy smart contract poa bridges on network"
 
 git clone -b $REPO_POA_BRIDGE_CONTRACTS https://github.com/poanetwork/poa-bridge-contracts.git
 cd poa-bridge-contracts
+npm i
 npm run compile
 
 cp -rf ${SCRIPT_DIR}/poa-bridge-contracts-dev.env ${SCRIPT_DIR}/poa-bridge-contracts-dev.env.ori
