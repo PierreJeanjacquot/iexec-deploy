@@ -89,6 +89,10 @@ while [ "$1" != "" ]; do
   shift
 done
 
+#overwrite env by .env
+echo "REPO_WALLETS_TAG=$REPO_WALLETS_TAG"
+export $(grep -v '^#' .env | xargs -d '\n')
+echo "REPO_WALLETS_TAG=$REPO_WALLETS_TAG"
 
 
 #check mandatory
