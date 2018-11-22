@@ -201,11 +201,10 @@ npm install truffle-hdwallet-provider@web3-one
 #copy existing truffle.js
 cp truffle.js truffle.ori
 
-PKEY=$(cat ../wallets/admin/wallet.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1)
+PKEY=$(cat ../wallets/admin/wallet.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g' | cut  -c3-)
 
 sed "s/__PRIVATE_KEY__/${PKEY}/g" ${SCRIPT_DIR}/truffleV3.tmpl > truffle.js
-#remove 0x of privatekey
-sed -i 's/0x//' truffle.js
+
 
 echo "launch truffle migrate"
 ./node_modules/.bin/truffle --version
