@@ -3,7 +3,14 @@
 GIT_LOGIN=""
 GIT_TOKEN=""
 
-sudo npm -g install iexec@next
+IEXEC_SDK=next
+#overwrite env by .env
+if [ -f ${SCRIPT_DIR}/.env ]
+then
+  export $(egrep -v '^#' ${SCRIPT_DIR}/.env | xargs)
+fi
+
+sudo npm -g install iexec@$IEXEC_SDK
 iexec --version
 
 #clean up
