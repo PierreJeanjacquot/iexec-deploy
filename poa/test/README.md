@@ -21,15 +21,6 @@ chmod +x bootpoatestnetV3master.sh
 
 ```
 
-ABILegacy
-```
-su - ubuntu
-git clone https://github.com/iExecBlockchainComputing/iexec-deploy.git
-cd iexec-deploy/poa/test/
-chmod +x bootpoatestnetV3ABILegacy.sh
-./bootpoatestnetV3ABILegacy.sh --name tototest --nodes 1
-
-```
 
 # config and launch V2
 
