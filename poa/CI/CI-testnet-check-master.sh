@@ -3,6 +3,9 @@
 GIT_LOGIN=""
 GIT_TOKEN=""
 
+SCRIPT_DIR=`dirname $0`
+
+
 IEXEC_SDK=next
 #overwrite env by .env
 if [ -f ${SCRIPT_DIR}/.env ]
