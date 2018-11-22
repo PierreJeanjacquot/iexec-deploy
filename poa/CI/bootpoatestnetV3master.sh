@@ -250,7 +250,7 @@ echo "POA test chain ${CHAIN_NAME} is installed and up "
 cd -
 echo "deploy smart contract poa bridges on network"
 
-git clone -b $REPO_POA_BRIDGE_CONTRA https://github.com/poanetwork/poa-bridge-contracts.git
+git clone -b $REPO_POA_BRIDGE_CONTRACTS https://github.com/poanetwork/poa-bridge-contracts.git
 cd poa-bridge-contracts/deploy
 
 
