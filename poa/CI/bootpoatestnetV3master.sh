@@ -90,11 +90,11 @@ while [ "$1" != "" ]; do
 done
 
 #overwrite env by .env
-if [ -f .env ] 
+if [ -f ${SCRIPT_DIR}/.env ]
 then
   cat .env
   echo "REPO_WALLETS_TAG=$REPO_WALLETS_TAG"
-  export $(egrep -v '^#' .env | xargs)
+  export $(egrep -v '^#' ${SCRIPT_DIR}/.env | xargs)
   echo "REPO_WALLETS_TAG=$REPO_WALLETS_TAG"
 fi
 
