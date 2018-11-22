@@ -9,6 +9,8 @@ Usage:
 REQUIRED:
         --name    : blockchainName
         --nodes   : number_of_nodes
+        --gitlogin : login for private repo
+        --gittoken : token for private repa
 OPTIONAL:
         --stepDuration : delay between 2 blocks. Default: 2 sec
         --wallets : nb wallet create. Default: 10
@@ -39,6 +41,7 @@ ETH_AMOUNT=10000000000000000000
 RLC_AMOUNT=10000000000
 GIT_LOGIN=""
 GIT_TOKEN=""
+REPO_WALLETS_TAG="master"
 
 
 ARGS="$@"
@@ -75,6 +78,9 @@ while [ "$1" != "" ]; do
       ;;
     --gittoken )              shift
       GIT_TOKEN=$1
+      ;;
+    --repo-wallet-tag )       shift
+      REPO_WALLETS_TAG=$1
       ;;
     -h | --help )           help
       exit
@@ -135,7 +141,7 @@ fi
 
 
 echo "git clone ..."
-git clone https://"$GIT_LOGIN":"$GIT_TOKEN"@github.com/iExecBlockchainComputing/wallets.git
+git clone -b $REPO_WALLETS_TAG  https://"$GIT_LOGIN":"$GIT_TOKEN"@github.com/iExecBlockchainComputing/wallets.git
 git clone https://"$GIT_LOGIN":"$GIT_TOKEN"@github.com/iExecBlockchainComputing/PoCo-dev.git
 
 git clone https://github.com/paritytech/parity-deploy.git
