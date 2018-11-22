@@ -41,6 +41,7 @@ ETH_AMOUNT=10000000000000000000
 RLC_AMOUNT=10000000000
 GIT_LOGIN=""
 GIT_TOKEN=""
+PARITY_DOCKER_VERSION=stable
 REPO_WALLETS_TAG="master"
 REPO_POCO_TAG="master"
 REPO_PARITY_DEPLOY_TAG="master"
@@ -158,7 +159,7 @@ echo "git clone ..."
 git clone -b $REPO_WALLETS_TAG  https://"$GIT_LOGIN":"$GIT_TOKEN"@github.com/iExecBlockchainComputing/wallets.git
 git clone -b $REPO_POCO_TAG https://"$GIT_LOGIN":"$GIT_TOKEN"@github.com/iExecBlockchainComputing/PoCo-dev.git
 
-git clone -b v1.0.0 https://github.com/iExecBlockchainComputing/parity-deploy.git
+git clone -b $REPO_PARITY_DEPLOY_TAG https://github.com/iExecBlockchainComputing/parity-deploy.git
 cd parity-deploy
 echo "generate pwd"
 
@@ -178,6 +179,8 @@ sed -i 's/0x00Ea169ce7e0992960D3BdE6F5D539C955316432/0xabcd1339Ec7e762e639f4887E
 sed -i "s/\"stepDuration\": \"2\"/\"stepDuration\": \"`echo $STEP_DURATION`\"/g" deployment/chain/spec.json
 
 
+echo "target PARITY VERSION :$PARITY_DOCKER_VERSION"
+sed -i "s/stable/$PARITY_DOCKER_VERSION/g" docker-compose.yml
 
 echo "docker-compose up -d ..."
 docker-compose up -d
