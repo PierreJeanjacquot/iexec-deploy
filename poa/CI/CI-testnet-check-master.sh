@@ -39,7 +39,7 @@ git clone https://github.com/iExecBlockchainComputing/iexec-deploy.git
 mv iexec-deploy /home/ubuntu/
 chown -R ubuntu:ubuntu /home/ubuntu/iexec-deploy
 chmod 755 /home/ubuntu/iexec-deploy/poa/CI/bootpoatestnetV3master.sh
-sudo -i -u ubuntu /home/ubuntu/iexec-deploy/poa/CI/bootpoatestnetV3master.sh --name CI-TESTNET-CHECK --nodes 2 --gitlogin ${GIT_LOGIN} --gittoken ${GIT_TOKEN}
+sudo -i -u ubuntu /home/ubuntu/iexec-deploy/poa/CI/bootpoatestnetV3master.sh --name CI-TESTNET-CHECK --nodes 1 --gitlogin ${GIT_LOGIN} --gittoken ${GIT_TOKEN}
 BOOTSTRAP_RESULT=$?
 if [ $BOOTSTRAP_RESULT -eq 0 ]; then
     echo "SUCCESS ! start OK endpoint"
