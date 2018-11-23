@@ -28,7 +28,7 @@ ENTRYPOINT ./mine.sh
 EXPOSE 8545
 
 
-# docker image build -t iexechub/iexec-chain:0.1.0-1sec .
+# docker image build -t iexechub/iexec-chain:1a0bf1e .
 
-# docker run -it --name iexec-chain -p 8545:8545 iexechub/iexec-chain:0.1.0-1sec
+# docker run -it --name iexec-chain -p 8545:8545 iexechub/iexec-chain:1a0bf1e
 

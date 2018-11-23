@@ -1,6 +1,6 @@
-FROM  iexechub/iexec-chain:1sec-1a0bf1e
+FROM  iexechub/iexec-chain:1a0bf1e
 
-RUN apt install -y jq bc && npm install -g iexec@3.0.5
+RUN apt install -y jq bc && npm install -g iexec@3.0.6
 
 COPY setUpChainForCoreDev.sh /setUpChainForCoreDev.sh
 

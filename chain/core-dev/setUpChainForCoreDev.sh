@@ -1,6 +1,6 @@
 #!/bin/bash
 GIT_LOGIN=jeremyjams
-GIT_TOKEN=
+GIT_TOKEN=fcd54374c150faa15245158414d5ee9cfff13345
 
 git clone https://"$GIT_LOGIN":"$GIT_TOKEN"@github.com/iExecBlockchainComputing/wallets.git
 
