@@ -1,0 +1,126 @@
+- hosts: all
+  become: yes
+  
+  vars:
+    dockerComposeVersion: "1.23.1"
+
+  tasks:
+  - name: test if pool variable is defined
+    fail: msg="pool is not defined, use -e 'pool=<myPool>'"
+    when: pool is not defined
+
+  - name: Install for Ubuntu
+    block:
+
+      - name: add docker repo
+        apt_key:
+          url: https://download.docker.com/linux/ubuntu/gpg
+          state: present
+
+      - name: apt update
+        apt:
+          update_cache: yes
+
+      - name: install docker-ce dependencies
+        apt:
+          pkg: ['curl', 'apt-transport-https', 'ca-certificates', 'software-properties-common']
+          state: present
+        
+      - name: install docker-ce
+        apt:
+          pkg: docker-ce
+          state: present
+
+      - name: install docker-compose
+        get_url:
+          url: "https://github.com/docker/compose/releases/download/{{ dockerComposeVersion }}/docker-compose-Linux-x86_64"
+          dest: "/usr/local/bin/docker-compose"
+          mode: 0755
+          force: yes
+      
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Install for CentOs
+    block:
+
+      - name: Add Docker repo
+        get_url:
+          url: https://download.docker.com/linux/centos/docker-ce.repo
+          dest: /etc/yum.repos.d/docer-ce.repo
+
+      - name: yum update
+        yum:
+          update_cache: yes
+
+      - name: install docker-ce dependencies
+        yum:
+          name: ['yum-utils', 'device-mapper-persistent-data', 'lvm2']
+          state: present
+
+      - name: install docker-ce
+        yum:
+          name: docker-ce
+          state: present
+
+      - name: install docker-compose dependencies
+        yum:
+          name: epel-release
+          state: present
+      
+      - name: install docker-compose dependencies
+        yum:
+          name: python-pip
+          state: present
+      
+      - name: install docker-compose
+        pip:
+          name: docker-compose
+          state: present
+      
+      - name: upgrade python
+        yum:
+          name: 'python*'
+          state: latest
+    when: (ansible_distribution == 'CentOS') or (ansible_distribution == 'RedHat') 
+
+  - name: adding variables path
+    file: path=/opt/iexec-worker-{{ pool }}/ state=directory
+
+  - name: add variable file
+    copy: 
+      src: ./{{ pool }}/variables
+      dest: /opt/iexec-worker-{{ pool }}/.env
+      owner: "root"
+      group: "root"
+      mode: u+rw,g+r,o-rwx
+
+  - name: add wallet file
+    copy: 
+      src: ./{{ pool }}/wallets/{{ ansible_workername }}-wallet.json
+      dest: /opt/iexec-worker-{{ pool }}/wallet.json
+      owner: "root"
+      group: "root"
+      mode: u+rw,g+r,o-rwx
+
+  - name: add docker-compose file
+    copy:
+      src: ./{{ pool }}/docker-compose.yml
+      dest: /opt/iexec-worker-{{ pool }}/docker-compose.yml
+      owner: "root"
+      group: "root"
+      mode: u+rw,g+r,o-rwx
+
+  - name: change hostname in env file
+    replace:
+      path: /opt/iexec-worker-{{ pool }}/.env
+      regexp: '^WORKER_HOSTNAME=.*$'
+      replace: 'WORKER_HOSTNAME={{ pool }}-{{ ansible_workername }}'
+  
+  - name: check if docker services are started
+    service:
+      name: docker
+      state: started
+
+  - name: start worker
+    shell: "docker-compose -f /opt/iexec-worker-{{ pool }}/docker-compose.yml --project-directory /opt/iexec-worker-{{ pool }}/ up -d"
+    

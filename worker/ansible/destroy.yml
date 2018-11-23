@@ -1,0 +1,14 @@
+- hosts: all
+  become: yes
+  tasks:
+  - name: test if pool variables is defined
+    fail: msg="pool is not defined, use -e 'pool=<myPool>'"
+    when: pool is not defined
+
+  - name: down worker
+    shell: "docker-compose -f /opt/iexec-worker-{{ pool }}/docker-compose.yml down"
+
+  - name: remove worker files
+    file:
+      state: absent
+      path: /opt/iexec-worker-{{ pool }}/
