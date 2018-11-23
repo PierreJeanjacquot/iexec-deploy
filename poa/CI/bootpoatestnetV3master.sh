@@ -259,8 +259,8 @@ sed -i "s/__ADMIN_WALLET__/0xabcd1339Ec7e762e639f4887E2bFe5EE8023E23E/g" ${SCRIP
 sed -i "s/__ERC20_TOKEN_ADDRESS__/${RlcAddress}/g" ${SCRIPT_DIR}/poa-bridge-contracts-dev.env
 
 cp ${SCRIPT_DIR}/poa-bridge-contracts-dev.env deploy/.env
+rm -f bridgeDeploy.log
+./deploy.sh  | tee bridgeDeploy.log
 
-
-./deploy.sh
 
 exit 0
