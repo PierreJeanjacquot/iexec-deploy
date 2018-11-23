@@ -234,14 +234,11 @@ cd -
 cd wallets
 
 # set the right IexecHub find in PoCo-dev/build/contracts/IexecClerk.json contract address
-sed -i "s/0x46f18edc77700277192ee6f8a4f0c0b889c845ca/${IexecHubAddress}/g" admin/chain.json
+sed -i "s/0x5df493e91aE066541C13d9a071137e850a56d609/${IexecHubAddress}/g" scheduler/chain.json
 #sed -i 's/1337/17/g' admin/chain.json
 
 iexec --version
 
-rm -rf richman
-mkdir richman
-cp -rf admin/* richman
 # richman used in topUpWallets
 ./topUpWallets --from=1 --to=${NB_WALLETS} --minETH=${ETH_AMOUNT} --maxETH=${ETH_AMOUNT} --chain=dev --minRLC=${RLC_AMOUNT}
 
