@@ -46,6 +46,7 @@ REPO_WALLETS_TAG="master"
 REPO_POCO_TAG="master"
 REPO_PARITY_DEPLOY_TAG="master"
 REPO_POA_BRIDGE_CONTRACTS="master"
+REPO_TOKEN_BRIDGE="master"
 
 
 ARGS="$@"
@@ -95,6 +96,10 @@ while [ "$1" != "" ]; do
     --repo-poa-bridge-contracts-tag )       shift
       REPO_POA_BRIDGE_CONTRACTS=$1
       ;;
+    --repo-token-bridge-tag )       shift
+      REPO_TOKEN_BRIDGE=$1
+      ;;
+
     -h | --help )           help
       exit
       ;;
@@ -163,6 +168,8 @@ git clone -b $REPO_WALLETS_TAG  https://"$GIT_LOGIN":"$GIT_TOKEN"@github.com/iEx
 git clone -b $REPO_POCO_TAG https://"$GIT_LOGIN":"$GIT_TOKEN"@github.com/iExecBlockchainComputing/PoCo-dev.git
 
 git clone -b $REPO_PARITY_DEPLOY_TAG https://github.com/iExecBlockchainComputing/parity-deploy.git
+
+CURRENT_DIR=$(pwd)
 cd parity-deploy
 echo "generate pwd"
 
@@ -188,10 +195,7 @@ sed -i "s/stable/$PARITY_DOCKER_VERSION/g" docker-compose.yml
 echo "docker-compose up -d ..."
 docker-compose up -d
 
-cd -
-
-
-
+cd $CURRENT_DIR
 cd PoCo-dev
 #git checkout ABILegacy
 npm i
@@ -201,9 +205,11 @@ npm install truffle-hdwallet-provider@web3-one
 #copy existing truffle.js
 cp truffle.js truffle.ori
 
-PKEY=$(cat ../wallets/scheduler/wallet.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g' | cut  -c3-)
+ADMIN_PRIVATE_KEY=$(cat ../wallets/scheduler/wallet.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g' | cut  -c3-)
+ADMIN_ADDRESS=$(cat ../wallets/scheduler/wallet.json | grep address | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g'
 
-sed "s/__PRIVATE_KEY__/\"${PKEY}\"/g" ${SCRIPT_DIR}/truffleV3.tmpl > truffle.js
+
+sed "s/__PRIVATE_KEY__/\"${ADMIN_PRIVATE_KEY}\"/g" ${SCRIPT_DIR}/truffleV3.tmpl > truffle.js
 
 
 echo "launch truffle migrate"
@@ -229,8 +235,7 @@ then
 fi
 echo "IexecHubAddress is $IexecHubAddress"
 
-cd -
-
+cd $CURRENT_DIR
 cd wallets
 
 # set the right IexecHub find in PoCo-dev/build/contracts/IexecClerk.json contract address
@@ -244,7 +249,12 @@ iexec --version
 
 echo "POA test chain ${CHAIN_NAME} is installed and up "
 
-cd -
+
+
+############################################
+#deploy smart contract poa bridges on network
+############################################
+cd $CURRENT_DIR
 echo "deploy smart contract poa bridges on network"
 
 git clone -b $REPO_POA_BRIDGE_CONTRACTS https://github.com/poanetwork/poa-bridge-contracts.git
@@ -254,13 +264,32 @@ cd poa-bridge-contracts
 cat ${SCRIPT_DIR}/parity-deploy-network.conf >> docker-compose.yml
 
 cp -rf ${SCRIPT_DIR}/poa-bridge-contracts-dev.env ${SCRIPT_DIR}/poa-bridge-contracts-dev.env.ori
-sed -i "s/__ADMIN_WALLET_PRIVATEKEY__/${PKEY}/g" ${SCRIPT_DIR}/poa-bridge-contracts-dev.env
-sed -i "s/__ADMIN_WALLET__/0xabcd1339Ec7e762e639f4887E2bFe5EE8023E23E/g" ${SCRIPT_DIR}/poa-bridge-contracts-dev.env
+sed -i "s/__ADMIN_WALLET_PRIVATEKEY__/${ADMIN_PRIVATE_KEY}/g" ${SCRIPT_DIR}/poa-bridge-contracts-dev.env
+sed -i "s/__ADMIN_WALLET__/${ADMIN_ADDRESS}/g" ${SCRIPT_DIR}/poa-bridge-contracts-dev.env
 sed -i "s/__ERC20_TOKEN_ADDRESS__/${RlcAddress}/g" ${SCRIPT_DIR}/poa-bridge-contracts-dev.env
 
 cp ${SCRIPT_DIR}/poa-bridge-contracts-dev.env deploy/.env
 rm -f bridgeDeploy.log
 ./deploy.sh  | tee bridgeDeploy.log
 
+############################################
+# start bridge js
+############################################
+cd $CURRENT_DIR
+git clone -b $REPO_TOKEN_BRIDGE https://github.com/poanetwork/token-bridge.git
+cd token-bridge
+
+# attach docker to parity-deploy network
+cat ${SCRIPT_DIR}/parity-deploy-network.conf >> docker-compose.yml
+
+cp -rf ${SCRIPT_DIR}/token-bridge-dev.env ${SCRIPT_DIR}/token-bridge-dev.ori
+
+sed -i "s/__ADMIN_WALLET_PRIVATEKEY__/${ADMIN_PRIVATE_KEY}/g" ${SCRIPT_DIR}/token-bridge-dev.env
+sed -i "s/__ADMIN_WALLET__/${ADMIN_ADDRESS}/g" ${SCRIPT_DIR}/token-bridge-dev.env
+sed -i "s/__ERC20_TOKEN_ADDRESS__/${RlcAddress}/g" ${SCRIPT_DIR}/token-bridge-dev.env
+
+cp ${SCRIPT_DIR}/token-bridge-dev.env .env
+
+docker-compose up -d --build
 
 exit 0
