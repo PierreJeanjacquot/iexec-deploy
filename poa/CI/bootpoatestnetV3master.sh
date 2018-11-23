@@ -239,7 +239,7 @@ cd $CURRENT_DIR
 cd wallets
 
 # set the right IexecHub find in PoCo-dev/build/contracts/IexecClerk.json contract address
-sed -i "s/0x5df493e91aE066541C13d9a071137e850a56d609/${IexecHubAddress}/g" scheduler/chain.json
+sed -i "s/0x60E25C038D70A15364DAc11A042DB1dD7A2cccBC/${IexecHubAddress}/g" scheduler/chain.json
 #sed -i 's/1337/17/g' admin/chain.json
 
 iexec --version
