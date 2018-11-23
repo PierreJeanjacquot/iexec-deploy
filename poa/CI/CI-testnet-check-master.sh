@@ -27,12 +27,14 @@ sudo rm -rf PoCo-dev
 sudo rm -rf wallets
 sudo rm -rf parity-deploy
 sudo rm -rf poa-bridge-contracts
+sudo rm -rf token-bridge
 
 sudo rm -rf /home/ubuntu/iexec-deploy
 sudo rm -rf /home/ubuntu/PoCo-dev
 sudo rm -rf /home/ubuntu/wallets
 sudo rm -rf /home/ubuntu/parity-deploy
 sudo rm -rf /home/ubuntu/poa-bridge-contracts
+sudo rm -rf /home/ubuntu/token-bridge
 
 npm
 git clone https://github.com/iExecBlockchainComputing/iexec-deploy.git
