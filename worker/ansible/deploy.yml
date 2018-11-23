@@ -11,7 +11,6 @@
 
   - name: Install for Ubuntu
     block:
-
       - name: add docker repo
         apt_key:
           url: https://download.docker.com/linux/ubuntu/gpg
@@ -31,13 +30,6 @@
           pkg: docker-ce
           state: present
 
-      - name: install docker-compose
-        get_url:
-          url: "https://github.com/docker/compose/releases/download/{{ dockerComposeVersion }}/docker-compose-Linux-x86_64"
-          dest: "/usr/local/bin/docker-compose"
-          mode: 0755
-          force: yes
-      
     when: ansible_distribution == 'Ubuntu'
 
   - name: Install for CentOs
@@ -62,26 +54,13 @@
           name: docker-ce
           state: present
 
-      - name: install docker-compose dependencies
-        yum:
-          name: epel-release
-          state: present
-      
-      - name: install docker-compose dependencies
-        yum:
-          name: python-pip
-          state: present
-      
-      - name: install docker-compose
-        pip:
-          name: docker-compose
-          state: present
-      
-      - name: upgrade python
-        yum:
-          name: 'python*'
-          state: latest
     when: (ansible_distribution == 'CentOS') or (ansible_distribution == 'RedHat') 
+
+  - name: install docker-compose
+    get_url:
+      url: "https://github.com/docker/compose/releases/download/{{ dockerComposeVersion }}/docker-compose-Linux-x86_64"
+      dest: "/usr/local/bin/docker-compose"
+      mode: 0755
 
   - name: adding variables path
     file: path=/opt/iexec-worker-{{ pool }}/ state=directory
@@ -123,4 +102,3 @@
 
   - name: start worker
     shell: "docker-compose -f /opt/iexec-worker-{{ pool }}/docker-compose.yml --project-directory /opt/iexec-worker-{{ pool }}/ up -d"
-    
