@@ -178,7 +178,7 @@ echo "call parity-deploy script"
 ./parity-deploy.sh --config aura --name ${CHAIN_NAME} --nodes ${CHAIN_NODES} --ethstats --expose
 
 
-sed -i 's/0x00Ea169ce7e0992960D3BdE6F5D539C955316432/0xabcd1339Ec7e762e639f4887E2bFe5EE8023E23E/g' deployment/chain/spec.json
+sed -i 's/0x00Ea169ce7e0992960D3BdE6F5D539C955316432/0x000a9c787a972f70f0903890e266f41c795c4dca/g' deployment/chain/spec.json
 sed -i "s/\"stepDuration\": \"2\"/\"stepDuration\": \"`echo $STEP_DURATION`\"/g" deployment/chain/spec.json
 
 
@@ -201,7 +201,7 @@ npm install truffle-hdwallet-provider@web3-one
 #copy existing truffle.js
 cp truffle.js truffle.ori
 
-PKEY=$(cat ../wallets/admin/wallet.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g' | cut  -c3-)
+PKEY=$(cat ../wallets/scheduler/wallet.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g' | cut  -c3-)
 
 sed "s/__PRIVATE_KEY__/\"${PKEY}\"/g" ${SCRIPT_DIR}/truffleV3.tmpl > truffle.js
 
