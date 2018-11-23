@@ -206,7 +206,7 @@ npm install truffle-hdwallet-provider@web3-one
 cp truffle.js truffle.ori
 
 ADMIN_PRIVATE_KEY=$(cat ../wallets/scheduler/wallet.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g' | cut  -c3-)
-ADMIN_ADDRESS=$(cat ../wallets/scheduler/wallet.json | grep address | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g'
+ADMIN_ADDRESS=$(cat ../wallets/scheduler/wallet.json | grep address | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g')
 
 
 sed "s/__PRIVATE_KEY__/\"${ADMIN_PRIVATE_KEY}\"/g" ${SCRIPT_DIR}/truffleV3.tmpl > truffle.js
