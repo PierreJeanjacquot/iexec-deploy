@@ -169,6 +169,7 @@ sed -i "s/\"stepDuration\": \"2\"/\"stepDuration\": \"`echo $STEP_DURATION`\"/g"
 
 echo "target PARITY VERSION :$PARITY_DOCKER_VERSION"
 sed -i "s/stable/$PARITY_DOCKER_VERSION/g" docker-compose.yml
+sed -i "s/host1/host-home-chain/g" docker-compose.yml
 
 echo "docker-compose up -d ..."
 docker-compose up -d
@@ -202,6 +203,9 @@ sed -i "s/- 8180:- 9180/$PARITY_DOCKER_VERSION/g" docker-compose.yml
 sed -i "s/- 8545:- 9545/$PARITY_DOCKER_VERSION/g" docker-compose.yml
 sed -i "s/- 8546:- 9546/$PARITY_DOCKER_VERSION/g" docker-compose.yml
 sed -i "s/- 30303:- 40303/$PARITY_DOCKER_VERSION/g" docker-compose.yml
+sed -i "s/host1/host-foreign-chain/g" docker-compose.yml
+
+
 
 echo "docker-compose up -d ..."
 docker-compose up -d
