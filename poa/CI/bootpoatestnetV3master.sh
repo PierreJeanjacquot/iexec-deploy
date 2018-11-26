@@ -148,6 +148,7 @@ cp -rf parity-deploy parity-deploy-home-chain
 cp -rf parity-deploy parity-deploy-foreign-chain
 
 cd $CURRENT_DIR
+echo "generate parity-deploy-home-chain"
 cd parity-deploy-home-chain
 echo "generate pwd"
 ./config/utils/pwdgen.sh -n 1 -l ${PASSWORD_LENGTH}
@@ -175,6 +176,7 @@ docker-compose up -d
 
 cd $CURRENT_DIR
 cd parity-deploy-foreign-chain
+echo "generate parity-deploy-foreign-chain"
 echo "generate pwd"
 ./config/utils/pwdgen.sh -n 1 -l ${PASSWORD_LENGTH}
 if [ $? -eq 1 ]

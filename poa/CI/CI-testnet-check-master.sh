@@ -50,10 +50,10 @@ sudo -i -u ubuntu /home/ubuntu/iexec-deploy/poa/CI/bootpoatestnetV3master.sh --g
 BOOTSTRAP_RESULT=$?
 if [ $BOOTSTRAP_RESULT -eq 0 ]; then
     echo "SUCCESS ! start OK endpoint"
-    docker stop $(docker ps -a -q)
+    #docker stop $(docker ps -a -q)
     sudo docker run -d -v /home/ubuntu/iexec-deploy/poa/CI/CI-OK:/var/www:ro -p 9999:8080 trinitronx/python-simplehttpserver
 else
     echo "FAILED ! start KO endpoint"
-    docker stop $(docker ps -a -q)
+    #docker stop $(docker ps -a -q)
     sudo docker run -d -v /home/ubuntu/iexec-deploy/poa/CI/CI-KO:/var/www:ro -p 9999:8080 trinitronx/python-simplehttpserver
 fi
