@@ -35,6 +35,7 @@ sudo rm -rf bridge-ui
 sudo rm -rf /home/ubuntu/iexec-deploy
 sudo rm -rf /home/ubuntu/PoCo-dev
 sudo rm -rf /home/ubuntu/wallets
+sudo rm -rf /home/ubuntu/parity-deploy
 sudo rm -rf /home/ubuntu/parity-deploy-home-chain
 sudo rm -rf /home/ubuntu/parity-deploy-foreign-chain
 sudo rm -rf /home/ubuntu/poa-bridge-contracts
