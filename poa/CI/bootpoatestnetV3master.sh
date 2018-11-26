@@ -7,8 +7,6 @@ help()  {
   echo "bootpoatestnetV3.sh OPTIONS
 Usage:
 REQUIRED:
-        --name    : blockchainName
-        --nodes   : number_of_nodes
         --gitlogin : login for private repo
         --gittoken : token for private repa
 OPTIONAL:
@@ -32,8 +30,6 @@ isInteger() {
 #### MAIN
 
 #default value
-CHAIN_NAME=""
-CHAIN_NODES=""
 STEP_DURATION=2
 PASSWORD_LENGTH=24
 NB_WALLETS=10
@@ -61,12 +57,6 @@ fi
 
 while [ "$1" != "" ]; do
   case $1 in
-    --name )          shift
-      CHAIN_NAME=$1
-      ;;
-    --nodes )          shift
-      CHAIN_NODES=$1
-      ;;
     --wallets )               shift
       NB_WALLETS=$1
       ;;
@@ -130,25 +120,6 @@ if [ -z $GIT_TOKEN ] ; then
   exit 1
 fi
 
-if [ -z $CHAIN_NAME ] ; then
-  echo "--name  arg is mandatory"
-  help
-  exit 1
-fi
-
-if [ -z $CHAIN_NODES ] ; then
-  echo "--nodes  arg is mandatory"
-  help
-  exit 1
-fi
-
-#check ${CHAIN_NODES} integer
-isInteger ${CHAIN_NODES}
-if [ $? -eq 1 ]
-then
-  echo "CHAIN_NODES ${CHAIN_NODES} must be an integer."
-  exit 1
-fi
 
 #check ${NB_WALLETS} integer
 isInteger ${NB_WALLETS}
@@ -173,10 +144,13 @@ git clone -b $REPO_POCO_TAG https://"$GIT_LOGIN":"$GIT_TOKEN"@github.com/iExecBl
 git clone -b $REPO_PARITY_DEPLOY_TAG https://github.com/iExecBlockchainComputing/parity-deploy.git
 
 CURRENT_DIR=$(pwd)
-cd parity-deploy
-echo "generate pwd"
+cp -rf parity-deploy parity-deploy-home-chain
+cp -rf parity-deploy parity-deploy-foreign-chain
 
-./config/utils/pwdgen.sh -n ${CHAIN_NODES} -l ${PASSWORD_LENGTH}
+cd $CURRENT_DIR
+cd parity-deploy-home-chain
+echo "generate pwd"
+./config/utils/pwdgen.sh -n 1 -l ${PASSWORD_LENGTH}
 if [ $? -eq 1 ]
 then
   echo "pwdgen.sh  script failed"
@@ -185,7 +159,7 @@ fi
 
 echo "call parity-deploy script"
 
-./parity-deploy.sh --config aura --name ${CHAIN_NAME} --nodes ${CHAIN_NODES} --ethstats --expose
+./parity-deploy.sh --config aura --name HOME-CHAIN --nodes 1 --expose
 
 
 sed -i 's/0x00Ea169ce7e0992960D3BdE6F5D539C955316432/0x000a9c787a972f70f0903890e266f41c795c4dca/g' deployment/chain/spec.json
@@ -197,6 +171,39 @@ sed -i "s/stable/$PARITY_DOCKER_VERSION/g" docker-compose.yml
 
 echo "docker-compose up -d ..."
 docker-compose up -d
+
+
+cd $CURRENT_DIR
+cd parity-deploy-foreign-chain
+echo "generate pwd"
+./config/utils/pwdgen.sh -n 1 -l ${PASSWORD_LENGTH}
+if [ $? -eq 1 ]
+then
+  echo "pwdgen.sh  script failed"
+  exit 1
+fi
+
+echo "call parity-deploy script"
+
+./parity-deploy.sh --config aura --name FOREIGN-CHAIN --nodes 1  --expose
+
+
+sed -i 's/0x00Ea169ce7e0992960D3BdE6F5D539C955316432/0x000a9c787a972f70f0903890e266f41c795c4dca/g' deployment/chain/spec.json
+sed -i "s/\"stepDuration\": \"2\"/\"stepDuration\": \"`echo $STEP_DURATION`\"/g" deployment/chain/spec.json
+
+
+echo "target PARITY VERSION :$PARITY_DOCKER_VERSION"
+sed -i "s/stable/$PARITY_DOCKER_VERSION/g" docker-compose.yml
+echo "change redirect port"
+sed -i "s/- 8080:- 9080/$PARITY_DOCKER_VERSION/g" docker-compose.yml
+sed -i "s/- 8180:- 9180/$PARITY_DOCKER_VERSION/g" docker-compose.yml
+sed -i "s/- 8545:- 9545/$PARITY_DOCKER_VERSION/g" docker-compose.yml
+sed -i "s/- 8546:- 9546/$PARITY_DOCKER_VERSION/g" docker-compose.yml
+sed -i "s/- 30303:- 40303/$PARITY_DOCKER_VERSION/g" docker-compose.yml
+
+echo "docker-compose up -d ..."
+docker-compose up -d
+
 
 cd $CURRENT_DIR
 cd PoCo-dev
@@ -250,7 +257,7 @@ iexec --version
 # richman used in topUpWallets
 ./topUpWallets --from=1 --to=${NB_WALLETS} --minETH=${ETH_AMOUNT} --maxETH=${ETH_AMOUNT} --chain=dev --minRLC=${RLC_AMOUNT}
 
-echo "POA test chain ${CHAIN_NAME} is installed and up "
+echo "POA test FOREIGN-CHAIN chain and HOME-CHAIN chain is installed and up "
 
 
 
