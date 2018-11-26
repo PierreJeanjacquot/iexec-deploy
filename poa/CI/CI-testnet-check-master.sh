@@ -20,6 +20,7 @@ iexec --version
 docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
 docker rmi $(docker images -q)
+docker network rm $(docker network ls | grep "bridge" | awk '/ / { print $1 }')
 
 
 sudo rm -rf iexec-deploy

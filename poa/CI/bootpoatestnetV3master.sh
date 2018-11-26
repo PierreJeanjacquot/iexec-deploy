@@ -172,7 +172,7 @@ sed -i "s/stable/$PARITY_DOCKER_VERSION/g" docker-compose.yml
 sed -i "s/host1/host-home-chain/g" docker-compose.yml
 sed -i "s/host1/host-home-chain/g" deployment/chain/reserved_peers
 
-
+cat ${SCRIPT_DIR}/parity-deploy-network.conf >> docker-compose.yml
 echo "docker-compose up -d ..."
 docker-compose up -d
 
@@ -209,7 +209,7 @@ sed -i "s/host1/host-foreign-chain/g" docker-compose.yml
 sed -i "s/host1/host-foreign-chain/g" deployment/chain/reserved_peers
 sed -i "s/30303/40303/g" deployment/chain/reserved_peers
 
-
+cat ${SCRIPT_DIR}/parity-deploy-network.conf >> docker-compose.yml
 echo "docker-compose up -d ..."
 docker-compose up -d
 
@@ -316,3 +316,24 @@ sed -i "s/8545/9545/g" scheduler/chain.json
 
 
 echo "POA test FOREIGN-CHAIN chain and HOME-CHAIN chain is installed and up "
+
+############################################
+#deploy poa smart contract  bridges on network
+############################################
+cd $CURRENT_DIR
+echo "deploy smart contract poa bridges on network"
+
+git clone -b $REPO_POA_BRIDGE_CONTRACTS https://github.com/poanetwork/poa-bridge-contracts.git
+cd poa-bridge-contracts
+
+# attach docker to parity-deploy network
+cat ${SCRIPT_DIR}/parity-deploy-network.conf >> docker-compose.yml
+
+cp -rf ${SCRIPT_DIR}/poa-bridge-contracts-dev.env ${SCRIPT_DIR}/poa-bridge-contracts-dev.env.ori
+sed -i "s/__ADMIN_WALLET_PRIVATEKEY__/${ADMIN_PRIVATE_KEY}/g" ${SCRIPT_DIR}/poa-bridge-contracts-dev.env
+sed -i "s/__ADMIN_WALLET__/${ADMIN_ADDRESS}/g" ${SCRIPT_DIR}/poa-bridge-contracts-dev.env
+sed -i "s/__ERC20_TOKEN_ADDRESS__/${RlcAddress}/g" ${SCRIPT_DIR}/poa-bridge-contracts-dev.env
+
+cp ${SCRIPT_DIR}/poa-bridge-contracts-dev.env deploy/.env
+rm -f bridgeDeploy.log
+./deploy.sh  | tee bridgeDeploy.log
