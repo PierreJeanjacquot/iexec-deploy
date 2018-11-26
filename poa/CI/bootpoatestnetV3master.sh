@@ -32,7 +32,7 @@ isInteger() {
 #default value
 STEP_DURATION=2
 PASSWORD_LENGTH=24
-NB_WALLETS=10
+NB_WALLETS=5
 ETH_AMOUNT=10000000000000000000
 RLC_AMOUNT=10000000000
 GIT_LOGIN=""
@@ -316,69 +316,3 @@ sed -i "s/8545/9545/g" scheduler/chain.json
 
 
 echo "POA test FOREIGN-CHAIN chain and HOME-CHAIN chain is installed and up "
-
-
-
-############################################
-#deploy poa smart contract  bridges on network
-############################################
-cd $CURRENT_DIR
-echo "deploy smart contract poa bridges on network"
-
-git clone -b $REPO_POA_BRIDGE_CONTRACTS https://github.com/poanetwork/poa-bridge-contracts.git
-cd poa-bridge-contracts
-
-# attach docker to parity-deploy network
-cat ${SCRIPT_DIR}/parity-deploy-network.conf >> docker-compose.yml
-
-cp -rf ${SCRIPT_DIR}/poa-bridge-contracts-dev.env ${SCRIPT_DIR}/poa-bridge-contracts-dev.env.ori
-sed -i "s/__ADMIN_WALLET_PRIVATEKEY__/${ADMIN_PRIVATE_KEY}/g" ${SCRIPT_DIR}/poa-bridge-contracts-dev.env
-sed -i "s/__ADMIN_WALLET__/${ADMIN_ADDRESS}/g" ${SCRIPT_DIR}/poa-bridge-contracts-dev.env
-sed -i "s/__ERC20_TOKEN_ADDRESS__/${RlcAddress}/g" ${SCRIPT_DIR}/poa-bridge-contracts-dev.env
-
-cp ${SCRIPT_DIR}/poa-bridge-contracts-dev.env deploy/.env
-rm -f bridgeDeploy.log
-./deploy.sh  | tee bridgeDeploy.log
-
-############################################
-# start poa bridge js
-############################################
-cd $CURRENT_DIR
-git clone -b $REPO_TOKEN_BRIDGE https://github.com/poanetwork/token-bridge.git
-cd token-bridge
-
-# attach docker to parity-deploy network
-cat ${SCRIPT_DIR}/parity-deploy-network.conf >> docker-compose.yml
-
-cp -rf ${SCRIPT_DIR}/token-bridge-dev.env ${SCRIPT_DIR}/token-bridge-dev.ori
-
-sed -i "s/__ADMIN_WALLET_PRIVATEKEY__/${ADMIN_PRIVATE_KEY}/g" ${SCRIPT_DIR}/token-bridge-dev.env
-sed -i "s/__ADMIN_WALLET__/${ADMIN_ADDRESS}/g" ${SCRIPT_DIR}/token-bridge-dev.env
-sed -i "s/__ERC20_TOKEN_ADDRESS__/${RlcAddress}/g" ${SCRIPT_DIR}/token-bridge-dev.env
-
-cp ${SCRIPT_DIR}/token-bridge-dev.env .env
-
-docker-compose up -d --build
-
-
-docker-compose run -d bridge npm run watcher:signature-request
-docker-compose run -d bridge npm run watcher:collected-signatures
-docker-compose run -d bridge npm run watcher:affirmation-request
-docker-compose run -d bridge npm run sender:home
-docker-compose run -d bridge npm run sender:foreign
-
-
-############################################
-#deploy poa bridge UI
-############################################
-
-cd $CURRENT_DIR
-git clone -b $REPO_BRIDGE_UI https://github.com/poanetwork/bridge-ui.git
-cd bridge-ui
-git submodule update --init --recursive --remote
-npm install
-cp ${SCRIPT_DIR}/bridge-ui-dev.env .env
-#npm run start
-
-
-exit 0
