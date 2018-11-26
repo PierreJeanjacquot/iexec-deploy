@@ -4,13 +4,20 @@ const privateKeys = [__PRIVATE_KEY__]; // private keys
 
 module.exports = {
   networks: {
-    localPOAWithHDwallet: {
+    local-home-chain: {
       provider: () =>
         new HDWalletProvider(privateKeys, "http://localhost:8545"),
       network_id: "17",
       gas: 6721975,
       gasPrice: 1000000000,
-  }
+  },
+  local-foreign-chain: {
+    provider: () =>
+      new HDWalletProvider(privateKeys, "http://localhost:8546"),
+    network_id: "17",
+    gas: 6721975,
+    gasPrice: 1000000000,
+}
  }
 ,
     solc: {
