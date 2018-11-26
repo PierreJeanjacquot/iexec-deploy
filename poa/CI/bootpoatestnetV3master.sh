@@ -340,7 +340,7 @@ cd bridge-ui
 git submodule update --init --recursive --remote
 npm install
 cp ${SCRIPT_DIR}/bridge-ui-dev.env .env
-npm run start
+#npm run start
 
 
 exit 0
