@@ -143,6 +143,11 @@ git clone -b $REPO_POCO_TAG https://"$GIT_LOGIN":"$GIT_TOKEN"@github.com/iExecBl
 
 git clone -b $REPO_PARITY_DEPLOY_TAG https://github.com/iExecBlockchainComputing/parity-deploy.git
 
+
+##create docker network
+docker network create parity-deploy_default
+
+
 CURRENT_DIR=$(pwd)
 cp -rf parity-deploy parity-deploy-home-chain
 cp -rf parity-deploy parity-deploy-foreign-chain
