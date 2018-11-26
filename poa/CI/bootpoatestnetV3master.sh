@@ -234,7 +234,7 @@ sed "s/__PRIVATE_KEY__/\"${ADMIN_PRIVATE_KEY}\"/g" ${SCRIPT_DIR}/truffleV3.tmpl 
 echo "launch truffle migrate"
 ./node_modules/.bin/truffle --version
 rm -rf build
-./node_modules/.bin/truffle migrate --network local-home-chain
+./node_modules/.bin/truffle migrate --network localHomeChain
 
 if [ $? -eq 0 ]
 then
@@ -254,7 +254,7 @@ then
 fi
 echo "IexecHubAddress is $IexecHubAddress"
 
-./node_modules/.bin/truffle migrate --network local-foreign-chain
+./node_modules/.bin/truffle migrate --network localForeignChain
 
 if [ $? -eq 0 ]
 then
