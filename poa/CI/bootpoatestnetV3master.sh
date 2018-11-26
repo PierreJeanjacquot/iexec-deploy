@@ -303,12 +303,17 @@ cd wallets
 
 # set the right IexecHub find in PoCo-dev/build/contracts/IexecClerk.json contract address
 sed -i "s/0x60E25C038D70A15364DAc11A042DB1dD7A2cccBC/${IexecHubAddress}/g" scheduler/chain.json
-#sed -i 's/1337/17/g' admin/chain.json
+
 
 iexec --version
 
-# richman used in topUpWallets
+# richman used in topUpWallets on homechain
 ./topUpWallets --from=1 --to=${NB_WALLETS} --minETH=${ETH_AMOUNT} --maxETH=${ETH_AMOUNT} --chain=dev --minRLC=${RLC_AMOUNT}
+
+sed -i "s/8545/9545/g" scheduler/chain.json
+# richman used in topUpWallets on foreinchain
+./topUpWallets --from=1 --to=${NB_WALLETS} --minETH=${ETH_AMOUNT} --maxETH=${ETH_AMOUNT} --chain=dev --minRLC=${RLC_AMOUNT}
+
 
 echo "POA test FOREIGN-CHAIN chain and HOME-CHAIN chain is installed and up "
 
