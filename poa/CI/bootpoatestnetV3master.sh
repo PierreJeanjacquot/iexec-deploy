@@ -190,7 +190,7 @@ fi
 
 echo "call parity-deploy script"
 
-./parity-deploy.sh --config aura --name FOREIGN-CHAIN --nodes 1  --expose 
+./parity-deploy.sh --config aura --name FOREIGN-CHAIN --nodes 1  --expose
 
 
 sed -i 's/0x00Ea169ce7e0992960D3BdE6F5D539C955316432/0x000a9c787a972f70f0903890e266f41c795c4dca/g' deployment/chain/spec.json
@@ -214,8 +214,15 @@ echo "docker-compose up -d ..."
 docker-compose up -d
 
 
+
+
+ADMIN_PRIVATE_KEY=$(cat ../wallets/scheduler/wallet.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g' | cut  -c3-)
+ADMIN_ADDRESS=$(cat ../wallets/scheduler/wallet.json | grep address | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g')
+
+
 cd $CURRENT_DIR
-cd PoCo-dev
+cp -rf PoCo-dev PoCo-dev-home-chain
+cd PoCo-dev-home-chain
 #git checkout ABILegacy
 npm i
 npm install truffle-hdwallet-provider@web3-one
@@ -223,9 +230,6 @@ npm install truffle-hdwallet-provider@web3-one
 
 #copy existing truffle.js
 cp truffle.js truffle.ori
-
-ADMIN_PRIVATE_KEY=$(cat ../wallets/scheduler/wallet.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g' | cut  -c3-)
-ADMIN_ADDRESS=$(cat ../wallets/scheduler/wallet.json | grep address | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g')
 
 
 sed "s/__PRIVATE_KEY__/\"${ADMIN_PRIVATE_KEY}\"/g" ${SCRIPT_DIR}/truffleV3.tmpl > truffle.js
@@ -254,6 +258,24 @@ then
 fi
 echo "IexecHubAddress is $IexecHubAddress"
 
+cd $CURRENT_DIR
+cp -rf PoCo-dev PoCo-dev-foreign-chain
+cd PoCo-dev-foreign-chain
+#git checkout ABILegacy
+npm i
+npm install truffle-hdwallet-provider@web3-one
+#npm install truffle@beta
+
+#copy existing truffle.js
+cp truffle.js truffle.ori
+
+
+sed "s/__PRIVATE_KEY__/\"${ADMIN_PRIVATE_KEY}\"/g" ${SCRIPT_DIR}/truffleV3.tmpl > truffle.js
+
+
+echo "launch truffle migrate"
+./node_modules/.bin/truffle --version
+rm -rf build
 ./node_modules/.bin/truffle migrate --network localForeignChain
 
 if [ $? -eq 0 ]
@@ -263,6 +285,17 @@ else
   echo "truffle migrate FAILED !"
   exit 1
 fi
+
+IexecHubAddress=$(cat build/contracts/IexecHub.json | grep '"address":' | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g')
+RlcAddress=$(cat build/contracts/IexecHub.json | grep '"address":' | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g')
+
+if [ -z $IexecHubAddress ]
+then
+  "IexecHubAddress is not set"
+  exit 1
+fi
+echo "IexecHubAddress is $IexecHubAddress"
+
 
 
 cd $CURRENT_DIR

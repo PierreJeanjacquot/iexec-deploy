@@ -24,6 +24,8 @@ docker rmi $(docker images -q)
 
 sudo rm -rf iexec-deploy
 sudo rm -rf PoCo-dev
+sudo rm -rf PoCo-dev-home-chain
+sudo rm -rf PoCo-dev-foreign-chain
 sudo rm -rf wallets
 sudo rm -rf parity-deploy
 sudo rm -rf parity-deploy-home-chain
@@ -32,8 +34,11 @@ sudo rm -rf poa-bridge-contracts
 sudo rm -rf token-bridge
 sudo rm -rf bridge-ui
 
+
 sudo rm -rf /home/ubuntu/iexec-deploy
 sudo rm -rf /home/ubuntu/PoCo-dev
+sudo rm -rf /home/ubuntu/PoCo-dev-home-chain
+sudo rm -rf /home/ubuntu/PoCo-dev-foreign-chain
 sudo rm -rf /home/ubuntu/wallets
 sudo rm -rf /home/ubuntu/parity-deploy
 sudo rm -rf /home/ubuntu/parity-deploy-home-chain
