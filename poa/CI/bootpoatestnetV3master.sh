@@ -47,6 +47,7 @@ REPO_POCO_TAG="master"
 REPO_PARITY_DEPLOY_TAG="master"
 REPO_POA_BRIDGE_CONTRACTS="master"
 REPO_TOKEN_BRIDGE="master"
+REPO_BRIDGE_UI="master"
 
 
 ARGS="$@"
@@ -99,7 +100,9 @@ while [ "$1" != "" ]; do
     --repo-token-bridge-tag )       shift
       REPO_TOKEN_BRIDGE=$1
       ;;
-
+    --repo-bridge-ui-tag )       shift
+      REPO_BRIDGE_UI=$1
+      ;;
     -h | --help )           help
       exit
       ;;
@@ -252,7 +255,7 @@ echo "POA test chain ${CHAIN_NAME} is installed and up "
 
 
 ############################################
-#deploy smart contract poa bridges on network
+#deploy poa smart contract  bridges on network
 ############################################
 cd $CURRENT_DIR
 echo "deploy smart contract poa bridges on network"
@@ -273,7 +276,7 @@ rm -f bridgeDeploy.log
 ./deploy.sh  | tee bridgeDeploy.log
 
 ############################################
-# start bridge js
+# start poa bridge js
 ############################################
 cd $CURRENT_DIR
 git clone -b $REPO_TOKEN_BRIDGE https://github.com/poanetwork/token-bridge.git
@@ -298,6 +301,19 @@ docker-compose run -d bridge npm run watcher:collected-signatures
 docker-compose run -d bridge npm run watcher:affirmation-request
 docker-compose run -d bridge npm run sender:home
 docker-compose run -d bridge npm run sender:foreign
+
+
+############################################
+#deploy poa bridge UI
+############################################
+
+cd $CURRENT_DIR
+git clone -b $REPO_BRIDGE_UI https://github.com/poanetwork/bridge-ui.git
+cd bridge-ui
+git submodule update --init --recursive --remote
+npm install
+cp ${SCRIPT_DIR}/bridge-ui-dev.env .env
+npm run start
 
 
 exit 0
