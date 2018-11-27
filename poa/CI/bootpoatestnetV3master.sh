@@ -339,10 +339,17 @@ sed -i "s/__ADMIN_WALLET_PRIVATEKEY__/${ADMIN_PRIVATE_KEY}/g" ${SCRIPT_DIR}/poa-
 sed -i "s/__ADMIN_WALLET__/${ADMIN_ADDRESS}/g" ${SCRIPT_DIR}/poa-bridge-contracts-dev.env
 sed -i "s/__ERC20_TOKEN_ADDRESS__/${RlcAddress}/g" ${SCRIPT_DIR}/poa-bridge-contracts-dev.env
 
+
+
+
 cp ${SCRIPT_DIR}/poa-bridge-contracts-dev.env deploy/.env
 rm -f bridgeDeploy.log
 ./deploy.sh  | tee bridgeDeploy.log
 
+
+HOME_BRIDGE_ADDRESS=$(cat bridgeDeploy.log | grep "address" | grep -v function | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g'| awk 'NR == 1')
+HOME_ERC_677=$(cat bridgeDeploy.log | grep "address" | grep -v function | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g'| awk 'NR == 2')
+FOREIGN_BRIDGE_ADDRESS=$(cat bridgeDeploy.log | grep "address" | grep -v function | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g'| awk 'NR == 3')
 
 ############################################
 # start poa bridge js
@@ -359,6 +366,8 @@ cp -rf ${SCRIPT_DIR}/token-bridge-dev.env ${SCRIPT_DIR}/token-bridge-dev.ori
 sed -i "s/__ADMIN_WALLET_PRIVATEKEY__/${ADMIN_PRIVATE_KEY}/g" ${SCRIPT_DIR}/token-bridge-dev.env
 sed -i "s/__ADMIN_WALLET__/${ADMIN_ADDRESS}/g" ${SCRIPT_DIR}/token-bridge-dev.env
 sed -i "s/__ERC20_TOKEN_ADDRESS__/${RlcAddress}/g" ${SCRIPT_DIR}/token-bridge-dev.env
+sed -i "s/__HOME_BRIDGE_ADDRESS__/${HOME_BRIDGE_ADDRESS}/g" ${SCRIPT_DIR}/token-bridge-dev.env
+sed -i "s/__FOREIGN_BRIDGE_ADDRESS__/${FOREIGN_BRIDGE_ADDRESS}/g" ${SCRIPT_DIR}/token-bridge-dev.env
 
 cp ${SCRIPT_DIR}/token-bridge-dev.env .env
 
@@ -381,7 +390,12 @@ git clone -b $REPO_BRIDGE_UI https://github.com/poanetwork/bridge-ui.git
 cd bridge-ui
 git submodule update --init --recursive --remote
 npm install
+
+sed -i "s/__HOME_BRIDGE_ADDRESS__/${HOME_BRIDGE_ADDRESS}/g" ${SCRIPT_DIR}/bridge-ui-dev.env
+sed -i "s/__FOREIGN_BRIDGE_ADDRESS__/${FOREIGN_BRIDGE_ADDRESS}/g" ${SCRIPT_DIR}/bridge-ui-dev.env
 cp ${SCRIPT_DIR}/bridge-ui-dev.env .env
+
+
 #npm run start
 
 
