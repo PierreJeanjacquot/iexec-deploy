@@ -362,6 +362,12 @@ rm -f bridgeDeploy.log
 HOME_BRIDGE_ADDRESS=$(cat bridgeDeploy.log | grep "address" | grep -v function | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g'| awk 'NR == 1')
 HOME_ERC_677=$(cat bridgeDeploy.log | grep "address" | grep -v function | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g'| awk 'NR == 2')
 FOREIGN_BRIDGE_ADDRESS=$(cat bridgeDeploy.log | grep "address" | grep -v function | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g'| awk 'NR == 3')
+HOME_START_BLOCK=$(cat bridgeDeploy.log | grep "deployedBlockNumber" | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g'| awk 'NR == 1')
+FOREIGN_START_BLOCK=$(cat bridgeDeploy.log | grep "deployedBlockNumber" | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g'| awk 'NR == 2')
+
+
+
+
 
 ############################################
 # start poa bridge js
@@ -380,6 +386,9 @@ sed -i "s/__ADMIN_WALLET__/${ADMIN_ADDRESS}/g" ${SCRIPT_DIR}/token-bridge-dev.en
 sed -i "s/__ERC20_TOKEN_ADDRESS__/${RlcAddress}/g" ${SCRIPT_DIR}/token-bridge-dev.env
 sed -i "s/__HOME_BRIDGE_ADDRESS__/${HOME_BRIDGE_ADDRESS}/g" ${SCRIPT_DIR}/token-bridge-dev.env
 sed -i "s/__FOREIGN_BRIDGE_ADDRESS__/${FOREIGN_BRIDGE_ADDRESS}/g" ${SCRIPT_DIR}/token-bridge-dev.env
+sed -i "s/__HOME_START_BLOCK__/${HOME_START_BLOCK}/g" ${SCRIPT_DIR}/token-bridge-dev.env
+sed -i "s/__FOREIGN_START_BLOCK__/${FOREIGN_START_BLOCK}/g" ${SCRIPT_DIR}/token-bridge-dev.env
+
 
 cp ${SCRIPT_DIR}/token-bridge-dev.env .env
 
