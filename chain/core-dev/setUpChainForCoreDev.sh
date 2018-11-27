@@ -10,15 +10,13 @@ sleep 4
 
 cd wallets
 
- ./deployAppAndPool 
- ./topUpWallets --from=1 --to=2 --minETH=0 --maxETH=0 --minRLC=1000 --chain=dev
- ./deposit --from=1 --to=2 --rlc=1000 --chain=dev
-
-sleep 10
+./deployAppAndPool
+./topUpWallets --from=1 --to=2 --minETH=0 --maxETH=0 --minRLC=1000 --chain=dev
+./deposit --from=1 --to=2 --rlc=1000 --chain=dev
 
 pkill -INT parity
 
-sleep 15
+sleep 20
 
 
 rm -R wallets
