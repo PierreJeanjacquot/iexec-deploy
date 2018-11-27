@@ -398,7 +398,7 @@ docker-compose run -d bridge npm run sender:foreign
 ############################################
 
 cd $CURRENT_DIR
-git clone -b $REPO_BRIDGE_UI https://github.com/poanetwork/bridge-ui.git
+git clone -b $REPO_BRIDGE_UI https://github.com/branciard/bridge-ui.git
 cd bridge-ui
 git submodule update --init --recursive --remote
 npm install
