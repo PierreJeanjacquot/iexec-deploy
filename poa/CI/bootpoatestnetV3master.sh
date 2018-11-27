@@ -405,8 +405,8 @@ npm install
 
 sed -i "s/__HOME_BRIDGE_ADDRESS__/${HOME_BRIDGE_ADDRESS}/g" ${SCRIPT_DIR}/bridge-ui-dev.env
 sed -i "s/__FOREIGN_BRIDGE_ADDRESS__/${FOREIGN_BRIDGE_ADDRESS}/g" ${SCRIPT_DIR}/bridge-ui-dev.env
-sed -i "s/__REACT_APP_FOREIGN_HTTP_PARITY_URL__/\"http://$TEST_IP:9545\"/g" ${SCRIPT_DIR}/bridge-ui-dev.env
-sed -i "s/__REACT_APP_HOME_HTTP_PARITY_URL__/\"http://$TEST_IP:8545\"/g" ${SCRIPT_DIR}/bridge-ui-dev.env
+sed -i "s/__REACT_APP_FOREIGN_HTTP_PARITY_URL__/http:\/\/$TEST_IP:9545/g" ${SCRIPT_DIR}/bridge-ui-dev.env
+sed -i "s/__REACT_APP_HOME_HTTP_PARITY_URL__/http:\/\/$TEST_IP:8545/g" ${SCRIPT_DIR}/bridge-ui-dev.env
 
 cp ${SCRIPT_DIR}/bridge-ui-dev.env .env
 
