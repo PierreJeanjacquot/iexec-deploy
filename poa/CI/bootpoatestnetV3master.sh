@@ -37,6 +37,7 @@ ETH_AMOUNT=10000000000000000000
 RLC_AMOUNT=10000000000
 GIT_LOGIN=""
 GIT_TOKEN=""
+TEST_IP=""
 PARITY_DOCKER_VERSION=stable
 REPO_WALLETS_TAG="master"
 REPO_POCO_TAG="master"
@@ -74,6 +75,9 @@ while [ "$1" != "" ]; do
       ;;
     --gittoken )              shift
       GIT_TOKEN=$1
+      ;;
+    --test-ip )              shift
+      TEST_IP=$1
       ;;
     --repo-wallet-tag )       shift
       REPO_WALLETS_TAG=$1
@@ -119,6 +123,14 @@ if [ -z $GIT_TOKEN ] ; then
   help
   exit 1
 fi
+
+if [ -z $TEST_IP ] ; then
+  echo "--test-ip  arg is mandatory"
+  help
+  exit 1
+fi
+
+
 
 
 #check ${NB_WALLETS} integer
@@ -393,6 +405,9 @@ npm install
 
 sed -i "s/__HOME_BRIDGE_ADDRESS__/${HOME_BRIDGE_ADDRESS}/g" ${SCRIPT_DIR}/bridge-ui-dev.env
 sed -i "s/__FOREIGN_BRIDGE_ADDRESS__/${FOREIGN_BRIDGE_ADDRESS}/g" ${SCRIPT_DIR}/bridge-ui-dev.env
+sed -i "s/__REACT_APP_FOREIGN_HTTP_PARITY_URL__/\"http://$TEST_IP:9545\"/g" ${SCRIPT_DIR}/bridge-ui-dev.env
+sed -i "s/__REACT_APP_HOME_HTTP_PARITY_URL__/\"http://$TEST_IP:8545\"/g" ${SCRIPT_DIR}/bridge-ui-dev.env
+
 cp ${SCRIPT_DIR}/bridge-ui-dev.env .env
 
 
