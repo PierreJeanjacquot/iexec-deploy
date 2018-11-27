@@ -1,6 +1,6 @@
-FROM  iexechub/iexec-chain:1sec-1a0bf1e
+FROM  iexechub/iexec-chain:cb68ed5
 
-RUN apt install -y jq bc && npm install -g iexec@3.0.5
+RUN apt install -y jq bc && npm install -g iexec@3.0.9
 
 COPY setUpChainForCoreDev.sh /setUpChainForCoreDev.sh
 
@@ -16,7 +16,7 @@ ENTRYPOINT ./mine.sh
 EXPOSE 8545
 
 
-# docker image build -t iexechub/iexec-chain:core-dev .
+# docker image build -t iexechub/iexec-chain:3.0.9-core-dev .
 
-# docker run -it --name iexec-chain-core-dev -p 8545:8545 iexechub/iexec-chain:core-dev
+# docker run -it --name iexec-chain-core-dev -p 8545:8545 iexechub/iexec-chain:3.0.9-core-dev
 
