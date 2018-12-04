@@ -241,8 +241,9 @@ cd $CURRENT_DIR
 cp -rf PoCo-dev PoCo-dev-home-chain
 cd PoCo-dev-home-chain
 #git checkout ABILegacy
-npm i
 npm install truffle-hdwallet-provider@web3-one
+npm i
+
 #npm install truffle@beta
 
 #copy existing truffle.js
@@ -279,8 +280,8 @@ cd $CURRENT_DIR
 cp -rf PoCo-dev PoCo-dev-foreign-chain
 cd PoCo-dev-foreign-chain
 #git checkout ABILegacy
-npm i
 npm install truffle-hdwallet-provider@web3-one
+npm i
 #npm install truffle@beta
 
 #copy existing truffle.js
