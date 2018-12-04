@@ -184,7 +184,7 @@ echo "call parity-deploy script"
 
 sed -i 's/0x00Ea169ce7e0992960D3BdE6F5D539C955316432/0x000a9c787a972f70f0903890e266f41c795c4dca/g' deployment/chain/spec.json
 sed -i "s/\"stepDuration\": \"2\"/\"stepDuration\": \"`echo $STEP_DURATION`\"/g" deployment/chain/spec.json
-sed -i "s/\"networkID\": \"0x11\"/\"networkID\": \"`echo $NETWORK_ID_HOME`\"/g" deployment/chain/spec.json
+sed -i "s/\"networkID\" : \"0x11\"/\"networkID\" : \"`echo $NETWORK_ID_HOME`\"/g" deployment/chain/spec.json
 
 echo "target PARITY VERSION :$PARITY_DOCKER_VERSION"
 sed -i "s/stable/$PARITY_DOCKER_VERSION/g" docker-compose.yml
@@ -214,7 +214,7 @@ echo "call parity-deploy script"
 
 sed -i 's/0x00Ea169ce7e0992960D3BdE6F5D539C955316432/0x000a9c787a972f70f0903890e266f41c795c4dca/g' deployment/chain/spec.json
 sed -i "s/\"stepDuration\": \"2\"/\"stepDuration\": \"`echo $STEP_DURATION`\"/g" deployment/chain/spec.json
-sed -i "s/\"networkID\": \"0x11\"/\"networkID\": \"`echo $NETWORK_ID_FOREIGN`\"/g" deployment/chain/spec.json
+sed -i "s/\"networkID\" : \"0x11\"/\"networkID\" : \"`echo $NETWORK_ID_FOREIGN`\"/g" deployment/chain/spec.json
 
 
 echo "target PARITY VERSION :$PARITY_DOCKER_VERSION"
