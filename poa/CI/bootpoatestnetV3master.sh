@@ -31,6 +31,8 @@ isInteger() {
 
 #default value
 STEP_DURATION=2
+NETWORK_ID_HOME=0x11
+NETWORK_ID_FOREIGN=0x12
 PASSWORD_LENGTH=24
 NB_WALLETS=3
 ETH_AMOUNT=10000000000000000000
@@ -182,7 +184,7 @@ echo "call parity-deploy script"
 
 sed -i 's/0x00Ea169ce7e0992960D3BdE6F5D539C955316432/0x000a9c787a972f70f0903890e266f41c795c4dca/g' deployment/chain/spec.json
 sed -i "s/\"stepDuration\": \"2\"/\"stepDuration\": \"`echo $STEP_DURATION`\"/g" deployment/chain/spec.json
-
+sed -i "s/\"networkID\": \"0x11\"/\"networkID\": \"`echo $NETWORK_ID_HOME`\"/g" deployment/chain/spec.json
 
 echo "target PARITY VERSION :$PARITY_DOCKER_VERSION"
 sed -i "s/stable/$PARITY_DOCKER_VERSION/g" docker-compose.yml
@@ -212,6 +214,7 @@ echo "call parity-deploy script"
 
 sed -i 's/0x00Ea169ce7e0992960D3BdE6F5D539C955316432/0x000a9c787a972f70f0903890e266f41c795c4dca/g' deployment/chain/spec.json
 sed -i "s/\"stepDuration\": \"2\"/\"stepDuration\": \"`echo $STEP_DURATION`\"/g" deployment/chain/spec.json
+sed -i "s/\"networkID\": \"0x11\"/\"networkID\": \"`echo $NETWORK_ID_FOREIGN`\"/g" deployment/chain/spec.json
 
 
 echo "target PARITY VERSION :$PARITY_DOCKER_VERSION"
@@ -329,10 +332,15 @@ sed -i "s/0x60E25C038D70A15364DAc11A042DB1dD7A2cccBC/${IexecHubAddress}/g" sched
 
 iexec --version
 
+#* in network id
+sed -i "s/\"17\"/\"*\"/g" scheduler/chain.json
+
 # richman used in topUpWallets on homechain
 ./topUpWallets --from=1 --to=${NB_WALLETS} --minETH=${ETH_AMOUNT} --maxETH=${ETH_AMOUNT} --chain=dev --minRLC=${RLC_AMOUNT}
 
 sed -i "s/8545/9545/g" scheduler/chain.json
+
+
 # richman used in topUpWallets on foreinchain
 ./topUpWallets --from=1 --to=${NB_WALLETS} --minETH=${ETH_AMOUNT} --maxETH=${ETH_AMOUNT} --chain=dev --minRLC=${RLC_AMOUNT}
 

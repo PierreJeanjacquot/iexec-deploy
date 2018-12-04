@@ -7,14 +7,14 @@ module.exports = {
     localHomeChain: {
       provider: () =>
         new HDWalletProvider(privateKeys, "http://localhost:8545"),
-      network_id: "17",
+      network_id: "*",
       gas: 6721975,
       gasPrice: 1000000000,
   },
   localForeignChain: {
     provider: () =>
       new HDWalletProvider(privateKeys, "http://localhost:9545"),
-    network_id: "17",
+    network_id: "*",
     gas: 6721975,
     gasPrice: 1000000000,
 }
