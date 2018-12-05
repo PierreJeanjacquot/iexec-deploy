@@ -161,12 +161,20 @@ git clone -b $REPO_PARITY_DEPLOY_TAG https://github.com/iExecBlockchainComputing
 ##create docker network
 docker network create parity-deploy_default
 
-
 CURRENT_DIR=$(pwd)
+
+#install ethkey
+git clone https://github.com/paritytech/parity-ethereum.git
+cd parity-ethereum
+cargo build -p ethkey-cli --release
+./target/release/ethkey --help
+sudo cp ./target/release/ethkey /usr/local/bin
+which ethkey
+
+cd $CURRENT_DIR
 cp -rf parity-deploy parity-deploy-home-chain
 cp -rf parity-deploy parity-deploy-foreign-chain
 
-cd $CURRENT_DIR
 echo "generate parity-deploy-home-chain"
 cd parity-deploy-home-chain
 echo "generate pwd"
