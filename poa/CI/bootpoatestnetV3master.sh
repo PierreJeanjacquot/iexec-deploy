@@ -189,7 +189,6 @@ sed -i "s/\"networkID\" : \"0x11\"/\"networkID\" : \"`echo $NETWORK_ID_HOME`\"/g
 echo "target PARITY VERSION :$PARITY_DOCKER_VERSION"
 sed -i "s/stable/$PARITY_DOCKER_VERSION/g" docker-compose.yml
 sed -i "s/host1/host-home-chain/g" docker-compose.yml
-#sed -i "s/d \/home\/parity\/data/d \/home\/parity\/data --force-sealing/g" docker-compose.yml
 sed -i "s/host1/host-home-chain/g" deployment/chain/reserved_peers
 
 cat ${SCRIPT_DIR}/parity-deploy-network.conf >> docker-compose.yml
@@ -228,8 +227,6 @@ sed -i "s/- 8545/- 9545/g" docker-compose.yml
 sed -i "s/- 8546/- 9546/g" docker-compose.yml
 sed -i "s/- 30303/- 40303/g" docker-compose.yml
 sed -i "s/host1/host-foreign-chain/g" docker-compose.yml
-#sed -i "s/d \/home\/parity\/data/d \/home\/parity\/data --force-sealing/g" docker-compose.yml
-
 
 sed -i "s/host1/host-foreign-chain/g" deployment/chain/reserved_peers
 sed -i "s/30303/40303/g" deployment/chain/reserved_peers
