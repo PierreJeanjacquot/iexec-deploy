@@ -49,6 +49,7 @@ sudo rm -rf /home/ubuntu/poa-bridge-contracts
 sudo rm -rf /home/ubuntu/token-bridge
 sudo rm -rf /home/ubuntu/bridge-ui
 sudo rm -rf /home/ubuntu/bridge_data/
+sudo rm -rf /home/ubuntu/parity-ethereum
 
 npm
 git clone https://github.com/iExecBlockchainComputing/iexec-deploy.git

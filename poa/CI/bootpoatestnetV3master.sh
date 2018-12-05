@@ -197,8 +197,10 @@ sed -i "s/\"networkID\" : \"0x11\"/\"networkID\" : \"`echo $NETWORK_ID_HOME`\"/g
 echo "target PARITY VERSION :$PARITY_DOCKER_VERSION"
 sed -i "s/stable/$PARITY_DOCKER_VERSION/g" docker-compose.yml
 sed -i "s/host1/host-home-chain/g" docker-compose.yml
-sed -i "s/host1/host-home-chain/g" deployment/chain/reserved_peers
+sed -i "s/d \/home\/parity\/data/d \/home\/parity\/data --force-sealing/g" docker-compose.yml
 
+
+sed -i "s/host1/host-home-chain/g" deployment/chain/reserved_peers
 cat ${SCRIPT_DIR}/parity-deploy-network.conf >> docker-compose.yml
 echo "docker-compose up -d ..."
 docker-compose up -d
@@ -217,7 +219,7 @@ fi
 
 echo "call parity-deploy script"
 
-./parity-deploy.sh --config aura --name FOREIGN-CHAIN --nodes 1  --expose 
+./parity-deploy.sh --config aura --name FOREIGN-CHAIN --nodes 1  --expose
 
 
 sed -i 's/0x00Ea169ce7e0992960D3BdE6F5D539C955316432/0x000a9c787a972f70f0903890e266f41c795c4dca/g' deployment/chain/spec.json
@@ -235,6 +237,7 @@ sed -i "s/- 8545/- 9545/g" docker-compose.yml
 sed -i "s/- 8546/- 9546/g" docker-compose.yml
 sed -i "s/- 30303/- 40303/g" docker-compose.yml
 sed -i "s/host1/host-foreign-chain/g" docker-compose.yml
+sed -i "s/d \/home\/parity\/data/d \/home\/parity\/data --force-sealing/g" docker-compose.yml
 
 sed -i "s/host1/host-foreign-chain/g" deployment/chain/reserved_peers
 sed -i "s/30303/40303/g" deployment/chain/reserved_peers
@@ -443,7 +446,10 @@ sed -i "s/__REACT_APP_HOME_HTTP_PARITY_URL__/http:\/\/$TEST_IP:8545/g" ${SCRIPT_
 cp ${SCRIPT_DIR}/bridge-ui-dev.env .env
 
 
-#npm run start
+#clean
 
-
+cd $CURRENT_DIR
+rm -rf parity-ethereum
+rm -rf PoCo-dev
+rm -rf parity-deploy
 exit 0
