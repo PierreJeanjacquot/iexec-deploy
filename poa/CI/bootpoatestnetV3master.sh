@@ -164,12 +164,12 @@ docker network create parity-deploy_default
 CURRENT_DIR=$(pwd)
 
 #install ethkey
-git clone https://github.com/paritytech/parity-ethereum.git
-cd parity-ethereum
-cargo build -p ethkey-cli --release
-./target/release/ethkey --help
-sudo cp ./target/release/ethkey /usr/local/bin
-which ethkey
+#git clone https://github.com/paritytech/parity-ethereum.git
+#cd parity-ethereum
+#cargo build -p ethkey-cli --release
+#./target/release/ethkey --help
+#sudo cp ./target/release/ethkey /usr/local/bin
+#which ethkey
 
 cd $CURRENT_DIR
 cp -rf parity-deploy parity-deploy-home-chain
