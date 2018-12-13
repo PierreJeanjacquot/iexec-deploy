@@ -468,12 +468,12 @@ sed -i "s/__HOME_RPC_URL__/http:\/\/$TEST_IP:8545/g" ${SCRIPT_DIR}/bridge-monito
 cp ${SCRIPT_DIR}/bridge-monitor-dev.env .env
 
 # check balances of contracts and validators
-node checkWorker.js
+#node checkWorker.js
 # check unprocessed events
-node checkWorker2.js
+#node checkWorker2.js
 # check stuck transfers called by transfer, not transferAndCall
 # only applicable for bridge-rust-v1-native-to-erc
-node checkWorker3.js
+#node checkWorker3.js
 # run web interface
 #node index.js
 
