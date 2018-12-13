@@ -205,7 +205,7 @@ sed -i "s/d \/home\/parity\/data/d \/home\/parity\/data --force-sealing/g" docke
 
 
 sed -i "s/host1/host-home-chain/g" deployment/chain/reserved_peers
-cat ${SCRIPT_DIR}/parity-deploy-network.conf >> docker-compose.yml
+#cat ${SCRIPT_DIR}/parity-deploy-network.conf >> docker-compose.yml
 echo "docker-compose up -d ..."
 docker-compose up -d
 
@@ -246,7 +246,7 @@ sed -i "s/d \/home\/parity\/data/d \/home\/parity\/data --force-sealing/g" docke
 sed -i "s/host1/host-foreign-chain/g" deployment/chain/reserved_peers
 sed -i "s/30303/40303/g" deployment/chain/reserved_peers
 
-cat ${SCRIPT_DIR}/parity-deploy-network.conf >> docker-compose.yml
+#cat ${SCRIPT_DIR}/parity-deploy-network.conf >> docker-compose.yml
 echo "docker-compose up -d ..."
 docker-compose up -d
 
@@ -374,13 +374,14 @@ git clone -b $REPO_POA_BRIDGE_CONTRACTS https://github.com/branciard/poa-bridge-
 cd poa-bridge-contracts
 
 # attach docker to parity-deploy network
-cat ${SCRIPT_DIR}/parity-deploy-network.conf >> docker-compose.yml
+#cat ${SCRIPT_DIR}/parity-deploy-network.conf >> docker-compose.yml
 
 cp -rf ${SCRIPT_DIR}/poa-bridge-contracts-dev.env ${SCRIPT_DIR}/poa-bridge-contracts-dev.env.ori
 sed -i "s/__ADMIN_WALLET_PRIVATEKEY__/${ADMIN_PRIVATE_KEY}/g" ${SCRIPT_DIR}/poa-bridge-contracts-dev.env
 sed -i "s/__ADMIN_WALLET__/${ADMIN_ADDRESS}/g" ${SCRIPT_DIR}/poa-bridge-contracts-dev.env
 sed -i "s/__ERC20_TOKEN_ADDRESS__/${RlcAddress}/g" ${SCRIPT_DIR}/poa-bridge-contracts-dev.env
-
+sed -i "s/__HOME_RPC_URL__/http:\/\/${TEST_IP}:8545/g" ${SCRIPT_DIR}/poa-bridge-contracts-dev.env
+sed -i "s/__FOREIGN_RPC_URL__/http:\/\/${TEST_IP}:9545/g" ${SCRIPT_DIR}/poa-bridge-contracts-dev.env
 
 
 
@@ -407,7 +408,7 @@ git clone -b $REPO_TOKEN_BRIDGE https://github.com/poanetwork/token-bridge.git
 cd token-bridge
 
 # attach docker to parity-deploy network
-cat ${SCRIPT_DIR}/parity-deploy-network.conf >> docker-compose.yml
+#cat ${SCRIPT_DIR}/parity-deploy-network.conf >> docker-compose.yml
 
 cp -rf ${SCRIPT_DIR}/token-bridge-dev.env ${SCRIPT_DIR}/token-bridge-dev.ori
 
@@ -418,6 +419,8 @@ sed -i "s/__HOME_BRIDGE_ADDRESS__/${HOME_BRIDGE_ADDRESS}/g" ${SCRIPT_DIR}/token-
 sed -i "s/__FOREIGN_BRIDGE_ADDRESS__/${FOREIGN_BRIDGE_ADDRESS}/g" ${SCRIPT_DIR}/token-bridge-dev.env
 sed -i "s/__HOME_START_BLOCK__/${HOME_START_BLOCK}/g" ${SCRIPT_DIR}/token-bridge-dev.env
 sed -i "s/__FOREIGN_START_BLOCK__/${FOREIGN_START_BLOCK}/g" ${SCRIPT_DIR}/token-bridge-dev.env
+sed -i "s/__HOME_RPC_URL__/http:\/\/${TEST_IP}:8545/g" ${SCRIPT_DIR}/token-bridge-dev.env
+sed -i "s/__FOREIGN_RPC_URL__/http:\/\/${TEST_IP}:9545/g" ${SCRIPT_DIR}/token-bridge-dev.env
 
 
 cp ${SCRIPT_DIR}/token-bridge-dev.env .env
