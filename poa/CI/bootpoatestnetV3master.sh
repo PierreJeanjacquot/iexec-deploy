@@ -47,6 +47,7 @@ REPO_PARITY_DEPLOY_TAG="master"
 REPO_POA_BRIDGE_CONTRACTS="master"
 REPO_TOKEN_BRIDGE="master"
 REPO_BRIDGE_UI="master"
+REPO_BRIDGE_MONITOR="master"
 
 
 ARGS="$@"
@@ -98,6 +99,9 @@ while [ "$1" != "" ]; do
       ;;
     --repo-bridge-ui-tag )       shift
       REPO_BRIDGE_UI=$1
+      ;;
+    --repo-bridge-monitor-tag )       shift
+      REPO_BRIDGE_MONITOR=$1
       ;;
     -h | --help )           help
       exit
@@ -445,6 +449,33 @@ sed -i "s/__REACT_APP_HOME_HTTP_PARITY_URL__/http:\/\/$TEST_IP:8545/g" ${SCRIPT_
 
 cp ${SCRIPT_DIR}/bridge-ui-dev.env .env
 
+
+############################################
+# deploy bridge monitor
+############################################
+
+cd $CURRENT_DIR
+git clone -b $REPO_BRIDGE_MONITOR https://github.com/poanetwork/bridge-monitor.git
+cd bridge-monitor
+
+npm i
+
+sed -i "s/__HOME_BRIDGE_ADDRESS__/${HOME_BRIDGE_ADDRESS}/g" ${SCRIPT_DIR}/bridge-monitor-dev.env
+sed -i "s/__FOREIGN_BRIDGE_ADDRESS__/${FOREIGN_BRIDGE_ADDRESS}/g" ${SCRIPT_DIR}/bridge-monitor-dev.env
+sed -i "s/__FOREIGN_RPC_URL__/http:\/\/$TEST_IP:9545/g" ${SCRIPT_DIR}/bridge-monitor-dev.env
+sed -i "s/__HOME_RPC_URL__/http:\/\/$TEST_IP:8545/g" ${SCRIPT_DIR}/bridge-monitor-dev.env
+
+cp ${SCRIPT_DIR}/bridge-monitor-dev.env .env
+
+# check balances of contracts and validators
+node checkWorker.js
+# check unprocessed events
+node checkWorker2.js
+# check stuck transfers called by transfer, not transferAndCall
+# only applicable for bridge-rust-v1-native-to-erc
+node checkWorker3.js
+# run web interface
+#node index.js
 
 #clean
 
