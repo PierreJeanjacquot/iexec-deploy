@@ -8,7 +8,7 @@ nohup ./mine.sh > deployed.txt &
 
 sleep 2
 
-cd PoCo-dev && git checkout 1a0bf1eebb0ada205180505656690ca6a8dc5a0a && npm install && ./node_modules/.bin/truffle migrate --chain development && cd ..
+cd PoCo-dev && git checkout f90dda68604efd4097fbfe0b8df09fb0b99f25f4 && npm install && ./node_modules/.bin/truffle migrate --chain development && cd ..
 
 pkill -INT parity
 

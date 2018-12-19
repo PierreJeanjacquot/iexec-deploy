@@ -1,5 +1,5 @@
 #!/bin/bash
-GIT_LOGIN=jeremyjams
+GIT_LOGIN=jeremyjames
 GIT_TOKEN=
 
 git clone https://"$GIT_LOGIN":"$GIT_TOKEN"@github.com/iExecBlockchainComputing/wallets.git
@@ -11,8 +11,8 @@ sleep 4
 cd wallets
 
 ./deployAppAndPool
-./topUpWallets --from=1 --to=2 --minETH=0 --maxETH=0 --minRLC=1000 --chain=dev
-./deposit --from=1 --to=2 --rlc=1000 --chain=dev
+./topUpWallets --from=1 --to=10 --minETH=0 --maxETH=0 --minRLC=1000 --chain=dev
+./deposit --from=1 --to=10 --rlc=1000 --chain=dev
 
 pkill -INT parity
 
