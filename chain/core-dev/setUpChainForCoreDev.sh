@@ -8,7 +8,7 @@ nohup ./mine.sh > log.txt &
 
 sleep 4
 
-cd wallets
+cd /wallets
 
 ./deployAppAndPool
 ./topUpWallets --from=1 --to=10 --minETH=0 --maxETH=0 --minRLC=1000 --chain=dev
@@ -19,4 +19,4 @@ pkill -INT parity
 sleep 20
 
 
-rm -R wallets
+rm -R /wallets
