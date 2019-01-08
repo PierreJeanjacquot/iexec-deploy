@@ -226,7 +226,7 @@ echo "call parity-deploy script"
 ./parity-deploy.sh --config aura --name FOREIGN-CHAIN --nodes 1  --expose
 
 
-sed -i 's/0x00Ea169ce7e0992960D3BdE6F5D539C955316432/0x000a9c787a972f70f0903890e266f41c795c4dca/g' deployment/chain/spec.json
+sed -i 's/0x00Ea169ce7e0992960D3BdE6F5D539C955316432/0xabcd1339Ec7e762e639f4887E2bFe5EE8023E23E/g' deployment/chain/spec.json
 sed -i "s/\"stepDuration\": \"2\"/\"stepDuration\": \"`echo $STEP_DURATION`\"/g" deployment/chain/spec.json
 sed -i "s/\"networkID\" : \"0x11\"/\"networkID\" : \"`echo $NETWORK_ID_FOREIGN`\"/g" deployment/chain/spec.json
 
@@ -253,8 +253,8 @@ docker-compose up -d
 
 
 
-ADMIN_PRIVATE_KEY=$(cat ../wallets/scheduler/wallet.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g' | cut  -c3-)
-ADMIN_ADDRESS=$(cat ../wallets/scheduler/wallet.json | grep address | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g')
+ADMIN_PRIVATE_KEY=$(cat ../wallets/admin/wallet.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g' | cut  -c3-)
+ADMIN_ADDRESS=$(cat ../wallets/admin/wallet.json | grep address | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g')
 
 
 cd $CURRENT_DIR
@@ -344,18 +344,18 @@ cd $CURRENT_DIR
 cd wallets
 
 # set the right IexecHub find in PoCo-dev/build/contracts/IexecClerk.json contract address
-sed -i "s/0x60E25C038D70A15364DAc11A042DB1dD7A2cccBC/${IexecHubAddress}/g" scheduler/chain.json
+#sed -i "s/0x60E25C038D70A15364DAc11A042DB1dD7A2cccBC/${IexecHubAddress}/g" admin/chain.json
 
 
 iexec --version
 
 #* in network id
-sed -i "s/\"17\"/\"*\"/g" scheduler/chain.json
+sed -i "s/\"17\"/\"*\"/g" admin/chain.json
 
 # richman used in topUpWallets on homechain
 ./topUpWallets --from=1 --to=${NB_WALLETS} --minETH=${ETH_AMOUNT} --maxETH=${ETH_AMOUNT} --chain=dev --minRLC=${RLC_AMOUNT}
 
-sed -i "s/8545/9545/g" scheduler/chain.json
+sed -i "s/8545/9545/g" admin/chain.json
 
 
 # richman used in topUpWallets on foreinchain
