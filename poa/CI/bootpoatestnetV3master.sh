@@ -370,7 +370,7 @@ echo "POA test FOREIGN-CHAIN chain and HOME-CHAIN chain is installed and up "
 cd $CURRENT_DIR
 echo "deploy smart contract poa bridges on network"
 
-git clone -b $REPO_POA_BRIDGE_CONTRACTS https://github.com/branciard/poa-bridge-contracts.git
+git clone -b $REPO_POA_BRIDGE_CONTRACTS https://github.com/poanetwork/poa-bridge-contracts.git
 cd poa-bridge-contracts
 
 # attach docker to parity-deploy network
