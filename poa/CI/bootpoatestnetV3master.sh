@@ -256,6 +256,7 @@ docker-compose up -d
 ADMIN_PRIVATE_KEY=$(cat ../wallets/admin/wallet.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g' | cut  -c3-)
 ADMIN_ADDRESS=$(cat ../wallets/admin/wallet.json | grep address | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g')
 
+echo "ADMIN_ADDRESS is $ADMIN_ADDRESS"
 
 cd $CURRENT_DIR
 cp -rf PoCo-dev PoCo-dev-home-chain
@@ -404,7 +405,7 @@ FOREIGN_START_BLOCK=$(cat bridgeDeploy.log | grep "deployedBlockNumber" | cut -d
 # start poa bridge js
 ############################################
 cd $CURRENT_DIR
-git clone -b $REPO_TOKEN_BRIDGE https://github.com/poanetwork/token-bridge.git
+git clone -b $REPO_TOKEN_BRIDGE https://github.com/branciard/token-bridge.git
 cd token-bridge
 
 # attach docker to parity-deploy network
