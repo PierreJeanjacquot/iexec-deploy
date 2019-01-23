@@ -452,18 +452,18 @@ cp ${SCRIPT_DIR}/bridge-ui-dev.env .env
 # deploy bridge monitor
 ############################################
 
-cd $CURRENT_DIR
-git clone -b $REPO_BRIDGE_MONITOR https://github.com/poanetwork/bridge-monitor.git
-cd bridge-monitor
+#cd $CURRENT_DIR
+#git clone -b $REPO_BRIDGE_MONITOR https://github.com/poanetwork/bridge-monitor.git
+#cd bridge-monitor
 
-npm i
+#npm i
 
-sed -i "s/__HOME_BRIDGE_ADDRESS__/${HOME_BRIDGE_ADDRESS}/g" ${SCRIPT_DIR}/bridge-monitor-dev.env
-sed -i "s/__FOREIGN_BRIDGE_ADDRESS__/${FOREIGN_BRIDGE_ADDRESS}/g" ${SCRIPT_DIR}/bridge-monitor-dev.env
-sed -i "s/__FOREIGN_RPC_URL__/http:\/\/$TEST_IP:9545/g" ${SCRIPT_DIR}/bridge-monitor-dev.env
-sed -i "s/__HOME_RPC_URL__/http:\/\/$TEST_IP:8545/g" ${SCRIPT_DIR}/bridge-monitor-dev.env
+#sed -i "s/__HOME_BRIDGE_ADDRESS__/${HOME_BRIDGE_ADDRESS}/g" ${SCRIPT_DIR}/bridge-monitor-dev.env
+#sed -i "s/__FOREIGN_BRIDGE_ADDRESS__/${FOREIGN_BRIDGE_ADDRESS}/g" ${SCRIPT_DIR}/bridge-monitor-dev.env
+#sed -i "s/__FOREIGN_RPC_URL__/http:\/\/$TEST_IP:9545/g" ${SCRIPT_DIR}/bridge-monitor-dev.env
+#sed -i "s/__HOME_RPC_URL__/http:\/\/$TEST_IP:8545/g" ${SCRIPT_DIR}/bridge-monitor-dev.env
 
-cp ${SCRIPT_DIR}/bridge-monitor-dev.env .env
+#cp ${SCRIPT_DIR}/bridge-monitor-dev.env .env
 
 # check balances of contracts and validators
 #node checkWorker.js
