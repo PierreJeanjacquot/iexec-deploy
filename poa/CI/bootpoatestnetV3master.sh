@@ -426,6 +426,11 @@ sed -i "s/__FOREIGN_RPC_URL__/http:\/\/${TEST_IP}:9545/g" ${SCRIPT_DIR}/token-br
 
 cp ${SCRIPT_DIR}/token-bridge-dev.env .env
 
+
+docker-compose up -d rabbit  
+docker-compose up -d redis
+# wait rabbit connection to be ready
+sleep 30
 docker-compose up -d --build
 
 #docker-compose run -d bridge npm run watcher:signature-request
