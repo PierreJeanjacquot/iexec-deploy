@@ -349,6 +349,9 @@ sed -i "s/0x5df493e91aE066541C13d9a071137e850a56d609/${IexecHubAddress}/g" admin
 
 
 iexec --version
+#workaround iexec-sdk :
+mkdir -p ~/.ethereum/keystore
+#end of workaround
 
 #* in network id
 sed -i "s/\"17\"/\"*\"/g" admin/chain.json
