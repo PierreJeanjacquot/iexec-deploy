@@ -20,7 +20,7 @@ iexec --version
 #clean up
 docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
-docker rmi $(docker images -q)
+docker rmi $(docker images -q) -f
 docker network rm $(docker network ls | grep "bridge" | awk '/ / { print $1 }')
 
 
