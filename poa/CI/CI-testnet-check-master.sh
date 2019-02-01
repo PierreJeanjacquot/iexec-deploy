@@ -25,9 +25,9 @@ docker network rm $(docker network ls | grep "bridge" | awk '/ / { print $1 }')
 
 
 sudo rm -rf iexec-deploy
-sudo rm -rf PoCo-dev
-sudo rm -rf PoCo-dev-home-chain
-sudo rm -rf PoCo-dev-foreign-chain
+sudo rm -rf PoCo
+sudo rm -rf PoCo-home-chain
+sudo rm -rf PoCo-foreign-chain
 sudo rm -rf wallets
 sudo rm -rf parity-deploy
 sudo rm -rf parity-deploy-home-chain
@@ -39,9 +39,9 @@ sudo rm -rf bridge-monitor
 
 
 sudo rm -rf /home/ubuntu/iexec-deploy
-sudo rm -rf /home/ubuntu/PoCo-dev
-sudo rm -rf /home/ubuntu/PoCo-dev-home-chain
-sudo rm -rf /home/ubuntu/PoCo-dev-foreign-chain
+sudo rm -rf /home/ubuntu/PoCo
+sudo rm -rf /home/ubuntu/PoCo-home-chain
+sudo rm -rf /home/ubuntu/PoCo-foreign-chain
 sudo rm -rf /home/ubuntu/wallets
 sudo rm -rf /home/ubuntu/parity-deploy
 sudo rm -rf /home/ubuntu/parity-deploy-home-chain

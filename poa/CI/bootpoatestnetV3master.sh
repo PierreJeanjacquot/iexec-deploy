@@ -157,7 +157,7 @@ fi
 
 echo "git clone ..."
 git clone -b $REPO_WALLETS_TAG  https://"$GIT_LOGIN":"$GIT_TOKEN"@github.com/iExecBlockchainComputing/wallets.git
-git clone -b $REPO_POCO_TAG https://"$GIT_LOGIN":"$GIT_TOKEN"@github.com/iExecBlockchainComputing/PoCo-dev.git
+git clone -b $REPO_POCO_TAG https://github.com/iExecBlockchainComputing/PoCo.git
 
 git clone -b $REPO_PARITY_DEPLOY_TAG https://github.com/iExecBlockchainComputing/parity-deploy.git
 
@@ -259,8 +259,8 @@ ADMIN_ADDRESS=$(cat ../wallets/admin/wallet.json | grep address | cut -d ":" -f2
 echo "ADMIN_ADDRESS is $ADMIN_ADDRESS"
 
 cd $CURRENT_DIR
-cp -rf PoCo-dev PoCo-dev-home-chain
-cd PoCo-dev-home-chain
+cp -rf PoCo PoCo-home-chain
+cd PoCo-home-chain
 sed -i "s/\^5.0.0-beta.2/5.0.0-beta.2/g" package.json
 #git checkout ABILegacy
 npm install truffle-hdwallet-provider@1.0.0-web3one.3
@@ -299,8 +299,8 @@ fi
 echo "IexecHubAddress is $IexecHubAddress"
 
 cd $CURRENT_DIR
-cp -rf PoCo-dev PoCo-dev-foreign-chain
-cd PoCo-dev-foreign-chain
+cp -rf PoCo PoCo-foreign-chain
+cd PoCo-foreign-chain
 sed -i "s/\^5.0.0-beta.2/5.0.0-beta.2/g" package.json
 #git checkout ABILegacy
 npm i
@@ -490,6 +490,6 @@ cp ${SCRIPT_DIR}/bridge-ui-dev.env .env
 
 cd $CURRENT_DIR
 rm -rf parity-ethereum
-rm -rf PoCo-dev
+rm -rf PoCo
 rm -rf parity-deploy
 exit 0
