@@ -1,0 +1,77 @@
+version: '3.4'
+
+volumes:
+  grafana-data:
+  grafana-logs:
+  grafana-etc:
+  mongodb-data:
+
+services:
+  grafana:
+    image: iexechub/grafana:${GRAFANA_DOCKER_IMAGE_VERSION}
+    container_name: iexecgrafana
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_PROXY_URL=${GRAFANA_MONGO_PROXY_URL}
+      - MONGO_DB_NAME=${GRAFANA_MONGO_DB_NAME}
+      - MONGO_URL=${GRAFANA_MONGO_URL}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
+      - GRAFANA_HOST=${GRAFANA_HOST}
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_NAME=ViewerOrg
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
+      - GF_ALLOW_SIGN_UP=false
+      - GRAFANA_HOME_NAME=${GRAFANA_HOME_NAME}
+      - GRAFANA_HOME_LOGO_WIDTH=${GRAFANA_HOME_LOGO_WIDTH}
+      - GRAFANA_HOME_LOGO_HEIGHT=${GRAFANA_HOME_LOGO_HEIGHT}
+      - GRAFANA_HOME_LOGO_PATH=${GRAFANA_HOME_LOGO_PATH}
+      - ACTIVATE_POOL_JOIN=${GRAFANA_ACTIVATE_POOL_JOIN}
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - grafana-logs:/var/log/grafana
+      - grafana-etc:/etc/grafana
+    networks:
+      - iexec-net
+    restart: unless-stopped
+
+
+  mongodb-proxy:
+    image: grafana-proxy
+    ports:
+      - "3333:3333"
+    networks:
+      - iexec-net
+    restart: unless-stopped
+
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+      - ./mongodump:/docker-entrypoint-initdb.d
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - iexec-net
+    restart: unless-stopped
+
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+    networks:
+      - iexec-net
+    restart: unless-stopped
+
+networks:
+  iexec-net:

@@ -1,0 +1,1095 @@
+{
+  "dashboard":{
+    "id": null,
+    "uid": "WorkerInfo",
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": "-- Grafana --",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "gnetId": null,
+    "graphTooltip": 0,
+    "iteration": 1549620001146,
+    "links": [],
+    "panels": [
+      {
+        "content": "<input type=\"button\" value=\"Go Home\" onclick=\"location.href='/d/Home/home'\" class=\"navbar-button\"/>\n<div class=\"text-center dashboard-header\">\n  <span>Worker Information</span>\n</div>\n",
+        "gridPos": {
+          "h": 3,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 8,
+        "links": [],
+        "mode": "html",
+        "title": "",
+        "transparent": true,
+        "type": "text"
+      },
+      {
+        "cacheTimeout": null,
+        "colorBackground": false,
+        "colorValue": false,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": "MongoDB",
+        "format": "none",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 2,
+          "x": 0,
+          "y": 3
+        },
+        "id": 10,
+        "interval": null,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "nullText": null,
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "show": false
+        },
+        "tableColumn": "value",
+        "targets": [
+          {
+            "format": "time_series",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "SELECT\n  UNIX_TIMESTAMP(<time_column>) as time_sec,\n  <value column> as value,\n  <series name column> as metric\nFROM <table name>\nWHERE $__timeFilter(time_column)\nORDER BY <time_column> ASC\n",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "value"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "target": "db.worker.aggregate( [ \n    { \"$match\": { \n        \"walletAddress\": \"$worker\"\n    }},\n    {\"$project\": { \"value\": \"$cpuNb\", \"_id\": 0}}\n])",
+            "timeColumn": "time",
+            "type": "table",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              }
+            ]
+          }
+        ],
+        "thresholds": "",
+        "title": "CPU Number",
+        "type": "singlestat",
+        "valueFontSize": "50%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "0",
+            "value": "null"
+          }
+        ],
+        "valueName": "avg"
+      },
+      {
+        "cacheTimeout": null,
+        "colorBackground": false,
+        "colorValue": false,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": "MongoDB",
+        "format": "none",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 2,
+          "x": 2,
+          "y": 3
+        },
+        "id": 14,
+        "interval": null,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "nullText": null,
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "show": false
+        },
+        "tableColumn": "value",
+        "targets": [
+          {
+            "format": "time_series",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "SELECT\n  UNIX_TIMESTAMP(<time_column>) as time_sec,\n  <value column> as value,\n  <series name column> as metric\nFROM <table name>\nWHERE $__timeFilter(time_column)\nORDER BY <time_column> ASC\n",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "value"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "target": "db.worker.aggregate( [ \n    { \"$match\": { \n        \"walletAddress\": \"$worker\"\n    }},\n    {\"$project\": { \"value\": \"$cpu\", \"_id\": 0}}\n])",
+            "timeColumn": "time",
+            "type": "table",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              }
+            ]
+          }
+        ],
+        "thresholds": "",
+        "title": "Platform",
+        "type": "singlestat",
+        "valueFontSize": "50%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "N/A",
+            "value": "null"
+          }
+        ],
+        "valueName": "avg"
+      },
+      {
+        "cacheTimeout": null,
+        "colorBackground": false,
+        "colorValue": false,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": "MongoDB",
+        "format": "none",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 2,
+          "x": 4,
+          "y": 3
+        },
+        "id": 22,
+        "interval": null,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "nullText": null,
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "show": false
+        },
+        "tableColumn": "value",
+        "targets": [
+          {
+            "format": "time_series",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "SELECT\n  UNIX_TIMESTAMP(<time_column>) as time_sec,\n  <value column> as value,\n  <series name column> as metric\nFROM <table name>\nWHERE $__timeFilter(time_column)\nORDER BY <time_column> ASC\n",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "value"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "target": "db.worker.aggregate( [ \n    { \"$match\": { \n        \"walletAddress\": \"$worker\"\n    }},\n    {\"$project\": { \"value\": \"$os\", \"_id\": 0}}\n])",
+            "timeColumn": "time",
+            "type": "table",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              }
+            ]
+          }
+        ],
+        "thresholds": "",
+        "title": "OS",
+        "type": "singlestat",
+        "valueFontSize": "50%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "N/A",
+            "value": "null"
+          }
+        ],
+        "valueName": "avg"
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "MongoDB",
+        "fill": 1,
+        "gridPos": {
+          "h": 9,
+          "w": 12,
+          "x": 6,
+          "y": 3
+        },
+        "id": 6,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null",
+        "percentage": false,
+        "pointradius": 5,
+        "points": true,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "format": "time_series",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "SELECT\n  UNIX_TIMESTAMP(<time_column>) as time_sec,\n  <value column> as value,\n  <series name column> as metric\nFROM <table name>\nWHERE $__timeFilter(time_column)\nORDER BY <time_column> ASC\n",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "value"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "target": "db.replicatesList.aggregate( [ \n    { \"$unwind\": \"$replicates\"},\n    { \"$project\": { \n        \"_id\": 0,\n        \"taskId\": \"$chainTaskId\",\n        \"walletAddress\": \"$replicates.walletAddress\",\n        \"statusChangeList\": \"$replicates.statusChangeList\"\n    }},\n    { \"$match\": { \n        \"walletAddress\": \"$worker\"\n    }},\n    { \"$unwind\": \"$statusChangeList\"},\n    { \"$project\": { \n     \"taskId\":\"$taskId\",\n     \"Status\":\"$statusChangeList.status\",\n     \"Date\":\"$statusChangeList.date\"\n    }},\n    { \"$group\": { \"_id\": \"$taskId\", \"lastDate\": { \"$last\": \"$Date\"}, \"Status\" : { \"$last\": \"$Status\" }}},\n    { \"$match\": { \n        \"Status\": {\n            \"$in\": [\"COMPLETED\"]\n        },\n        \"lastDate\": {\"$gte\": \"$from\", \"$lte\": \"$to\"}\n    }},\n    {\"$bucketAuto\": {\"groupBy\": { \"$dateFromString\": { \"dateString\" : { \"$dateToString\": { \"format\": \"%Y-%m-%dT%H:00:00.000\", \"date\": \"$lastDate\" }}}},\n                  \"buckets\": \"$dateBucketCount\",\n                  \"output\": {\"count\": {\"$sum\": 1 }}}},\n    {\"$sort\": {\"lastDate\": 1}},\n\n    {\"$project\": {\"name\": \"Number of tasks\", \"value\": \"$count\", \"ts\": \"$_id.min\", \"_id\": 0}} \n    \n])",
+            "timeColumn": "time",
+            "type": "timeserie",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              }
+            ]
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "Completed Tasks",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "cacheTimeout": null,
+        "colorBackground": false,
+        "colorPrefix": false,
+        "colorValue": false,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": "MongoDB",
+        "decimals": null,
+        "format": "short",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 2,
+          "x": 18,
+          "y": 3
+        },
+        "hideTimeOverride": false,
+        "id": 18,
+        "interval": null,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "minSpan": 3,
+        "nullPointMode": "connected",
+        "nullText": null,
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "",
+            "text": "",
+            "to": ""
+          }
+        ],
+        "repeat": null,
+        "repeatDirection": "h",
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "show": false
+        },
+        "tableColumn": "value",
+        "targets": [
+          {
+            "format": "time_series",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "SELECT\n  UNIX_TIMESTAMP(<time_column>) as time_sec,\n  <value column> as value,\n  <series name column> as metric\nFROM <table name>\nWHERE $__timeFilter(time_column)\nORDER BY <time_column> ASC\n",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "value"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "target": "db.replicatesList.aggregate( [ \n    { \"$unwind\": \"$replicates\"},\n    { \"$project\": { \n        \"_id\": 0,\n        \"taskId\": \"$chainTaskId\",\n        \"walletAddress\": \"$replicates.walletAddress\",\n        \"statusChangeList\": \"$replicates.statusChangeList\"\n    }},\n    { \"$match\": { \n        \"walletAddress\": \"$worker\"\n    }},\n    { \"$unwind\": \"$statusChangeList\"},\n    { \"$project\": { \n     \"taskId\":\"$taskId\",\n     \"Status\":\"$statusChangeList.status\",\n     \"Date\":\"$statusChangeList.date\"\n    }},\n    { \"$group\": { \"_id\": \"$taskId\", \"lastDate\": { \"$last\": \"$Date\"}, \"Status\" : { \"$last\": \"$Status\" }}},\n    { \"$match\": { \n        \"Status\": {\n            \"$nin\": [\n                 \"COMPUTE_FAILED\",\n                 \"CANT_CONTRIBUTE_SINCE_STAKE_TOO_LOW\",\n                 \"CANT_CONTRIBUTE_SINCE_TASK_NOT_ACTIVE\",\n                 \"CANT_CONTRIBUTE_SINCE_AFTER_DEADLINE\",\n                 \"CANT_CONTRIBUTE_SINCE_CONTRIBUTION_ALREADY_SET\",\n                 \"CONTRIBUTE_FAILED\",\n                 \"CANT_REVEAL\",\n                 \"REVEAL_FAILED\",\n                 \"RESULT_UPLOAD_REQUEST_FAILED\",\n                 \"RESULT_UPLOAD_FAILED\",\n                 \"WORKER_LOST\",\n                 \"ABORTED_ON_CONSENSUS_REACHED\",\n                 \"ABORTED_ON_CONTRIBUTION_TIMEOUT\",\n                 \"ERROR\",\n                 \"COMPLETED\"]\n        }\n    }},\n    { \"$group\": { \"_id\": null, \"count\": { \"$sum\": 1 }}},\n    { \"$project\": { \"value\": \"$count\", \"_id\": 0}}\n])",
+            "timeColumn": "time",
+            "type": "table",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              }
+            ]
+          }
+        ],
+        "thresholds": "",
+        "title": "Running Tasks",
+        "transparent": false,
+        "type": "singlestat",
+        "valueFontSize": "50%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "0",
+            "value": "null"
+          }
+        ],
+        "valueName": "avg"
+      },
+      {
+        "cacheTimeout": null,
+        "colorBackground": false,
+        "colorValue": false,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": "MongoDB",
+        "format": "none",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 2,
+          "x": 20,
+          "y": 3
+        },
+        "id": 20,
+        "interval": null,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "nullText": null,
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "show": false
+        },
+        "tableColumn": "value",
+        "targets": [
+          {
+            "format": "time_series",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "SELECT\n  UNIX_TIMESTAMP(<time_column>) as time_sec,\n  <value column> as value,\n  <series name column> as metric\nFROM <table name>\nWHERE $__timeFilter(time_column)\nORDER BY <time_column> ASC\n",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "value"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "target": "db.replicatesList.aggregate( [ \n    { \"$unwind\": \"$replicates\"},\n    { \"$project\": { \n        \"_id\": 0,\n        \"taskId\": \"$chainTaskId\",\n        \"walletAddress\": \"$replicates.walletAddress\",\n        \"statusChangeList\": \"$replicates.statusChangeList\"\n    }},\n    { \"$match\": { \n        \"walletAddress\": \"$worker\"\n    }},\n    { \"$unwind\": \"$statusChangeList\"},\n    { \"$project\": { \n     \"taskId\":\"$taskId\",\n     \"Status\":\"$statusChangeList.status\",\n     \"Date\":\"$statusChangeList.date\"\n    }},\n    { \"$group\": { \"_id\": \"$taskId\", \"lastDate\": { \"$last\": \"$Date\"}, \"Status\" : { \"$last\": \"$Status\" }}},\n    { \"$match\": { \n        \"Status\": {\n            \"$in\": [\n                 \"COMPUTE_FAILED\",\n                 \"CANT_CONTRIBUTE_SINCE_STAKE_TOO_LOW\",\n                 \"CANT_CONTRIBUTE_SINCE_TASK_NOT_ACTIVE\",\n                 \"CANT_CONTRIBUTE_SINCE_AFTER_DEADLINE\",\n                 \"CANT_CONTRIBUTE_SINCE_CONTRIBUTION_ALREADY_SET\",\n                 \"CONTRIBUTE_FAILED\",\n                 \"CANT_REVEAL\",\n                 \"REVEAL_FAILED\",\n                 \"RESULT_UPLOAD_REQUEST_FAILED\",\n                 \"RESULT_UPLOAD_FAILED\",\n                 \"WORKER_LOST\",\n                 \"ABORTED_ON_CONSENSUS_REACHED\",\n                 \"ABORTED_ON_CONTRIBUTION_TIMEOUT\",\n                 \"ERROR\",\n                 \"COMPLETED\"]\n        }\n    }},\n    { \"$group\": { \"_id\": null, \"count\": { \"$sum\": 1 }}},\n    { \"$project\": { \"value\": \"$count\", \"_id\": 0}}\n])",
+            "timeColumn": "time",
+            "type": "table",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              }
+            ]
+          }
+        ],
+        "thresholds": "",
+        "title": "Executed Tasks",
+        "type": "singlestat",
+        "valueFontSize": "50%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "0",
+            "value": "null"
+          }
+        ],
+        "valueName": "avg"
+      },
+      {
+        "cacheTimeout": null,
+        "colorBackground": false,
+        "colorValue": false,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": "MongoDB",
+        "format": "none",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 2,
+          "x": 22,
+          "y": 3
+        },
+        "id": 24,
+        "interval": null,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "nullText": null,
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "show": false
+        },
+        "tableColumn": "value",
+        "targets": [
+          {
+            "format": "time_series",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "SELECT\n  UNIX_TIMESTAMP(<time_column>) as time_sec,\n  <value column> as value,\n  <series name column> as metric\nFROM <table name>\nWHERE $__timeFilter(time_column)\nORDER BY <time_column> ASC\n",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "value"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "target": "db.replicatesList.aggregate( [ \n    { \"$unwind\": \"$replicates\"},\n    { \"$project\": { \n        \"_id\": 0,\n        \"taskId\": \"$chainTaskId\",\n        \"walletAddress\": \"$replicates.walletAddress\",\n        \"statusChangeList\": \"$replicates.statusChangeList\"\n    }},\n    { \"$match\": { \n        \"walletAddress\": \"$worker\"\n    }},\n    { \"$unwind\": \"$statusChangeList\"},\n    { \"$project\": { \n     \"taskId\":\"$taskId\",\n     \"Status\":\"$statusChangeList.status\",\n     \"Date\":\"$statusChangeList.date\"\n    }},\n    { \"$group\": { \"_id\": \"$taskId\", \"lastDate\": { \"$last\": \"$Date\"}, \"Status\" : { \"$last\": \"$Status\" }}},\n    { \"$match\": { \n        \"Status\": {\n            \"$in\": [\n                 \"COMPLETED\"]\n        }\n    }},\n    { \"$group\": { \"_id\": null, \"count\": { \"$sum\": 1 }}},\n    { \"$project\": { \"value\": \"$count\", \"_id\": 0}}\n])",
+            "timeColumn": "time",
+            "type": "table",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              }
+            ]
+          }
+        ],
+        "thresholds": "",
+        "title": "Completed Tasks",
+        "type": "singlestat",
+        "valueFontSize": "50%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "0",
+            "value": "null"
+          }
+        ],
+        "valueName": "avg"
+      },
+      {
+        "columns": [],
+        "datasource": "MongoDB",
+        "fontSize": "100%",
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 12
+        },
+        "id": 4,
+        "links": [],
+        "pageSize": null,
+        "scroll": true,
+        "showHeader": true,
+        "sort": {
+          "col": 0,
+          "desc": true
+        },
+        "styles": [
+          {
+            "alias": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "pattern": "Time",
+            "type": "date"
+          },
+          {
+            "alias": "",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "mappingType": 1,
+            "pattern": "value",
+            "thresholds": [],
+            "type": "hidden",
+            "unit": "short"
+          },
+          {
+            "alias": "Task ID",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "mappingType": 1,
+            "pattern": "_id",
+            "thresholds": [],
+            "type": "number",
+            "unit": "short"
+          },
+          {
+            "alias": "Status Update",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "DD/MM/YYYY HH:mm:ss",
+            "decimals": 2,
+            "mappingType": 1,
+            "pattern": "lastDate",
+            "thresholds": [],
+            "type": "date",
+            "unit": "short"
+          },
+          {
+            "alias": "",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "decimals": 2,
+            "pattern": "/.*/",
+            "thresholds": [],
+            "type": "number",
+            "unit": "short"
+          }
+        ],
+        "targets": [
+          {
+            "format": "table",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "SELECT 1",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "value"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "target": "db.replicatesList.aggregate( [ \n    { \"$unwind\": \"$replicates\"},\n    { \"$project\": { \n        \"_id\": 0,\n        \"taskId\": \"$chainTaskId\",\n        \"walletAddress\": \"$replicates.walletAddress\",\n        \"statusChangeList\": \"$replicates.statusChangeList\"\n    }},\n    { \"$match\": { \n        \"walletAddress\": \"$worker\"\n    }},\n    { \"$unwind\": \"$statusChangeList\"},\n    { \"$project\": { \n     \"taskId\":\"$taskId\",\n     \"Status\":\"$statusChangeList.status\",\n     \"Date\":\"$statusChangeList.date\"\n    }},\n    { \"$group\": { \"_id\": \"$taskId\", \"lastDate\": { \"$last\": \"$Date\"}, \"Status\" : { \"$last\": \"$Status\" }}},\n    { \"$match\": { \n        \"Status\": {\n            \"$nin\": [\n                 \"COMPUTE_FAILED\",\n                 \"CANT_CONTRIBUTE_SINCE_STAKE_TOO_LOW\",\n                 \"CANT_CONTRIBUTE_SINCE_TASK_NOT_ACTIVE\",\n                 \"CANT_CONTRIBUTE_SINCE_AFTER_DEADLINE\",\n                 \"CANT_CONTRIBUTE_SINCE_CONTRIBUTION_ALREADY_SET\",\n                 \"CONTRIBUTE_FAILED\",\n                 \"CANT_REVEAL\",\n                 \"REVEAL_FAILED\",\n                 \"RESULT_UPLOAD_REQUEST_FAILED\",\n                 \"RESULT_UPLOAD_FAILED\",\n                 \"WORKER_LOST\",\n                 \"ABORTED_ON_CONSENSUS_REACHED\",\n                 \"ABORTED_ON_CONTRIBUTION_TIMEOUT\",\n                 \"ERROR\",\n                 \"COMPLETED\"]\n        }\n    }}\n])",
+            "timeColumn": "time",
+            "type": "table",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              }
+            ]
+          }
+        ],
+        "title": "Running Tasks",
+        "transform": "table",
+        "type": "table"
+      },
+      {
+        "columns": [],
+        "datasource": "MongoDB",
+        "fontSize": "100%",
+        "gridPos": {
+          "h": 9,
+          "w": 24,
+          "x": 0,
+          "y": 20
+        },
+        "id": 2,
+        "links": [],
+        "pageSize": null,
+        "scroll": true,
+        "showHeader": true,
+        "sort": {
+          "col": 0,
+          "desc": true
+        },
+        "styles": [
+          {
+            "alias": "Time",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "pattern": "Time",
+            "type": "date"
+          },
+          {
+            "alias": "",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "DD-MM-YYYY HH:mm:ss",
+            "decimals": 2,
+            "mappingType": 1,
+            "pattern": "Status Update",
+            "thresholds": [],
+            "type": "date",
+            "unit": "short"
+          },
+          {
+            "alias": "",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "mappingType": 1,
+            "pattern": "value",
+            "thresholds": [],
+            "type": "hidden",
+            "unit": "short"
+          },
+          {
+            "alias": "Task ID",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 2,
+            "mappingType": 1,
+            "pattern": "_id",
+            "thresholds": [],
+            "type": "number",
+            "unit": "short"
+          },
+          {
+            "alias": "Status Update",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "DD/MM/YYYY HH:mm:ss",
+            "decimals": 2,
+            "mappingType": 1,
+            "pattern": "lastDate",
+            "thresholds": [],
+            "type": "date",
+            "unit": "short"
+          },
+          {
+            "alias": "",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "decimals": 2,
+            "pattern": "/.*/",
+            "thresholds": [],
+            "type": "number",
+            "unit": "short"
+          }
+        ],
+        "targets": [
+          {
+            "format": "table",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "SELECT 1",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "value"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "target": "db.replicatesList.aggregate( [ \n    { \"$unwind\": \"$replicates\"},\n    { \"$project\": { \n        \"_id\": 0,\n        \"taskId\": \"$chainTaskId\",\n        \"walletAddress\": \"$replicates.walletAddress\",\n        \"statusChangeList\": \"$replicates.statusChangeList\"\n    }},\n    { \"$match\": { \n        \"walletAddress\": \"$worker\"\n    }},\n    { \"$unwind\": \"$statusChangeList\"},\n    { \"$project\": { \n     \"taskId\":\"$taskId\",\n     \"Status\":\"$statusChangeList.status\",\n     \"Date\":\"$statusChangeList.date\"\n    }},\n    { \"$group\": { \"_id\": \"$taskId\", \"lastDate\": { \"$last\": \"$Date\"}, \"Status\" : { \"$last\": \"$Status\" }}},\n    { \"$match\": { \n        \"Status\": {\n            \"$in\": [\n                 \"COMPUTE_FAILED\",\n                 \"CANT_CONTRIBUTE_SINCE_STAKE_TOO_LOW\",\n                 \"CANT_CONTRIBUTE_SINCE_TASK_NOT_ACTIVE\",\n                 \"CANT_CONTRIBUTE_SINCE_AFTER_DEADLINE\",\n                 \"CANT_CONTRIBUTE_SINCE_CONTRIBUTION_ALREADY_SET\",\n                 \"CONTRIBUTE_FAILED\",\n                 \"CANT_REVEAL\",\n                 \"REVEAL_FAILED\",\n                 \"RESULT_UPLOAD_REQUEST_FAILED\",\n                 \"RESULT_UPLOAD_FAILED\",\n                 \"WORKER_LOST\",\n                 \"ABORTED_ON_CONSENSUS_REACHED\",\n                 \"ABORTED_ON_CONTRIBUTION_TIMEOUT\",\n                 \"ERROR\",\n                 \"COMPLETED\"]\n        }\n    }}\n])",
+            "timeColumn": "time",
+            "type": "table",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              }
+            ]
+          }
+        ],
+        "title": "Task History",
+        "transform": "table",
+        "type": "table"
+      }
+    ],
+    "schemaVersion": 16,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "allValue": null,
+          "current": {
+            "selected": false,
+            "text": "0x121a9cba5f33ea435153a62fada442a263290bd5",
+            "value": "0x121a9cba5f33ea435153a62fada442a263290bd5"
+          },
+          "datasource": "MongoDB",
+          "definition": "db.worker.aggregate([{\"$group\": {\"_id\": \"$walletAddress\"}}])",
+          "hide": 0,
+          "includeAll": false,
+          "label": "worker",
+          "multi": false,
+          "name": "worker",
+          "options": [],
+          "query": "db.worker.aggregate([{\"$group\": {\"_id\": \"$walletAddress\"}}])",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        }
+      ]
+    },
+    "time": {
+      "from": "now-7d",
+      "to": "now"
+    },
+    "timepicker": {
+      "hidden": false,
+      "refresh_intervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "time_options": [
+        "5m",
+        "15m",
+        "1h",
+        "6h",
+        "12h",
+        "24h",
+        "2d",
+        "7d",
+        "30d"
+      ]
+    },
+    "timezone": "",
+    "title": "Worker Info"
+  },
+  "folderId": 0,
+  "overwrite": false
+}

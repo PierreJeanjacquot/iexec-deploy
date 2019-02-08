@@ -1,0 +1,672 @@
+Show workers list:
+-------------------------------------------------------
+db.worker.aggregate( [ 
+    {"$sort" : {"lastAliveDate" : -1}},
+    { "$project": { 
+        "_id": 0, 
+        "Wallet": "$walletAddress",
+        "Name": "$name", 
+        "Delay": { "$toInt": { "$divide" : [ { "$subtract":  ["$now", "$lastAliveDate"]} , 1000 ]}},
+        "OS": "$os", 
+        "Platform": "$cpu", 
+        "CPUNumber": "$cpuNb", 
+        "Total RAM": "$memory",
+        "Running Tasks": { "$cond": { "if": { "$isArray": "$participatingChainTaskIds" }, "then": { "$size": "$participatingChainTaskIds" }, "else": "0"}},
+        "Last Seen": "$lastAliveDate"
+         }},
+    {"$match":{"Delay": {"$lt": 90000}}}
+])
+
+
+Timeseries executed tasks
+-------------------------------------------------------
+db.task.aggregate([ 
+ {"$unwind": "$dateStatusList"},
+ { "$project": { 
+        "taskId": "$chainTaskId",
+        "date": "$dateStatusList.date",
+        "status": "$dateStatusList.status"
+  }},
+ { "$group": { "_id": "$taskId", "lastDate": { "$last": "$date"}, "Status" : { "$last": "$status" }}},
+ {"$match": {"Status": "COMPLETED", "lastDate": {"$gte": "$from", "$lte": "$to"}}},   
+ {"$bucketAuto": {"groupBy": { "$dateFromString": { "dateString" : { "$dateToString": { "format": "%Y-%m-%dT%H:00:00.000", "date": "$lastDate" }}}},
+                  "buckets": "$dateBucketCount",
+                  "output": {"count": {"$sum": 1 }}}},
+ {"$sort": {"lastDate": 1}},
+ {"$project": {"name": "Tasks Info", "value": "$count", "ts": "$_id.min", "_id": 0}} 
+])
+
+
+Timeseries earnings total
+------------------------------------------------------
+db.task.aggregate([ 
+ {"$unwind": "$dateStatusList"},
+ { "$project": { 
+        "taskId": "$chainTaskId",
+        "date": "$dateStatusList.date",
+        "status": "$dateStatusList.status",
+        "workerpoolPrice": "$workerpoolPrice"
+  }},
+
+ { "$group": { "_id": "$taskId", "lastDate": { "$last": "$date"}, "Status" : { "$last": "$status" }, "workerpoolPrice" : {"$last": "$workerpoolPrice"}}},
+
+ {"$match": {"Status": "COMPLETED", "lastDate": {"$gte": "$from", "$lte": "$to"}}},   
+
+ {"$bucketAuto": {"groupBy": { "$dateFromString": { "dateString" : { "$dateToString": { "format": "%Y-%m-%dT%H:00:00.000", "date": "$lastDate" }}}},
+                  "buckets": "$dateBucketCount",
+                  "output": {"count": {"$sum": "$workerpoolPrice" }}}},
+
+ {"$sort": {"lastDate": 1}},
+ {"$project": {"name": "Tasks Info", "value": "$count", "ts": "$_id.min", "_id": 0}} 
+])
+
+
+Show number of completed tasks
+------------------------------------------------------
+db.task.aggregate( [ 
+    { "$match": { "currentStatus": "COMPLETED"}},
+    { "$group": { "_id": null, "count": { "$sum": 1 } } },
+    { "$project": { "value": "$count", "_id": 0}}
+
+])
+
+
+Show number of running tasks
+---------------------------------------------------------------
+db.task.aggregate( [ 
+    { "$match": { "currentStatus": {
+            "$nin": ["INITIALIZE_FAILED","REOPEN_FAILED","FINALIZE_FAILED","ERROR","COMPLETED"]
+    }}},
+    { "$group": { "_id": null, "count": { "$sum": 1 } } },
+    { "$project": { "value": "$count", "_id": 0}}
+
+])
+
+
+Show Dapps number
+---------------------------------------------------------------
+db.task.aggregate( [ 
+    { "$match": { "currentStatus": "COMPLETED"}},
+    { "$group": { "_id": "$dappName", "count": { "$sum": 1 } } },
+   { "$group" : { "_id" : null, "count" : { "$sum" : 1 } } },
+    { "$project": { "value": "$count", "_id": 0}}
+])
+
+
+Total RLC Earned
+---------------------------------------------------------------
+db.task.aggregate( [ 
+    { "$match": { "currentStatus": "COMPLETED"}},
+    { "$group": { "_id": null, "count": { "$sum": "$workerpoolPrice" } } },
+    { "$project": { "value": "$count", "_id": 0}}
+
+])
+
+
+Task average price
+---------------------------------------------------------------
+db.task.aggregate( [ 
+    { "$match": { "currentStatus": "COMPLETED"}},
+    { "$group": { "_id": null, "count": { "$avg": "$workerpoolPrice" } } },
+    { "$project": { "value": "$count", "_id": 0}}
+
+])
+
+
+Sum of all cpu numbers
+------------------------------------------------------
+db.worker.aggregate( [ 
+    { "$group": { "_id": null ,"count": { "$sum": "$cpuNb" }}},
+    { "$project": { "value": "$count", "_id": 0}}
+])
+
+
+Get tasks info
+---------------------------------------------------------------
+db.task.aggregate([ 
+ {"$match": {"currentStatus": "COMPLETED", "finalDeadline": {"$gte": "$from", "$lte": "$to"}}},   
+ {"$bucketAuto": {"groupBy": "$finalDeadline",
+                  "buckets": "$dateBucketCount",
+                  "output": {"count": {"$sum": 1 }}}},
+ {"$sort": {"finalDeadline": 1}},
+ {"$project": {"name": "Tasks Info", "value": "$count", "ts": "$_id.min", "_id": 0}} 
+])
+
+
+Total Workers
+------------------------------------------------------------------------
+db.worker.aggregate( [ 
+    { "$project": {
+       "Delay": { "$toInt": { "$divide" : [ { "$subtract":  ["$now", "$lastAliveDate"]} , 1000 ]}}
+    }},
+    {"$match":{"Delay": {"$lt": 90000}}},
+    { "$group": { "_id": null, "count": { "$sum": 1 } } },
+    { "$project": { "value": "$count","_id": 0}}
+] )
+
+Total CPU Units
+-------------------------------------------------------------------------
+db.worker.aggregate( [ 
+    { "$project": {
+       "Delay": { "$toInt": { "$divide" : [ { "$subtract":  ["$now", "$lastAliveDate"]} , 1000 ]}},
+       "cpuNb": "$cpuNb"
+    }},
+    {"$match":{"Delay": {"$lt": 90000}}},
+    { "$group": { "_id": null, "count": { "$sum": "$cpuNb" } } },
+    { "$project": { "value": "$count","_id": 0}}
+])
+
+
+Total RAM
+-------------------------------------------------------------------------
+db.worker.aggregate( [ 
+    { "$project": {
+       "Delay": { "$toInt": { "$divide" : [ { "$subtract":  ["$now", "$lastAliveDate"]} , 1000 ]}},
+       "memory": "$memory"
+    }},
+    {"$match":{"Delay": {"$lt": 90000}}},
+    { "$group": { "_id": null, "count": { "$sum": "$memory" } } },
+    { "$project": { "value": "$count","_id": 0}}
+])
+
+
+The most popular CPU Type
+------------------------------------------------------------------------
+db.worker.aggregate( [ 
+    { "$group": { "_id": "$cpu", "count": { "$sum": 1 } } },
+    { "$sort": { "count": 1}},
+    { "$group": {"_id": null, "count": { "$max": "$count"}, "cpu": { "$last": "$_id"}}},
+    { "$project": { "value": "$cpu", "_id": 0}}
+])
+
+
+The most popular OS
+------------------------------------------------------------------------
+db.worker.aggregate( [ 
+    { "$group": { "_id": "$os", "count": { "$sum": 1 } } },
+    { "$sort": { "count": 1}},
+    { "$group": {"_id": null, "count": { "$max": "$count"}, "os": { "$last": "$_id"}}},
+    { "$project": { "value": "$os", "_id": 0}}
+])
+
+
+---------------------------------------------------------
+---------- WORKER INFO ----------------------------------
+---------------------------------------------------------
+
+-------- SHOW TASKS HISTORY V1-------------------- LEGACY
+db.replicatesList.aggregate( [ 
+    { "$unwind": "$replicates"},
+    { "$lookup": {
+        "from": "task",
+        "localField": "chainTaskId",
+        "foreignField": "chainTaskId",
+        "as": "taskinfo"
+    }},
+    { "$project": { 
+        "_id": 0,
+        "taskId": "$chainTaskId",
+        "walletAddress": "$replicates.walletAddress",
+        "status": "$taskinfo.currentStatus",
+       "lastStatusUpdate": "$taskinfo.lastStatusUpdate"
+    }},
+    { "$match": { 
+        "walletAddress": "$worker", 
+        "status": {
+            "$in": ["INITIALIZE_FAILED","REOPEN_FAILED","FINALIZE_FAILED","ERROR","COMPLETED"]
+        }}},
+    { "$project": { 
+     "Task ID":"$taskId",
+     "Status": "$status",
+     "Status Update": "$lastStatusUpdate"
+    }}
+])
+
+-------- SHOW RUNNING TASKS V1-------------------- LEGACY
+db.replicatesList.aggregate( [ 
+    { "$unwind": "$replicates"},
+    { "$lookup": {
+        "from": "task",
+        "localField": "chainTaskId",
+        "foreignField": "chainTaskId",
+        "as": "taskinfo"
+    }},
+    { "$project": { 
+        "_id": 0,
+        "taskId": "$chainTaskId",
+        "walletAddress": "$replicates.walletAddress",
+        "status": "$taskinfo.currentStatus",
+       "lastStatusUpdate": "$taskinfo.lastStatusUpdate"
+    }},
+    { "$match": { 
+        "walletAddress": "$worker", 
+        "status": {
+            "$nin": ["INITIALIZE_FAILED","REOPEN_FAILED","FINALIZE_FAILED","ERROR","COMPLETED"]
+        }}},
+    { "$project": { 
+     "Task ID":"$taskId",
+     "Status": "$status",
+     "Status Update": "$lastStatusUpdate"
+    }}
+])
+
+------- TASK Execution histogram V1 ------- LEGACY
+db.replicatesList.aggregate( [ 
+    { "$unwind": "$replicates"},
+    { "$lookup": {
+        "from": "task",
+        "localField": "chainTaskId",
+        "foreignField": "chainTaskId",
+        "as": "taskinfo"
+    }},
+    { "$project": { 
+        "_id": 0,
+        "taskId": "$chainTaskId",
+        "walletAddress": "$replicates.walletAddress",
+        "status": "$taskinfo.currentStatus",
+        "lastStatusUpdate": { "$arrayElemAt": [ "$taskinfo.lastStatusUpdate", 0]}
+    }},
+    { "$match": { 
+        "walletAddress": "$worker", 
+        "status": {
+            "$in": ["INITIALIZE_FAILED","REOPEN_FAILED","FINALIZE_FAILED","ERROR","COMPLETED"]
+        },
+        "lastStatusUpdate": {"$gte": "$from", "$lte": "$to"}}},
+
+    {"$bucketAuto": {"groupBy": { "$dateFromString": { "dateString" : { "$dateToString": { "format": "%Y-%m-%dT%H:00:00.000", "date": "$lastStatusUpdate" }}}},
+                  "buckets": "$dateBucketCount",
+                  "output": {"count": {"$sum": 1 }}}},
+    {"$sort": {"lastStatusUpdate": 1}},
+
+    {"$project": {"name": "Tasks Info", "value": "$count", "ts": "$_id.min", "_id": 0}} 
+
+])
+
+
+
+-------------  SHOW TASKS HISTORY V2 -------------
+db.replicatesList.aggregate( [ 
+    { "$unwind": "$replicates"},
+    { "$project": { 
+        "_id": 0,
+        "taskId": "$chainTaskId",
+        "walletAddress": "$replicates.walletAddress",
+        "statusChangeList": "$replicates.statusChangeList"
+    }},
+    { "$match": { 
+        "walletAddress": "$worker"
+    }},
+    { "$unwind": "$statusChangeList"},
+    { "$project": { 
+     "taskId":"$taskId",
+     "Status":"$statusChangeList.status",
+     "Date":"$statusChangeList.date"
+    }},
+    { "$group": { "_id": "$taskId", "lastDate": { "$last": "$Date"}, "Status" : { "$last": "$Status" }}},
+    { "$match": { 
+        "Status": {
+            "$in": [
+                 "COMPUTE_FAILED",
+                 "CANT_CONTRIBUTE_SINCE_STAKE_TOO_LOW",
+                 "CANT_CONTRIBUTE_SINCE_TASK_NOT_ACTIVE",
+                 "CANT_CONTRIBUTE_SINCE_AFTER_DEADLINE",
+                 "CANT_CONTRIBUTE_SINCE_CONTRIBUTION_ALREADY_SET",
+                 "CONTRIBUTE_FAILED",
+                 "CANT_REVEAL",
+                 "REVEAL_FAILED",
+                 "RESULT_UPLOAD_REQUEST_FAILED",
+                 "RESULT_UPLOAD_FAILED",
+                 "WORKER_LOST",
+                 "ABORTED_ON_CONSENSUS_REACHED",
+                 "ABORTED_ON_CONTRIBUTION_TIMEOUT",
+                 "ERROR",
+                 "COMPLETED"]
+        }
+    }}
+])
+
+--------------- SHOW RUNNING TASKS V2 --------------- 
+db.replicatesList.aggregate( [ 
+    { "$unwind": "$replicates"},
+    { "$project": { 
+        "_id": 0,
+        "taskId": "$chainTaskId",
+        "walletAddress": "$replicates.walletAddress",
+        "statusChangeList": "$replicates.statusChangeList"
+    }},
+    { "$match": { 
+        "walletAddress": "$worker"
+    }},
+    { "$unwind": "$statusChangeList"},
+    { "$project": { 
+     "taskId":"$taskId",
+     "Status":"$statusChangeList.status",
+     "Date":"$statusChangeList.date"
+    }},
+    { "$group": { "_id": "$taskId", "lastDate": { "$last": "$Date"}, "Status" : { "$last": "$Status" }}},
+    { "$match": { 
+        "Status": {
+            "$nin": [
+                 "COMPUTE_FAILED",
+                 "CANT_CONTRIBUTE_SINCE_STAKE_TOO_LOW",
+                 "CANT_CONTRIBUTE_SINCE_TASK_NOT_ACTIVE",
+                 "CANT_CONTRIBUTE_SINCE_AFTER_DEADLINE",
+                 "CANT_CONTRIBUTE_SINCE_CONTRIBUTION_ALREADY_SET",
+                 "CONTRIBUTE_FAILED",
+                 "CANT_REVEAL",
+                 "REVEAL_FAILED",
+                 "RESULT_UPLOAD_REQUEST_FAILED",
+                 "RESULT_UPLOAD_FAILED",
+                 "WORKER_LOST",
+                 "ABORTED_ON_CONSENSUS_REACHED",
+                 "ABORTED_ON_CONTRIBUTION_TIMEOUT",
+                 "ERROR",
+                 "COMPLETED"]
+        }
+    }}
+])
+
+
+------- Completed Tasks histogram -------
+db.replicatesList.aggregate( [ 
+    { "$unwind": "$replicates"},
+    { "$project": { 
+        "_id": 0,
+        "taskId": "$chainTaskId",
+        "walletAddress": "$replicates.walletAddress",
+        "statusChangeList": "$replicates.statusChangeList"
+    }},
+    { "$match": { 
+        "walletAddress": "$worker"
+    }},
+    { "$unwind": "$statusChangeList"},
+    { "$project": { 
+     "taskId":"$taskId",
+     "Status":"$statusChangeList.status",
+     "Date":"$statusChangeList.date"
+    }},
+    { "$group": { "_id": "$taskId", "lastDate": { "$last": "$Date"}, "Status" : { "$last": "$Status" }}},
+    { "$match": { 
+        "Status": {
+            "$in": ["COMPLETED"]
+        },
+        "lastDate": {"$gte": "$from", "$lte": "$to"}
+    }},
+    {"$bucketAuto": {"groupBy": { "$dateFromString": { "dateString" : { "$dateToString": { "format": "%Y-%m-%dT%H:00:00.000", "date": "$lastDate" }}}},
+                  "buckets": "$dateBucketCount",
+                  "output": {"count": {"$sum": 1 }}}},
+    {"$sort": {"lastDate": 1}},
+
+    {"$project": {"name": "Tasks Info", "value": "$count", "ts": "$_id.min", "_id": 0}} 
+])
+
+
+---------------- WORKER CPU NUMBER -----------------
+db.worker.aggregate( [ 
+    { "$match": { 
+        "walletAddress": "$worker"
+    }},
+    {"$project": { "value": "$cpuNb", "_id": 0}}
+])
+
+
+-------------- WORKER MEMORY ----------------------
+db.worker.aggregate( [ 
+    { "$match": { 
+        "walletAddress": "$worker"
+    }},
+    {"$project": { "value": "$memory", "_id": 0}}
+])
+
+
+-------------- WORKER PLATFORM -------------------
+db.worker.aggregate( [ 
+    { "$match": { 
+        "walletAddress": "$worker"
+    }},
+    {"$project": { "value": "$cpu", "_id": 0}}
+])
+
+
+--------------- WORKER OS -----------------------
+db.worker.aggregate( [ 
+    { "$match": { 
+        "walletAddress": "$worker"
+    }},
+    {"$project": { "value": "$os", "_id": 0}}
+])
+
+---------------- WORKER Earnings -----------------
+db.worker.aggregate( [ 
+    { "$match": { 
+        "walletAddress": "$worker"
+    }},
+    {"$project": { "value": "$earned", "_id": 0}}
+])
+
+---------------- RUNNING TASKS ------------------
+
+db.replicatesList.aggregate( [ 
+    { "$unwind": "$replicates"},
+    { "$project": { 
+        "_id": 0,
+        "taskId": "$chainTaskId",
+        "walletAddress": "$replicates.walletAddress",
+        "statusChangeList": "$replicates.statusChangeList"
+    }},
+    { "$match": { 
+        "walletAddress": "$worker"
+    }},
+    { "$unwind": "$statusChangeList"},
+    { "$project": { 
+     "taskId":"$taskId",
+     "Status":"$statusChangeList.status",
+     "Date":"$statusChangeList.date"
+    }},
+    { "$group": { "_id": "$taskId", "lastDate": { "$last": "$Date"}, "Status" : { "$last": "$Status" }}},
+    { "$match": { 
+        "Status": {
+            "$nin": [
+                 "COMPUTE_FAILED",
+                 "CANT_CONTRIBUTE_SINCE_STAKE_TOO_LOW",
+                 "CANT_CONTRIBUTE_SINCE_TASK_NOT_ACTIVE",
+                 "CANT_CONTRIBUTE_SINCE_AFTER_DEADLINE",
+                 "CANT_CONTRIBUTE_SINCE_CONTRIBUTION_ALREADY_SET",
+                 "CONTRIBUTE_FAILED",
+                 "CANT_REVEAL",
+                 "REVEAL_FAILED",
+                 "RESULT_UPLOAD_REQUEST_FAILED",
+                 "RESULT_UPLOAD_FAILED",
+                 "WORKER_LOST",
+                 "ABORTED_ON_CONSENSUS_REACHED",
+                 "ABORTED_ON_CONTRIBUTION_TIMEOUT",
+                 "ERROR",
+                 "COMPLETED"]
+        }
+    }},
+    { "$group": { "_id": null, "count": { "$sum": 1 }}},
+    { "$project": { "value": "$count", "_id": 0}}
+])
+
+
+---------------- EXECUTED TASKS -------------------
+db.replicatesList.aggregate( [ 
+    { "$unwind": "$replicates"},
+    { "$project": { 
+        "_id": 0,
+        "taskId": "$chainTaskId",
+        "walletAddress": "$replicates.walletAddress",
+        "statusChangeList": "$replicates.statusChangeList"
+    }},
+    { "$match": { 
+        "walletAddress": "$worker"
+    }},
+    { "$unwind": "$statusChangeList"},
+    { "$project": { 
+     "taskId":"$taskId",
+     "Status":"$statusChangeList.status",
+     "Date":"$statusChangeList.date"
+    }},
+    { "$group": { "_id": "$taskId", "lastDate": { "$last": "$Date"}, "Status" : { "$last": "$Status" }}},
+    { "$match": { 
+        "Status": {
+            "$in": [
+                 "COMPUTE_FAILED",
+                 "CANT_CONTRIBUTE_SINCE_STAKE_TOO_LOW",
+                 "CANT_CONTRIBUTE_SINCE_TASK_NOT_ACTIVE",
+                 "CANT_CONTRIBUTE_SINCE_AFTER_DEADLINE",
+                 "CANT_CONTRIBUTE_SINCE_CONTRIBUTION_ALREADY_SET",
+                 "CONTRIBUTE_FAILED",
+                 "CANT_REVEAL",
+                 "REVEAL_FAILED",
+                 "RESULT_UPLOAD_REQUEST_FAILED",
+                 "RESULT_UPLOAD_FAILED",
+                 "WORKER_LOST",
+                 "ABORTED_ON_CONSENSUS_REACHED",
+                 "ABORTED_ON_CONTRIBUTION_TIMEOUT",
+                 "ERROR",
+                 "COMPLETED"]
+        }
+    }},
+    { "$group": { "_id": null, "count": { "$sum": 1 }}},
+    { "$project": { "value": "$count", "_id": 0}}
+])
+
+
+----------------- ACTIVE LAST DAY --------------------------------
+
+db.worker.aggregate( [ 
+    { "$project": {
+       "Delay": { "$toInt": { "$divide" : [ { "$subtract":  ["$now", "$lastAliveDate"]} , 1000 ]}}
+    }},
+    {"$match":{"Delay": {"$lt": 86400}}},
+    { "$group": { "_id": null, "count": { "$sum": 1 } } },
+    { "$project": { "value": "$count","_id": 0}}
+] )
+
+
+------------------ Maximum worker earnings ------------------
+
+db.worker.aggregate( [ 
+    { "$group": { 
+        "_id": null, "maxEarnings": { "$max": "$earnings" }
+    }},
+    {"$project": { "value": "$maxEarnings", "_id": 0}}
+])
+
+
+------------------ Minimum worker earnings ------------------
+db.worker.aggregate( [ 
+    { "$group": { 
+        "_id": null, "maxEarnings": { "$min": "$earnings" }
+    }},
+    {"$project": { "value": "$maxEarnings", "_id": 0}}
+])
+
+------------------- Gauge Completed tasks ratio --------------
+
+db.task.aggregate([
+     { "$group" : {
+         "_id" : "$currentStatus",
+         "sumValue" : { "$sum" : 1 } }
+     },
+     { "$group" : {
+         "_id" : 0,
+         "keys" : { "$push" : "$_id" },
+         "sumValues" : { "$push" : "$sumValue" },
+         "total" : { "$sum" : "$sumValue" } }
+     },
+     { "$project" : {
+         "keys" : "$keys",
+         "sumValues" : "$sumValues",
+         "total": "$total",
+         "percentages" : { "$map" : { "input" : "$sumValues", "as" : "s",
+                                      "in" : { "$divide" : ["$$s", "$total"] } } } }
+     },
+     { "$project" : {
+          "index": { "$indexOfArray": [ "$keys", "COMPLETED" ] },
+          "percentages" : "$percentages"
+     }},
+     { "$project" : {
+          "_id": 0,
+           "value": { "$multiply": [{ "$arrayElemAt": ["$percentages", "$index"]}, 100]}
+     }}
+])
+
+
+
+db.replicatesList.aggregate( [ 
+    { "$unwind": "$replicates"},
+    { "$project": { 
+        "_id": 0,
+        "taskId": "$chainTaskId",
+        "walletAddress": "$replicates.walletAddress",
+        "statusChangeList": "$replicates.statusChangeList"
+    }},
+    { "$unwind": "$statusChangeList"},
+    { "$project": {
+       "taskId": "$taskId",
+       "status": "$statusChangeList.status",
+       "date": "$statusChangeList.date",
+       "modifier": "$statusChangeList.modifier"
+
+    }}
+] )
+
+------------------------ SHOW TASK INFO -------------------
+db.replicatesList.aggregate( [ 
+     { "$match": {"chainTaskId": "0xcf0f47cf3cf11532c7beb1032cfd2ccf0f043d4a4a0cc367e320adacbd0679de"}},
+    { "$unwind": "$replicates"},
+    { "$project": { 
+        "_id": 0,
+        "taskId": "$chainTaskId",
+        "walletAddress": "$replicates.walletAddress",
+        "statusChangeList": "$replicates.statusChangeList"
+    }},
+    { "$unwind": "$statusChangeList"},
+    { "$project": {
+       "status": "$statusChangeList.status",
+       "ts": "$statusChangeList.date",
+       "modifier": "$statusChangeList.modifier"
+    }}
+] )
+
+db.replicatesList.aggregate([
+    { "$match": {"chainTaskId": "0xcf0f47cf3cf11532c7beb1032cfd2ccf0f043d4a4a0cc367e320adacbd0679de"}},
+    { "$unwind": "$replicates"},
+    { "$project": {
+        "walletAddress": "$replicates.walletAddress"
+    }},
+    {"$group": {"_id": "$walletAddress"}}
+])
+
+
+
+
+db.task.aggregate([
+     { "$group" : {
+         "_id" : "$currentStatus",
+         "sumValue" : { "$sum" : 1 } }
+     },
+     { "$group" : {
+         "_id" : 0,
+         "keys" : { "$push" : "$_id" },
+         "sumValues" : { "$push" : "$sumValue" },
+         "total" : { "$sum" : "$sumValue" } }
+     },
+     { "$project" : {
+         "keys" : "$keys",
+         "sumValues" : "$sumValues",
+         "total": "$total",
+         "percentages" : { "$map" : { "input" : "$sumValues", "as" : "s",
+                                      "in" : { "$divide" : ["$$s", "$total"] } } } }
+     },
+     { "$project" : {
+          "index": { "$indexOfArray": [ "$keys", "COMPLETED" ] },
+          "percentages" : "$percentages"
+     }},
+     { "$project" : {
+          "_id": 0,
+           "value": { "if": { "$eq": [ "$indexOfArray", -1 ] }, "then": "0", "else": { "$multiply": [{ "$arrayElemAt": ["$percentages", "$index"]}, 100]} }
+     }}
+])
