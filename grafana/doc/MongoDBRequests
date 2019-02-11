@@ -670,3 +670,7 @@ db.task.aggregate([
            "value": { "if": { "$eq": [ "$indexOfArray", -1 ] }, "then": "0", "else": { "$multiply": [{ "$arrayElemAt": ["$percentages", "$index"]}, 100]} }
      }}
 ])
+
+
+
+mongorestore --username $MONGO_INITDB_ROOT_USERNAME --password $MONGO_INITDB_ROOT_PASSWORD --authenticationDatabase admin -d iexec iexec
