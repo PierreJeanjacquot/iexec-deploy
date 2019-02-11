@@ -21,7 +21,7 @@
     "links": [],
     "panels": [
       {
-        "content": "<input type='button' value='Join Worker Pool' id='button' class='navbar-button' onclick=\"location.href='/d/JoinWorkerPool';\"/><div class='text-center dashboard-header'>\n  <img src='http://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/1024/iExec-RLC-RLC-icon.png' width='35' height='35' />\n  <span>Kovan Worker Pool</span>\n</div>",
+        "content": "<input type='button' value='Join Worker Pool' id='button' class='navbar-button' onclick=\"location.href='/d/JoinWorkerPool';\"/><div class='text-center dashboard-header'>\n  <img src='https://iex.ec/wp-content/uploads/2018/12/token.svg' height='35' />\n  <span>Test Kovan Worker Pool</span>\n</div>",
         "gridPos": {
           "h": 3,
           "w": 24,
@@ -1080,8 +1080,8 @@
         "scroll": true,
         "showHeader": true,
         "sort": {
-          "col": 6,
-          "desc": true
+          "col": 2,
+          "desc": false
         },
         "styles": [
           {
@@ -1094,7 +1094,7 @@
             "alias": "",
             "colorMode": "cell",
             "colors": [
-              "rgba(50, 172, 45, 0.97)",
+              "#508642",
               "#967302",
               "#890f02"
             ],
@@ -1104,8 +1104,8 @@
             "pattern": "Delay",
             "preserveFormat": true,
             "thresholds": [
-              "0",
-              "50",
+              "30",
+              "60",
               "999999"
             ],
             "type": "number",
@@ -1260,7 +1260,7 @@
         "type": "table"
       }
     ],
-    "refresh": false,
+    "refresh": "5s",
     "schemaVersion": 16,
     "style": "dark",
     "tags": [],
