@@ -1,0 +1,664 @@
+{
+  "dashboard":{
+    "id": null,
+    "uid": "JoinWorkerPool",
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": "-- Grafana --",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "gnetId": null,
+    "graphTooltip": 0,
+    "links": [],
+    "panels": [
+      {
+        "content": "<input type=\"button\" value=\"Go Home\" onclick=\"location.href='/d/Home/home'\" class=\"navbar-button\"/>\n<div class=\"text-center dashboard-header\">\n  <span>Join Worker Pool</span>\n</div>",
+        "gridPos": {
+          "h": 3,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 2,
+        "links": [],
+        "mode": "html",
+        "title": "",
+        "transparent": true,
+        "type": "text"
+      },
+      {
+        "cacheTimeout": null,
+        "colorBackground": false,
+        "colorValue": false,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": "MongoDB",
+        "format": "none",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 2,
+          "x": 0,
+          "y": 3
+        },
+        "id": 10,
+        "interval": null,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "nullText": null,
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "show": false
+        },
+        "tableColumn": "value",
+        "targets": [
+          {
+            "alias": "",
+            "format": "table",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "SELECT\n  count(*) as value\nFROM hosts\n",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "value"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "target": "db.worker.aggregate( [ \n    { \"$group\": { \"_id\": null, \"count\": { \"$sum\": 1 } } },\n    { \"$project\": { \"value\": \"$count\",\"_id\": 0}}\n] )",
+            "timeColumn": "time",
+            "type": "table",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              }
+            ]
+          }
+        ],
+        "thresholds": "",
+        "title": "Joined Us",
+        "type": "singlestat",
+        "valueFontSize": "50%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "0",
+            "value": "null"
+          }
+        ],
+        "valueName": "avg"
+      },
+      {
+        "cacheTimeout": null,
+        "colorBackground": false,
+        "colorValue": false,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": "MongoDB",
+        "format": "none",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 2,
+          "x": 2,
+          "y": 3
+        },
+        "id": 14,
+        "interval": null,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "nullText": null,
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "show": false
+        },
+        "tableColumn": "value",
+        "targets": [
+          {
+            "alias": "",
+            "format": "table",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "SELECT\n  count(*) as value\nFROM hosts\nWHERE (unix_timestamp(now())-unix_timestamp(lastalive) < 900) \n",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "value"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "target": "db.worker.aggregate( [ \n    { \"$project\": {\n       \"Delay\": { \"$toInt\": { \"$divide\" : [ { \"$subtract\":  [\"$now\", \"$lastAliveDate\"]} , 1000 ]}}\n    }},\n    {\"$match\":{\"Delay\": {\"$lt\": 90000}}},\n    { \"$group\": { \"_id\": null, \"count\": { \"$sum\": 1 } } },\n    { \"$project\": { \"value\": \"$count\",\"_id\": 0}}\n] )",
+            "timeColumn": "time",
+            "type": "table",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              }
+            ]
+          }
+        ],
+        "thresholds": "",
+        "title": "Active Now",
+        "type": "singlestat",
+        "valueFontSize": "50%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "0",
+            "value": "null"
+          }
+        ],
+        "valueName": "avg"
+      },
+      {
+        "cacheTimeout": null,
+        "colorBackground": false,
+        "colorValue": false,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": "MongoDB",
+        "format": "none",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 2,
+          "x": 4,
+          "y": 3
+        },
+        "id": 12,
+        "interval": null,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "nullText": null,
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "show": false
+        },
+        "tableColumn": "value",
+        "targets": [
+          {
+            "alias": "",
+            "format": "table",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "db.worker.aggregate( [ \n    { \"$project\": {\n       \"Delay\": { \"$toInt\": { \"$divide\" : [ { \"$subtract\":  [\"$now\", \"$lastAliveDate\"]} , 1000 ]}}\n    }},\n    {\"$match\":{\"Delay\": {\"$lt\": 90000}}},\n    { \"$group\": { \"_id\": null, \"count\": { \"$sum\": 1 } } },\n    { \"$project\": { \"value\": \"$count\",\"_id\": 0}}\n] )\n",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "value"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "target": "db.worker.aggregate( [ \n    { \"$project\": {\n       \"Delay\": { \"$toInt\": { \"$divide\" : [ { \"$subtract\":  [\"$now\", \"$lastAliveDate\"]} , 1000 ]}}\n    }},\n    {\"$match\":{\"Delay\": {\"$lt\": 86400}}},\n    { \"$group\": { \"_id\": null, \"count\": { \"$sum\": 1 } } },\n    { \"$project\": { \"value\": \"$count\",\"_id\": 0}}\n] )",
+            "timeColumn": "time",
+            "type": "table",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              }
+            ]
+          }
+        ],
+        "thresholds": "",
+        "title": "Daily Activity",
+        "type": "singlestat",
+        "valueFontSize": "50%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "0",
+            "value": "null"
+          }
+        ],
+        "valueName": "avg"
+      },
+      {
+        "content": "<script>\n  var path = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');\n  document.getElementById('scriptLink').setAttribute('href', path+'/public/launch-worker.sh');\n  document.getElementById('inputLink').setAttribute('value', \"curl -fsSL --insecure \"+path+'/public/launch-worker.sh -o launch-iexec-worker.sh && bash ./launch-iexec-worker.sh');\n</script>\n\n<h2> Requirements </h2>\n<ul>\n<li>Docker CE\n<li>BC and WC packages installed\n<li> User that launches the script need to be able to launch docker commands\n</ul>\n<br />\n<h2> Start Worker </h2>\n\n<h4> Method 1 </h4>\n<ul>\n<li>Download <a href=\"#\" id=\"scriptLink\" target=\"_blank\" download>Launch Worker Script</a>\n<li>Launch it with \"bash ./launch-worker.sh\"\n</ul>\n\n<h4> Method 2 </h4>\nJust Launch: \n<input id=\"inputLink\" type=\"text\" data-share-panel-url class=\"gf-form-input\" ng-model=\"shareUrl\" value=\"\"></input>\n",
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 6,
+          "y": 3
+        },
+        "id": 4,
+        "links": [],
+        "mode": "html",
+        "title": "Ubuntu, CentOS or MacOS",
+        "type": "text"
+      },
+      {
+        "cacheTimeout": null,
+        "colorBackground": false,
+        "colorValue": false,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "format": "none",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 2,
+          "x": 18,
+          "y": 3
+        },
+        "id": 20,
+        "interval": null,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "nullText": null,
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "show": false
+        },
+        "tableColumn": "value",
+        "targets": [
+          {
+            "rawQuery": true,
+            "refId": "A",
+            "target": "db.task.aggregate( [ \n    { \"$match\": { \"currentStatus\": \"COMPLETED\"}},\n    { \"$group\": { \"_id\": \"$dappName\", \"count\": { \"$sum\": 1 } } },\n   { \"$group\" : { \"_id\" : null, \"count\" : { \"$sum\" : 1 } } },\n    { \"$project\": { \"value\": \"$count\", \"_id\": 0}}\n])",
+            "type": "table"
+          }
+        ],
+        "thresholds": "",
+        "title": "Dapp Number",
+        "type": "singlestat",
+        "valueFontSize": "50%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "0",
+            "value": "null"
+          }
+        ],
+        "valueName": "avg"
+      },
+      {
+        "cacheTimeout": null,
+        "colorBackground": false,
+        "colorValue": false,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "format": "none",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 2,
+          "x": 20,
+          "y": 3
+        },
+        "id": 18,
+        "interval": null,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "nullText": null,
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "show": false
+        },
+        "tableColumn": "value",
+        "targets": [
+          {
+            "rawQuery": true,
+            "refId": "A",
+            "target": "db.task.aggregate( [ \n    { \"$match\": { \"currentStatus\": \"COMPLETED\"}},\n    { \"$group\": { \"_id\": null, \"count\": { \"$sum\": 1 } } },\n    { \"$project\": { \"value\": \"$count\", \"_id\": 0}}\n\n])",
+            "type": "table"
+          }
+        ],
+        "thresholds": "",
+        "title": "Completed Tasks",
+        "type": "singlestat",
+        "valueFontSize": "50%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "0",
+            "value": "null"
+          }
+        ],
+        "valueName": "avg"
+      },
+      {
+        "cacheTimeout": null,
+        "colorBackground": false,
+        "colorValue": false,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": "MongoDB",
+        "format": "none",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 2,
+          "x": 22,
+          "y": 3
+        },
+        "id": 16,
+        "interval": null,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "nullText": null,
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "show": false
+        },
+        "tableColumn": "value",
+        "targets": [
+          {
+            "alias": "",
+            "format": "table",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "SELECT\n  count(*) as value\nFROM hosts\nWHERE runningJobs!=0\n",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "value"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "target": "db.task.aggregate( [ \n    { \"$match\": { \"currentStatus\": {\n            \"$nin\": [\"INITIALIZE_FAILED\",\"REOPEN_FAILED\",\"FINALIZE_FAILED\",\"ERROR\",\"COMPLETED\"]\n    }}},\n    { \"$group\": { \"_id\": null, \"count\": { \"$sum\": 1 } } },\n    { \"$project\": { \"value\": \"$count\", \"_id\": 0}}\n\n])",
+            "timeColumn": "time",
+            "type": "table",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              }
+            ]
+          }
+        ],
+        "thresholds": "",
+        "title": "Running Tasks",
+        "type": "singlestat",
+        "valueFontSize": "50%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "0",
+            "value": "null"
+          }
+        ],
+        "valueName": "avg"
+      }
+    ],
+    "refresh": "5s",
+    "schemaVersion": 16,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-7d",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "time_options": [
+        "5m",
+        "15m",
+        "1h",
+        "6h",
+        "12h",
+        "24h",
+        "2d",
+        "7d",
+        "30d"
+      ]
+    },
+    "timezone": "",
+    "title": "Join Worker Pool"
+  },
+  "folderId": 0,
+  "overwrite": false
+}
