@@ -21,7 +21,7 @@
     "links": [],
     "panels": [
       {
-        "content": "<input type='button' value='Join Worker Pool' id='button' class='navbar-button' onclick=\"location.href='/d/JoinWorkerPool';\"/><div class='text-center dashboard-header'>\n  <img src='https://iex.ec/wp-content/uploads/2018/12/token.svg' height='35' />\n  <span>Test Kovan Worker Pool</span>\n</div>",
+        "content": "<input type='button' value='Join Worker Pool' id='button' class='navbar-button' onclick=\"location.href='/d/JoinWorkerPool';\"/><div class='text-center dashboard-header'>\n  <img src='http://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/1024/iExec-RLC-RLC-icon.png' width='35' height='35' />\n  <span>V3 Kovan Worker Pool</span>\n</div>",
         "gridPos": {
           "h": 3,
           "w": 24,
@@ -733,7 +733,7 @@
                 }
               ]
             ],
-            "target": "db.task.aggregate( [ \n    { \"$match\": { \"currentStatus\": {\n            \"$nin\": [\"INITIALIZE_FAILED\",\"REOPEN_FAILED\",\"FINALIZE_FAILED\",\"ERROR\",\"COMPLETED\"]\n    }}},\n    { \"$group\": { \"_id\": null, \"count\": { \"$sum\": 1 } } },\n    { \"$project\": { \"value\": \"$count\", \"_id\": 0}}\n\n])",
+            "target": "db.task.aggregate( [ \n    { \"$match\": { \"currentStatus\": {\n            \"$nin\": [\"INITIALIZE_FAILED\",\"REOPEN_FAILED\",\"FINALIZE_FAILED\",\"ERROR\",\"COMPLETED\",\"CONTRIBUTION_TIMEOUT\"]\n    }}},\n    { \"$group\": { \"_id\": null, \"count\": { \"$sum\": 1 } } },\n    { \"$project\": { \"value\": \"$count\", \"_id\": 0}}\n\n])",
             "timeColumn": "time",
             "type": "table",
             "where": [
@@ -1080,8 +1080,8 @@
         "scroll": true,
         "showHeader": true,
         "sort": {
-          "col": 2,
-          "desc": false
+          "col": 6,
+          "desc": true
         },
         "styles": [
           {
@@ -1094,7 +1094,7 @@
             "alias": "",
             "colorMode": "cell",
             "colors": [
-              "#508642",
+              "#3f6833",
               "#967302",
               "#890f02"
             ],
@@ -1104,8 +1104,8 @@
             "pattern": "Delay",
             "preserveFormat": true,
             "thresholds": [
-              "30",
-              "60",
+              "50",
+              "80",
               "999999"
             ],
             "type": "number",
@@ -1128,7 +1128,7 @@
             "unit": "short"
           },
           {
-            "alias": "",
+            "alias": "Active Tasks",
             "colorMode": null,
             "colors": [
               "rgba(245, 54, 54, 0.9)",
@@ -1260,7 +1260,7 @@
         "type": "table"
       }
     ],
-    "refresh": "5s",
+    "refresh": false,
     "schemaVersion": 16,
     "style": "dark",
     "tags": [],

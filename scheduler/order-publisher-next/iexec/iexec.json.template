@@ -1,0 +1,44 @@
+{
+  "description": "My iExec ressource description, must be at least 150 chars long in order to pass the validation checks. Describe to your users what your application does",
+  "license": "MIT",
+  "author": "?",
+  "social": {
+    "website": "?",
+    "github": "?"
+  },
+  "logo": "logo.png",
+  "app": {
+    "owner": "0xdfb796ecff861d576e95152586ad81e6ffb531de",
+    "name": "my-app",
+    "type": "DOCKER",
+    "multiaddr": "registry.hub.docker.com/@APP_URI_TEMPLATE@",
+    "checksum":"0x0000000000000000000000000000000000000000000000000000000000000000",
+    "mrenclave": ""
+  },
+  "workerpool": {
+    "owner": "0xdfb796ecff861d576e95152586ad81e6ffb531de",
+    "description": "my-workerpool"
+  },
+  "order": {
+    "apporder": {
+      "app": "@APP_ADDRESS@",
+      "appprice": "0",
+      "volume": "1",
+      "tag": "@TAG_VALUE@",
+      "datasetrestrict": "0x0000000000000000000000000000000000000000",
+      "workerpoolrestrict": "0x0000000000000000000000000000000000000000",
+      "requesterrestrict": "0x0000000000000000000000000000000000000000"
+    },
+    "workerpoolorder": {
+      "workerpool": "@WORKERPOOL_ADDRESS@",
+      "workerpoolprice": "@ORDER_PRICE@",
+      "volume": "@ORDER_VOLUME@",
+      "category": "@CATEGORY_INDEX@",
+      "trust": "@TRUST_VALUE@",
+      "tag": "@TAG_VALUE@",
+      "apprestrict": "0x0000000000000000000000000000000000000000",
+      "datasetrestrict": "0x0000000000000000000000000000000000000000",
+      "requesterrestrict": "0x0000000000000000000000000000000000000000"
+    }
+  }
+}
