@@ -65,7 +65,7 @@ do
     echo "[INFO] For the trust $TRUST_VALUE scheduler must have $NUM_WORKERS workers. This is not used yet."
 
     echo "[INFO] Checking orders in orderbook."
-    ORDERBOOK_NUMBER=$(iexec orderbook workerpool $WORKERPOOL_ADDRESS --category $CATEGORY_INDEX --chain $CHAIN --raw | jq '.workerpoolOrders[].status' | grep open | wc -l)
+    ORDERBOOK_NUMBER=$(iexec orderbook workerpool $WORKERPOOL_ADDRESS --category $CATEGORY_INDEX --chain $CHAIN --raw | jq '.openVolume')
     echo "[INFO] Opened orders in order book: $ORDERBOOK_NUMBER."
 
     echo "[INFO] Checking scheduler info."
