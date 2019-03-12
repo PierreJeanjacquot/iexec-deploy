@@ -112,7 +112,7 @@
                 }
               ]
             ],
-            "target": "db.worker.aggregate( [ \n    { \"$project\": {\n       \"Delay\": { \"$toInt\": { \"$divide\" : [ { \"$subtract\":  [\"$now\", \"$lastAliveDate\"]} , 1000 ]}}\n    }},\n    {\"$match\":{\"Delay\": {\"$lt\": 90000}}},\n    { \"$group\": { \"_id\": null, \"count\": { \"$sum\": 1 } } },\n    { \"$project\": { \"value\": \"$count\",\"_id\": 0}}\n] )",
+            "target": "db.worker.aggregate( [ \n    { \"$project\": {\n       \"Delay\": { \"$toInt\": { \"$divide\" : [ { \"$subtract\":  [\"$now\", \"$lastAliveDate\"]} , 1000 ]}}\n    }},\n    {\"$match\":{\"Delay\": {\"$lt\": 600}}},\n    { \"$group\": { \"_id\": null, \"count\": { \"$sum\": 1 } } },\n    { \"$project\": { \"value\": \"$count\",\"_id\": 0}}\n] )",
             "timeColumn": "time",
             "type": "table",
             "where": [
@@ -317,7 +317,7 @@
                 }
               ]
             ],
-            "target": "db.worker.aggregate( [ \n    { \"$project\": {\n       \"Delay\": { \"$toInt\": { \"$divide\" : [ { \"$subtract\":  [\"$now\", \"$lastAliveDate\"]} , 1000 ]}},\n       \"cpuNb\": \"$cpuNb\"\n    }},\n    {\"$match\":{\"Delay\": {\"$lt\": 90000}}},\n    { \"$group\": { \"_id\": null, \"count\": { \"$sum\": \"$cpuNb\" } } },\n    { \"$project\": { \"value\": \"$count\",\"_id\": 0}}\n] )",
+            "target": "db.worker.aggregate( [ \n    { \"$project\": {\n       \"Delay\": { \"$toInt\": { \"$divide\" : [ { \"$subtract\":  [\"$now\", \"$lastAliveDate\"]} , 1000 ]}},\n       \"cpuNb\": \"$cpuNb\"\n    }},\n    {\"$match\":{\"Delay\": {\"$lt\": 600}}},\n    { \"$group\": { \"_id\": null, \"count\": { \"$sum\": \"$cpuNb\" } } },\n    { \"$project\": { \"value\": \"$count\",\"_id\": 0}}\n] )",
             "timeColumn": "time",
             "type": "table",
             "where": [
@@ -1080,8 +1080,8 @@
         "scroll": true,
         "showHeader": true,
         "sort": {
-          "col": 6,
-          "desc": true
+          "col": 1,
+          "desc": false
         },
         "styles": [
           {
@@ -1243,7 +1243,7 @@
                 }
               ]
             ],
-            "target": "db.worker.aggregate( [ \n    {\"$sort\" : {\"lastAliveDate\" : -1}},\n    { \"$project\": { \n        \"_id\": 0, \n        \"Wallet\": \"$walletAddress\",\n        \"Name\": \"$name\", \n        \"Delay\": { \"$toInt\": { \"$divide\" : [ { \"$subtract\":  [\"$now\", \"$lastAliveDate\"]} , 1000 ]}},\n        \"OS\": \"$os\", \n        \"Platform\": \"$cpu\", \n        \"CPUNumber\": \"$cpuNb\", \n        \"Running Tasks\": { \"$cond\": { \"if\": { \"$isArray\": \"$participatingChainTaskIds\" }, \"then\": { \"$size\": \"$participatingChainTaskIds\" }, \"else\": \"0\"}},\n        \"Last Seen\": \"$lastAliveDate\"\n         }},\n    {\"$match\":{\"Delay\": {\"$lt\": 90000}}}\n])",
+            "target": "db.worker.aggregate( [ \n    {\"$sort\" : {\"lastAliveDate\" : -1}},\n    { \"$project\": { \n        \"_id\": 0, \n        \"Wallet\": \"$walletAddress\",\n        \"Name\": \"$name\", \n        \"Delay\": { \"$toInt\": { \"$divide\" : [ { \"$subtract\":  [\"$now\", \"$lastAliveDate\"]} , 1000 ]}},\n        \"OS\": \"$os\", \n        \"Platform\": \"$cpu\", \n        \"CPUNumber\": \"$cpuNb\", \n        \"Running Tasks\": { \"$cond\": { \"if\": { \"$isArray\": \"$participatingChainTaskIds\" }, \"then\": { \"$size\": \"$participatingChainTaskIds\" }, \"else\": \"0\"}},\n        \"Last Seen\": \"$lastAliveDate\"\n         }},\n    {\"$match\":{\"Delay\": {\"$lt\": 600}}}\n])",
             "timeColumn": "time",
             "type": "table",
             "where": [
@@ -1260,7 +1260,7 @@
         "type": "table"
       }
     ],
-    "refresh": false,
+    "refresh": "5s",
     "schemaVersion": 16,
     "style": "dark",
     "tags": [],

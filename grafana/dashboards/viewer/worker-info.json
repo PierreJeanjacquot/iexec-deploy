@@ -18,7 +18,7 @@
     "editable": true,
     "gnetId": null,
     "graphTooltip": 0,
-    "iteration": 1549620001146,
+    "iteration": 1551371457992,
     "links": [],
     "panels": [
       {
@@ -1024,6 +1024,7 @@
         "type": "table"
       }
     ],
+    "refresh": "5s",
     "schemaVersion": 16,
     "style": "dark",
     "tags": [],
@@ -1033,8 +1034,8 @@
           "allValue": null,
           "current": {
             "selected": false,
-            "text": "0x121a9cba5f33ea435153a62fada442a263290bd5",
-            "value": "0x121a9cba5f33ea435153a62fada442a263290bd5"
+            "text": "0xa241c649a2ca804fa10a9babcd5e28f7cd788225",
+            "value": "0xa241c649a2ca804fa10a9babcd5e28f7cd788225"
           },
           "datasource": "MongoDB",
           "definition": "db.worker.aggregate([{\"$group\": {\"_id\": \"$walletAddress\"}}])",
