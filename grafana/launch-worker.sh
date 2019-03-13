@@ -19,10 +19,6 @@ function message() {
   fi
 }
 
-# Launch iexec sdk function
-function iexec {
-  docker run -e DEBUG=$DEBUG --interactive --tty --rm -v /tmp:/tmp -v $(pwd):/iexec-project -v /home/$(whoami)/.ethereum/keystore:/home/node/.ethereum/keystore -w /iexec-project iexechub/iexec-sdk:next "$@"
-}
 
 # Function which checks exit status and stops execution
 function checkExitStatus() {
@@ -78,6 +74,15 @@ if [ "$DISTRO" != "Ubuntu" ] && [ "$DISTRO" != "darwin" ] && [ "$DISTRO" != "cen
 else
   message "OK" "Detected supported OS platform [$DISTRO] ..."
 fi
+
+# Launch iexec sdk function
+function iexec {
+  if [ "$DISTRO" != "darwin" ]; then
+    docker run -e DEBUG=$DEBUG --interactive --tty --rm -v /tmp:/tmp -v $(pwd):/iexec-project -v /home/$(whoami)/.ethereum/keystore:/home/node/.ethereum/keystore -w /iexec-project iexechub/iexec-sdk:next "$@"
+  else
+    docker run -e DEBUG=$DEBUG --interactive --tty --rm -v /tmp:/tmp -v $(pwd):/iexec-project -v /Users/$(whoami)/Library/Ethereum/keystore:/home/node/.ethereum/keystore -w /iexec-project iexechub/iexec-sdk:next "$@"    
+  fi
+}
 
 # Check if docker is installed
 message "INFO" "Checking if docker is installed..."
@@ -171,7 +176,13 @@ else
 
     # Looping over wallet files in inverse order (from the most recent to older one)
     WALLET_SELECTED=0
-    files=(~/.ethereum/keystore/*)
+
+    if [ "$DISTRO" == "darwin" ]; then
+        files=(/Users/$(whoami)/Library/Ethereum/keystore/*)
+    else
+        files=(/home/$(whoami)/.ethereum/keystore/*)
+    fi
+
     for ((i=${#files[@]}-1; i>=0; i--)); do
 
         # If a wallet was found
@@ -236,7 +247,11 @@ else
             WALLET_ADDR=$(echo $IEXEC_INIT_RESULT | sed -E "s/.*\"walletAddress\":\"([0-9a-zA-Z]+)\".*/\1/g")
             WALLET_FILE=$(echo $IEXEC_INIT_RESULT | sed -E "s/.*\"walletFile\":\"([0-9a-zA-Z\/.-]+)\".*/\1/g")
             # Replacing node home with current user home
-            WALLET_FILE=$(echo $WALLET_FILE | sed "s/node/$(whoami)/g")
+            if [ "$DISTRO" == "darwin" ]; then
+                WALLET_FILE=$(echo $WALLET_FILE | | sed "s/home\/node\/\.ethereum/Users\/$(whoami)\/Library\/Ethereum/g")
+            else
+                WALLET_FILE=$(echo $WALLET_FILE | sed "s/node/$(whoami)/g")
+            fi
 
             message "INFO" "A wallet with address $WALLET_ADDR was created in $WALLET_FILE."
 
@@ -260,7 +275,8 @@ else
     checkExitStatus $? "Can't init iexec sdk."
 
     message "INFO" "Adding Hub Contract address."
-    cat chain.json | sed -E "s/(\"id\": \"42\")/\1\,\n      \"hub\":\"$HUBCONTRACT\"/g" | tee chain.json >/dev/null
+    sed -i'.temp' -E "s/(\"id\": \"42\")/\1\,\ \"hub\":\"$HUBCONTRACT\"/g" chain.json
+
     checkExitStatus $? "Can't place hub address."
 
     message "INFO" "Getting wallet info."
