@@ -159,125 +159,52 @@ echo "Grafana has been configured"
 if [ ! -z $ACTIVATE_POOL_JOIN ] && [ "$ACTIVATE_POOL_JOIN" == "1" ]; then
   echo "Configure Worker Deploy Script..."
 
-  if [ ! -z "$SCRIPT_DEPOSIT" ] ; then
-  	sed -i "s/^DEPOSIT=.*$/DEPOSIT=$SCRIPT_DEPOSIT/g" /launch-worker.sh
+  if [ ! -z "$POOL_JOIN_WORKER_POOLNAME" ] ; then
+  	sed -i "s/^WORKER_POOLNAME=.*$/WORKER_POOLNAME=$POOL_JOIN_WORKER_POOLNAME/g" /launch-worker.sh
+  else 
+  	sed -i "s/^WORKER_POOLNAME=.*$/WORKER_POOLNAME=unknown/g" /launch-worker.sh
+  fi
+
+  if [ ! -z "$POOL_JOIN_DEPOSIT" ] ; then
+  	sed -i "s/^DEPOSIT=.*$/DEPOSIT=$POOL_JOIN_DEPOSIT/g" /launch-worker.sh
   else 
   	sed -i "s/^DEPOSIT=.*$/DEPOSIT=0/g" /launch-worker.sh
   fi
 
-  if [ ! -z "$SCRIPT_CHAIN" ] ; then
-  	sed -i "s/^CHAIN=.*$/CHAIN=$SCRIPT_CHAIN/g" /launch-worker.sh
+  if [ ! -z "$POOL_JOIN_CHAIN" ] ; then
+  	sed -i "s/^CHAIN=.*$/CHAIN=$POOL_JOIN_CHAIN/g" /launch-worker.sh
   else 
-  	sed -i "s/^CHAIN=.*$/CHAIN=mainnet/g" /launch-worker.sh
+  	sed -i "s/^CHAIN=.*$/CHAIN=kovan/g" /launch-worker.sh
   fi
 
-  if [ ! -z "$SCRIPT_MINETHEREUM" ] ; then
-  	sed -i "s/^MINETHEREUM=.*$/MINETHEREUM=$SCRIPT_MINETHEREUM/g" /launch-worker.sh
+  if [ ! -z "$POOL_JOIN_MINETHEREUM" ] ; then
+  	sed -i "s/^MINETHEREUM=.*$/MINETHEREUM=$POOL_JOIN_MINETHEREUM/g" /launch-worker.sh
   else 
-  	sed -i "s/^MINETHEREUM=.*$/MINETHEREUM=0.18/g" /launch-worker.sh
+  	sed -i "s/^MINETHEREUM=.*$/MINETHEREUM=0.25/g" /launch-worker.sh
   fi
 
-  if [ ! -z "$SCRIPT_SCHEDULER_DOMAIN" ] ; then
-  	sed -i "s/^SCHEDULER_DOMAIN=.*$/SCHEDULER_DOMAIN=$SCRIPT_SCHEDULER_DOMAIN/g" /launch-worker.sh
+  if [ ! -z "$POOL_JOIN_HUBCONTRACT" ] ; then
+  	sed -i "s/^HUBCONTRACT=.*$/HUBCONTRACT=$POOL_JOIN_HUBCONTRACT/g" /launch-worker.sh
   else 
-  	sed -i "s/^SCHEDULER_DOMAIN=.*$/SCHEDULER_DOMAIN=localhost/g" /launch-worker.sh
+  	sed -i "s/^HUBCONTRACT=.*$/HUBCONTRACT=0x/g" /launch-worker.sh
   fi
 
-  if [ ! -z "$SCRIPT_SCHEDULER_IP" ] ; then
-  	sed -i "s/^SCHEDULER_IP=.*$/SCHEDULER_IP=$SCRIPT_SCHEDULER_IP/g" /launch-worker.sh
+  if [ ! -z "$POOL_JOIN_WORKER_DOCKER_IMAGE_VERSION" ] ; then
+  	sed -i "s/^WORKER_DOCKER_IMAGE_VERSION=.*$/WORKER_DOCKER_IMAGE_VERSION=$POOL_JOIN_WORKER_DOCKER_IMAGE_VERSION/g" /launch-worker.sh
   else 
-  	sed -i "s/^SCHEDULER_IP=.*$/SCHEDULER_IP=127.0.0.1/g" /launch-worker.sh
+  	sed -i "s/^WORKER_DOCKER_IMAGE_VERSION=.*$/WORKER_DOCKER_IMAGE_VERSION=latest/g" /launch-worker.sh
   fi
 
-  if [ ! -z "$SCRIPT_WORKER_DOCKER_IMAGE_VERSION" ] ; then
-  	sed -i "s/^WORKER_DOCKER_IMAGE_VERSION=.*$/WORKER_DOCKER_IMAGE_VERSION=$SCRIPT_WORKER_DOCKER_IMAGE_VERSION/g" /launch-worker.sh
+  if [ ! -z "$POOL_JOIN_IEXEC_CORE_HOST" ] ; then
+  	sed -i "s/^IEXEC_CORE_HOST=.*$/IEXEC_CORE_HOST=$POOL_JOIN_IEXEC_CORE_HOST/g" /launch-worker.sh
   else 
-  	sed -i "s/^WORKER_DOCKER_IMAGE_VERSION=.*$/WORKER_DOCKER_IMAGE_VERSION=14.0.0/g" /launch-worker.sh
+  	sed -i "s/^IEXEC_CORE_HOST=.*$/IEXEC_CORE_HOST=mainnet/g" /launch-worker.sh
   fi
 
-  if [ ! -z "$SCRIPT_WORKER_POOLNAME" ] ; then
-  	sed -i "s/^WORKER_POOLNAME=.*$/WORKER_POOLNAME=$SCRIPT_WORKER_POOLNAME/g" /launch-worker.sh
+  if [ ! -z "$POOL_JOIN_IEXEC_CORE_PORT" ] ; then
+  	sed -i "s/^IEXEC_CORE_PORT=.*$/IEXEC_CORE_PORT=$POOL_JOIN_IEXEC_CORE_PORT/g" /launch-worker.sh
   else 
-  	sed -i "s/^WORKER_POOLNAME=.*$/WORKER_POOLNAME=mainnet/g" /launch-worker.sh
-  fi
-
-  if [ ! -z "$SCRIPT_WORKER_HOSTNAME" ] ; then
-  	sed -i "s/^WORKER_HOSTNAME=.*$/WORKER_HOSTNAME=$SCRIPT_WORKER_HOSTNAME/g" /launch-worker.sh
-  else 
-  	sed -i "s/^WORKER_HOSTNAME=.*$/WORKER_HOSTNAME=/g" /launch-worker.sh
-  fi
-
-  if [ ! -z "$SCRIPT_WORKER_LOGIN" ] ; then
-  	sed -i "s/^WORKER_LOGIN=.*$/WORKER_LOGIN=$SCRIPT_WORKER_LOGIN/g" /launch-worker.sh
-  else 
-  	sed -i "s/^WORKER_LOGIN=.*$/WORKER_LOGIN=vworker/g" /launch-worker.sh
-  fi
-
-  if [ ! -z "$SCRIPT_WORKER_PASSWORD" ] ; then
-  	sed -i "s/^WORKER_PASSWORD=.*$/WORKER_PASSWORD=$SCRIPT_WORKER_PASSWORD/g" /launch-worker.sh
-  else 
-  	sed -i "s/^WORKER_PASSWORD=.*$/WORKER_PASSWORD=vworker/g" /launch-worker.sh
-  fi
-
-  if [ ! -z "$SCRIPT_WORKER_LOGGERLEVEL" ] ; then
-  	sed -i "s/^WORKER_LOGGERLEVEL=.*$/WORKER_LOGGERLEVEL=$SCRIPT_WORKER_LOGGERLEVEL/g" /launch-worker.sh
-  else 
-  	sed -i "s/^WORKER_LOGGERLEVEL=.*$/WORKER_LOGGERLEVEL=DEBUG/g" /launch-worker.sh
-  fi
-
-  if [ ! -z "$SCRIPT_WORKER_SHAREDPACKAGES" ] ; then
-  	sed -i "s/^WORKER_SHAREDPACKAGES=.*$/WORKER_SHAREDPACKAGES=$SCRIPT_WORKER_SHAREDPACKAGES/g" /launch-worker.sh
-  else 
-  	sed -i "s/^WORKER_SHAREDPACKAGES=.*$/WORKER_SHAREDPACKAGES=/g" /launch-worker.sh
-  fi
-
-  if [ ! -z "$SCRIPT_WORKER_SHAREDAPPS" ] ; then
-  	sed -i "s/^WORKER_SHAREDAPPS=.*$/WORKER_SHAREDAPPS=$SCRIPT_WORKER_SHAREDAPPS/g" /launch-worker.sh
-  else 
-  	sed -i "s/^WORKER_SHAREDAPPS=.*$/WORKER_SHAREDAPPS=docker/g" /launch-worker.sh
-  fi
-
-  if [ ! -z "$SCRIPT_WORKER_SANDBOX_ENABLED" ] ; then
-  	sed -i "s/^WORKER_SANDBOX_ENABLED=.*$/WORKER_SANDBOX_ENABLED=$SCRIPT_WORKER_SANDBOX_ENABLED/g" /launch-worker.sh
-  else 
-  	sed -i "s/^WORKER_SANDBOX_ENABLED=.*$/WORKER_SANDBOX_ENABLED=true/g" /launch-worker.sh
-  fi
-
-  if [ ! -z "$SCRIPT_BLOCKCHAINETHENABLED" ] ; then
-  	sed -i "s/^BLOCKCHAINETHENABLED=.*$/BLOCKCHAINETHENABLED=$SCRIPT_BLOCKCHAINETHENABLED/g" /launch-worker.sh
-  else 
-  	sed -i "s/^BLOCKCHAINETHENABLED=.*$/BLOCKCHAINETHENABLED=true/g" /launch-worker.sh
-  fi
-
-  if [ ! -z "$SCRIPT_WORKERWALLETPASSWORD" ] ; then
-  	sed -i "s/^WORKERWALLETPASSWORD=.*$/WORKERWALLETPASSWORD=$SCRIPT_WORKERWALLETPASSWORD/g" /launch-worker.sh
-  else 
-  	sed -i "s/^WORKERWALLETPASSWORD=.*$/WORKERWALLETPASSWORD=whatever/g" /launch-worker.sh
-  fi
-
-
-  if [ ! -z "$SCRIPT_WORKERWALLETPATH" ] ; then
-    
-    sed -i -e "/^#\!\/bin\/bash$/ { d; }" /launch-worker.sh 
-    sed -i -e "/^WORKERWALLETPATH=.*$/ { d; }" /launch-worker.sh 
-
-    echo "#!/bin/bash" > /launch-worker.sh.temp
-    echo "WORKERWALLETPATH=$SCRIPT_WORKERWALLETPATH" >> /launch-worker.sh.temp
-    cat /launch-worker.sh >> /launch-worker.sh.temp
-    mv /launch-worker.sh.temp /launch-worker.sh
-
-  fi
-
-  if [ ! -z "$SCRIPT_WORKERWALLETPATH" ] ; then
-    
-    sed -i -e "/^#\!\/bin\/bash$/ { d; }" /launch-worker.sh 
-    sed -i -e "/^WORKER_TMPDIR=.*$/ { d; }" /launch-worker.sh 
-
-    echo "#!/bin/bash" > /launch-worker.sh.temp
-    echo "WORKER_TMPDIR=$SCRIPT_WORKER_TMPDIR" >> /launch-worker.sh.temp
-    cat /launch-worker.sh >> /launch-worker.sh.temp
-    mv /launch-worker.sh.temp /launch-worker.sh
-
+  	sed -i "s/^IEXEC_CORE_PORT=.*$/IEXEC_CORE_PORT=/g" /launch-worker.sh
   fi
 
   cp /launch-worker.sh /usr/share/grafana/public/launch-worker.sh
