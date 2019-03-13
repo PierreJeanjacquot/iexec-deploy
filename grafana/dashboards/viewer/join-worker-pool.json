@@ -345,9 +345,9 @@
         "valueName": "avg"
       },
       {
-        "content": "<script>\n  var path = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');\n  document.getElementById('scriptLink').setAttribute('href', path+'/public/launch-worker.sh');\n  document.getElementById('inputLink').setAttribute('value', \"curl -fsSL --insecure \"+path+'/public/launch-worker.sh -o launch-iexec-worker.sh && bash ./launch-iexec-worker.sh');\n</script>\n\n<h2> Requirements </h2>\n<ul>\n<li>Docker CE\n<li>BC and WC packages installed\n<li> User that launches the script need to be able to launch docker commands\n</ul>\n<br />\n<h2> Start Worker </h2>\n\n<h4> Method 1 </h4>\n<ul>\n<li>Download <a href=\"#\" id=\"scriptLink\" target=\"_blank\" download>Launch Worker Script</a>\n<li>Launch it with \"bash ./launch-worker.sh\"\n</ul>\n\n<h4> Method 2 </h4>\nJust Launch: \n<input id=\"inputLink\" type=\"text\" data-share-panel-url class=\"gf-form-input\" ng-model=\"shareUrl\" value=\"\"></input>\n",
+        "content": "<script>\n  var path = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');\n  document.getElementById('inputLink').setAttribute('value', \"curl -fsSL --insecure \"+path+'/public/launch-worker.sh -o launch-iexec-worker.sh && bash ./launch-iexec-worker.sh');\n  document.getElementById('inputLink2').setAttribute('value', \"curl -fsSL --insecure \"+path+'/public/launch-worker.sh -o launch-iexec-worker.sh && bash ./launch-iexec-worker.sh --remove');\n  document.getElementById('inputLink3').setAttribute('value', \"curl -fsSL --insecure \"+path+'/public/launch-worker.sh -o launch-iexec-worker.sh && bash ./launch-iexec-worker.sh --update');\n</script>\n\n<h2> Requirements </h2>\n<ul>\n<li>Docker CE\n<li>BC package installed\n<li> User that launches the script need to be able to launch docker commands\n</ul>\n<br />\n<hr />\n<br />\n<h2> Launch Worker</h2>\n<input id=\"inputLink\" type=\"text\" data-share-panel-url class=\"gf-form-input\" ng-model=\"shareUrl\" value=\"\"></input>\n<br />\n<hr />\n<br />\n<h2> Remove Worker </h2>\n<input id=\"inputLink2\" type=\"text\" data-share-panel-url class=\"gf-form-input\" ng-model=\"shareUrl\" value=\"\"></input>\n<br />\n<hr />\n<br />\n<h2> Update Worker </h2>\n<input id=\"inputLink3\" type=\"text\" data-share-panel-url class=\"gf-form-input\" ng-model=\"shareUrl\" value=\"\"></input>\n<br />\n<hr />\n<br />\n",
         "gridPos": {
-          "h": 12,
+          "h": 16,
           "w": 12,
           "x": 6,
           "y": 3
@@ -621,7 +621,7 @@
       }
     ],
     "refresh": "5s",
-    "schemaVersion": 16,
+    "schemaVersion": 18,
     "style": "dark",
     "tags": [],
     "templating": {
