@@ -9,7 +9,6 @@ HUBCONTRACT=0x759b25b358b9f9c18812a69c0a9cf8b5a11c2e2d
 WORKER_DOCKER_IMAGE_VERSION=31dc033
 IEXEC_CORE_HOST=api-test-kovan-pool.iex.ec
 IEXEC_CORE_PORT=18090
-IEXEC_WORKER_NAME=testworker
 
 # Function that prints messages
 function message() {
@@ -179,7 +178,7 @@ else
         if [[ -f ${files[$i]} ]]; then
             message "INFO" "Found wallet in ${files[$i]}"
             # Extracting wallet address
-            WALLET_ADDR=$(cat ${files[$i]} | jq .address | sed "s/\"//g")
+            WALLET_ADDR=$(cat ${files[$i]} | awk -v RS= '{$1=$1}1' | tr -d "[:space:]" | sed -E "s/.*\"address\":\"([a-zA-Z0-9]+)\".*/\1/g")
 
             while [ "$answerwalletuse" != "yes" ] && [ "$answerwalletuse" != "no" ]; do
                 read -p "Do you want to use wallet 0x$WALLET_ADDR? [yes/no] " answerwalletuse
@@ -232,9 +231,12 @@ else
             IEXEC_INIT_RESULT=$(iexec init --force --raw --password "$WORKERWALLETPASSWORD")
             checkExitStatus $? "Can't create a wallet. Failed init."
 
+
             # Get wallet address and wallet file path
-            WALLET_ADDR=$(echo $IEXEC_INIT_RESULT | jq .walletAddress | sed "s/\"//g")
-            WALLET_FILE=$(echo $IEXEC_INIT_RESULT | jq .walletFile | sed "s/\"//g")
+            WALLET_ADDR=$(echo $IEXEC_INIT_RESULT | sed -E "s/.*\"walletAddress\":\"([0-9a-zA-Z]+)\".*/\1/g")
+            WALLET_FILE=$(echo $IEXEC_INIT_RESULT | sed -E "s/.*\"walletFile\":\"([0-9a-zA-Z\/.-]+)\".*/\1/g")
+            # Replacing node home with current user home
+            WALLET_FILE=$(echo $WALLET_FILE | sed "s/node/$(whoami)/g")
 
             message "INFO" "A wallet with address $WALLET_ADDR was created in $WALLET_FILE."
 
@@ -247,6 +249,8 @@ else
         fi
     fi
 
+    echo "WALLET FILE: $WALLET_FILE"
+
     message "INFO" "The wallet $WALLET_ADDR with password $WORKERWALLETPASSWORD and path $WALLET_FILE will be used..."
 
     message "INFO" "Checking wallet balances."
@@ -256,7 +260,7 @@ else
     checkExitStatus $? "Can't init iexec sdk."
 
     message "INFO" "Adding Hub Contract address."
-    cat chain.json | jq -r ".chains.kovan += {\"hub\":\"$HUBCONTRACT\"}" | tee chain.json >/dev/null
+    cat chain.json | sed -E "s/(\"id\": \"42\")/\1\,\n      \"hub\":\"$HUBCONTRACT\"/g" | tee chain.json >/dev/null
     checkExitStatus $? "Can't place hub address."
 
     message "INFO" "Getting wallet info."
@@ -268,9 +272,9 @@ else
     checkExitStatus $? "Can't get account info."
 
     # Getting necessary values
-    ETHEREUM=$(echo $WALLETINFO | jq .balance.ETH | sed "s/\"//g")
-    NRLC=$(echo $WALLETINFO | jq .balance.nRLC | sed "s/\"//g")
-    STAKE=$(echo $ACCOUNTINFO | jq .balance.stake | sed "s/\"//g")
+    ETHEREUM=$(echo $WALLETINFO | sed -E "s/.*\"ETH\":\"([0-9.]+)\".*/\1/g")
+    NRLC=$(echo $WALLETINFO | sed -E "s/.*\"nRLC\":\"([0-9.]+)\".*/\1/g")
+    STAKE=$(echo $ACCOUNTINFO | sed -E "s/.*\"stake\":\"([0-9.]+)\".*/\1/g")
 
     # Showing balances
     message "INFO" "Ethereum balance is $ETHEREUM ETH."
@@ -321,7 +325,7 @@ else
              --hostname "$WORKER_NAME" \
              --env "IEXEC_CORE_HOST=$IEXEC_CORE_HOST" \
              --env "IEXEC_CORE_PORT=$IEXEC_CORE_PORT" \
-             --env "IEXEC_WORKER_NAME=$IEXEC_WORKER_NAME" \
+             --env "IEXEC_WORKER_NAME=$WORKER_NAME" \
              --env "IEXEC_WORKER_WALLET_PATH=/iexec-wallet/encrypted-wallet.json" \
              --env "IEXEC_WORKER_WALLET_PASSWORD=$WORKERWALLETPASSWORD" \
              -v $WALLET_FILE:/iexec-wallet/encrypted-wallet.json \
