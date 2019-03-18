@@ -327,7 +327,7 @@ echo "launch truffle migrate"
 ./node_modules/.bin/truffle --version
 rm -rf build
 rm -rf truffle.log
-./node_modules/.bin/truffle migrate --network localForeignChain
+./node_modules/.bin/truffle migrate --network localForeignChain | tee -a "truffle.log" 
 
 if [ $? -eq 0 ]
 then
