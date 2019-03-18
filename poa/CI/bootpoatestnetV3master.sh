@@ -293,8 +293,10 @@ echo "get RLC contract from truffle.log "
 cat truffle.log | grep "RLC deployed at address:"
 
 IexecHubAddress=$(cat build/contracts/IexecHub.json | grep '"address":' | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g')
-RlcAddress=$(cat build/contracts/RLC.json | grep '"address":' | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g')
-
+#RlcAddress=$(cat build/contracts/RLC.json | grep '"address":' | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g')
+echo "get RLC contract from truffle.log "
+RlcAddress=$(cat truffle.log | grep "RLC deployed at address:" | cut -d ":" -f2 | sed 's/ //g')
+echo "RlcAddress $RlcAddress"
 
 if [ -z $IexecHubAddress ]
 then
@@ -336,11 +338,11 @@ else
 fi
 
 
-echo "get RLC contract from truffle.log "
-cat truffle.log | grep "RLC deployed at address:"
-
 IexecHubAddress=$(cat build/contracts/IexecHub.json | grep '"address":' | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g')
-RlcAddress=$(cat build/contracts/RLC.json | grep '"address":' | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g')
+#RlcAddress=$(cat build/contracts/RLC.json | grep '"address":' | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g')
+echo "get RLC contract from truffle.log "
+RlcAddress=$(cat truffle.log | grep "RLC deployed at address:" | cut -d ":" -f2 | sed 's/ //g')
+echo "RlcAddress $RlcAddress"
 
 if [ -z $IexecHubAddress ]
 then
