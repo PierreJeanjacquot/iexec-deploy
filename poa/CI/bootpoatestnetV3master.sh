@@ -191,7 +191,7 @@ fi
 
 echo "call parity-deploy script"
 
-./parity-deploy.sh --config aura --name HOME-CHAIN --nodes 1 --expose
+./parity-deploy.sh --config aura --name HOME-CHAIN --nodes 1 --expose --entrypoint /bin/parity
 
 
 sed -i 's/0x00Ea169ce7e0992960D3BdE6F5D539C955316432/0xabcd1339Ec7e762e639f4887E2bFe5EE8023E23E/g' deployment/chain/spec.json
@@ -223,7 +223,7 @@ fi
 
 echo "call parity-deploy script"
 
-./parity-deploy.sh --config aura --name FOREIGN-CHAIN --nodes 1  --expose
+./parity-deploy.sh --config aura --name FOREIGN-CHAIN --nodes 1  --expose --entrypoint /bin/parity
 
 
 sed -i 's/0x00Ea169ce7e0992960D3BdE6F5D539C955316432/0xabcd1339Ec7e762e639f4887E2bFe5EE8023E23E/g' deployment/chain/spec.json
