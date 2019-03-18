@@ -278,7 +278,8 @@ sed "s/__PRIVATE_KEY__/\"${ADMIN_PRIVATE_KEY}\"/g" ${SCRIPT_DIR}/truffleV3.tmpl 
 echo "launch truffle migrate"
 ./node_modules/.bin/truffle --version
 rm -rf build
-./node_modules/.bin/truffle migrate --network localHomeChain
+rm -rf truffle.log
+./node_modules/.bin/truffle migrate --network localHomeChain | tee -a "truffle.log" 
 
 if [ $? -eq 0 ]
 then
@@ -287,24 +288,13 @@ else
   echo "truffle migrate FAILED !"
   exit 1
 fi
-echo "cat build/contracts/IexecHub.json is"
-cat build/contracts/IexecHub.json
-echo "cat build/contracts/IexecHub.json was"
-echo "cat build/contracts/RLC.json is"
-cat build/contracts/RLC.json
-echo "cat build/contracts/RLC.json was"
 
+echo "get RLC contract from truffle.log "
+cat truffle.log | grep "RLC deployed at address:"
 
 IexecHubAddress=$(cat build/contracts/IexecHub.json | grep '"address":' | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g')
 RlcAddress=$(cat build/contracts/RLC.json | grep '"address":' | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g')
 
-
-0x607F4C5BB672230e8672085532f7e901544a7375
-0x7314dc4d7794b5e7894212ca1556ae8e3de58621
-0xf1e6ad3a7ef0c86c915f0fedf80ed851809bea90
-0x9Abfcd68c61E6C6C673c981e5DB658283Bf19dbD
-0x88b37ff3c0df0692f982a28099a9999c4a422293
-0xc57538846ec405ea25deb00e0f9b29a432d53507
 
 if [ -z $IexecHubAddress ]
 then
@@ -334,6 +324,7 @@ sed "s/__PRIVATE_KEY__/\"${ADMIN_PRIVATE_KEY}\"/g" ${SCRIPT_DIR}/truffleV3.tmpl 
 echo "launch truffle migrate"
 ./node_modules/.bin/truffle --version
 rm -rf build
+rm -rf truffle.log
 ./node_modules/.bin/truffle migrate --network localForeignChain
 
 if [ $? -eq 0 ]
@@ -343,6 +334,10 @@ else
   echo "truffle migrate FAILED !"
   exit 1
 fi
+
+
+echo "get RLC contract from truffle.log "
+cat truffle.log | grep "RLC deployed at address:"
 
 IexecHubAddress=$(cat build/contracts/IexecHub.json | grep '"address":' | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g')
 RlcAddress=$(cat build/contracts/RLC.json | grep '"address":' | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g')
