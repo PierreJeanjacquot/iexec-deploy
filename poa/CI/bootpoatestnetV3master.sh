@@ -261,7 +261,7 @@ echo "ADMIN_ADDRESS is $ADMIN_ADDRESS"
 cd $CURRENT_DIR
 cp -rf PoCo PoCo-home-chain
 cd PoCo-home-chain
-sed -i "s/\^5.0.0-beta.2/5.0.0-beta.2/g" package.json
+#sed -i "s/\^5.0.0-beta.2/5.0.0-beta.2/g" package.json
 #git checkout ABILegacy
 npm install truffle-hdwallet-provider@1.0.0-web3one.3
 npm i
@@ -301,7 +301,7 @@ echo "IexecHubAddress is $IexecHubAddress"
 cd $CURRENT_DIR
 cp -rf PoCo PoCo-foreign-chain
 cd PoCo-foreign-chain
-sed -i "s/\^5.0.0-beta.2/5.0.0-beta.2/g" package.json
+#sed -i "s/\^5.0.0-beta.2/5.0.0-beta.2/g" package.json
 #git checkout ABILegacy
 npm i
 npm install truffle-hdwallet-provider@1.0.0-web3one.3
