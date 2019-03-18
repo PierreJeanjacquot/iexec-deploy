@@ -20,12 +20,17 @@ module.exports = {
 }
  }
 ,
-    solc: {
-        optimizer: {
-            enabled: true,
-            runs: 200
-        }
-    },
+	compilers: {
+		solc: {
+			version: "0.5.5",
+			settings: {
+				optimizer: {
+					enabled: true,
+					runs: 200
+				}
+			}
+		}
+	},
     mocha: {
         enableTimeouts: false
     }
