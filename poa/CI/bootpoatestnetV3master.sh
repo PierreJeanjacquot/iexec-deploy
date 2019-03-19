@@ -191,16 +191,19 @@ fi
 
 echo "call parity-deploy script"
 
-./parity-deploy.sh --config aura --name HOME-CHAIN --nodes 1 --entrypoint "/bin/parity" --expose
+echo "target PARITY VERSION :$PARITY_DOCKER_VERSION"
+
+./parity-deploy.sh --config aura --name HOME-CHAIN --nodes 1 --entrypoint "/bin/parity" --release $PARITY_DOCKER_VERSION --expose
 
 
 sed -i 's/0x00Ea169ce7e0992960D3BdE6F5D539C955316432/0xabcd1339Ec7e762e639f4887E2bFe5EE8023E23E/g' deployment/chain/spec.json
 sed -i "s/\"stepDuration\": \"2\"/\"stepDuration\": \"`echo $STEP_DURATION`\"/g" deployment/chain/spec.json
 sed -i "s/\"networkID\" : \"0x11\"/\"networkID\" : \"`echo $NETWORK_ID_HOME`\"/g" deployment/chain/spec.json
 
-echo "target PARITY VERSION :$PARITY_DOCKER_VERSION"
-sed -i "s/stable/$PARITY_DOCKER_VERSION/g" docker-compose.yml
+#sed -i "s/stable/$PARITY_DOCKER_VERSION/g" docker-compose.yml
 sed -i "s/host1/host-home-chain/g" docker-compose.yml
+
+FOREIGN-CHAIN
 sed -i "s/d \/home\/parity\/data/d \/home\/parity\/data --force-sealing --logging sync=info,snapshot=debug,txqueue=trace,tx=trace,tx_filter=trace,rpc=trace/g" docker-compose.yml
 
 
@@ -222,8 +225,8 @@ then
 fi
 
 echo "call parity-deploy script"
-
-./parity-deploy.sh --config aura --name FOREIGN-CHAIN --nodes 1 --entrypoint "/bin/parity"  --expose
+echo "target PARITY VERSION :$PARITY_DOCKER_VERSION"
+./parity-deploy.sh --config aura --name FOREIGN-CHAIN --nodes 1 --entrypoint "/bin/parity" --release $PARITY_DOCKER_VERSION  --expose
 
 
 sed -i 's/0x00Ea169ce7e0992960D3BdE6F5D539C955316432/0xabcd1339Ec7e762e639f4887E2bFe5EE8023E23E/g' deployment/chain/spec.json
@@ -232,8 +235,8 @@ sed -i "s/\"networkID\" : \"0x11\"/\"networkID\" : \"`echo $NETWORK_ID_FOREIGN`\
 
 
 
-echo "target PARITY VERSION :$PARITY_DOCKER_VERSION"
-sed -i "s/stable/$PARITY_DOCKER_VERSION/g" docker-compose.yml
+
+#sed -i "s/stable/$PARITY_DOCKER_VERSION/g" docker-compose.yml
 echo "change redirect port"
 sed -i "s/- 8080/- 9080/g" docker-compose.yml
 sed -i "s/- 8180/- 9180/g" docker-compose.yml
