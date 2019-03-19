@@ -423,7 +423,7 @@ FOREIGN_START_BLOCK=$(cat bridgeDeploy.log | grep "deployedBlockNumber" | cut -d
 # start poa bridge js
 ############################################
 cd $CURRENT_DIR
-git clone -b $REPO_TOKEN_BRIDGE https://github.com/branciard/token-bridge.git
+git clone -b $REPO_TOKEN_BRIDGE https://github.com/iExecBlockchainComputing/token-bridge.git
 cd token-bridge
 
 # attach docker to parity-deploy network
@@ -464,7 +464,7 @@ docker-compose up -d --build
 ############################################
 
 cd $CURRENT_DIR
-git clone -b $REPO_BRIDGE_UI https://github.com/branciard/bridge-ui.git
+git clone -b $REPO_BRIDGE_UI https://github.com/iExecBlockchainComputing/bridge-ui.git
 cd bridge-ui
 git submodule update --init --recursive --remote
 npm install
