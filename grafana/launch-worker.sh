@@ -248,7 +248,7 @@ else
             WALLET_FILE=$(echo $IEXEC_INIT_RESULT | sed -E "s/.*\"walletFile\":\"([0-9a-zA-Z\/.-]+)\".*/\1/g")
             # Replacing node home with current user home
             if [ "$DISTRO" == "darwin" ]; then
-                WALLET_FILE=$(echo $WALLET_FILE | | sed "s/home\/node\/\.ethereum/Users\/$(whoami)\/Library\/Ethereum/g")
+                WALLET_FILE=$(echo $WALLET_FILE | sed "s/home\/node\/\.ethereum/Users\/$(whoami)\/Library\/Ethereum/g")
             else
                 WALLET_FILE=$(echo $WALLET_FILE | sed "s/node/$(whoami)/g")
             fi
