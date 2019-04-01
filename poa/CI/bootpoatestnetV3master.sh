@@ -203,7 +203,7 @@ sed -i "s/\"networkID\" : \"0x11\"/\"networkID\" : \"`echo $NETWORK_ID_HOME`\"/g
 #sed -i "s/stable/$PARITY_DOCKER_VERSION/g" docker-compose.yml
 sed -i "s/host1/host-home-chain/g" docker-compose.yml
 
-FOREIGN-CHAIN
+
 sed -i "s/d \/home\/parity\/data/d \/home\/parity\/data --force-sealing --logging sync=info,snapshot=debug,txqueue=trace,tx=trace,tx_filter=trace,rpc=trace/g" docker-compose.yml
 
 
