@@ -266,7 +266,7 @@ docker-compose up -d
 
 
 #ADMIN_PRIVATE_KEY=$(cat ../wallets/wallets/wallet-abc.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g' | cut  -c3-)
-
+iexec init --password $PASSWORD --force
 ADMIN_PRIVATE_KEY=$(iexec wallet show --show-private-key --keystoredir /home/ubuntu/wallets/wallets --wallet-file wallet-abc.json --password $PASSWORD --raw | jq '.wallet.privateKey' | sed 's/\"//g')
 
 ADMIN_ADDRESS=$(cat ../wallets/wallets/wallet-abc.json | grep address | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g')
