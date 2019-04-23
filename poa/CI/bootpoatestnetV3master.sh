@@ -385,13 +385,13 @@ mkdir -p ~/.ethereum/keystore
 sed -i "s/\"17\"/\"*\"/g" chain.json
 
 # richman used in topUpWallets on homechain
-./topUpWallets --base=admin --from=1 --to=${NB_WALLETS} --minETH=${ETH_AMOUNT} --maxETH=${ETH_AMOUNT} --chain=dev --minRLC=${RLC_AMOUNT} --keystoredir "/home/ubuntu/wallets/wallets"
+./topUpWallets --base=admin --from=1 --to=${NB_WALLETS} --minETH=${ETH_AMOUNT} --maxETH=${ETH_AMOUNT} --chain=dev --minRLC=${RLC_AMOUNT} --keystoredir=/home/ubuntu/wallets/wallets
 
 sed -i "s/8545/9545/g" chain.json
 
 
 # richman used in topUpWallets on foreinchain
-./topUpWallets --base=admin  --from=1 --to=${NB_WALLETS} --minETH=${ETH_AMOUNT} --maxETH=${ETH_AMOUNT} --chain=dev --minRLC=${RLC_AMOUNT} --keystoredir "/home/ubuntu/wallets/wallets"
+./topUpWallets --base=admin  --from=1 --to=${NB_WALLETS} --minETH=${ETH_AMOUNT} --maxETH=${ETH_AMOUNT} --chain=dev --minRLC=${RLC_AMOUNT} --keystoredir=/home/ubuntu/wallets/wallets
 
 
 echo "POA test FOREIGN-CHAIN chain and HOME-CHAIN chain is installed and up "
