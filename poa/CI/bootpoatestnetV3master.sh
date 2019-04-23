@@ -48,6 +48,7 @@ REPO_POA_BRIDGE_CONTRACTS="master"
 REPO_TOKEN_BRIDGE="master"
 REPO_BRIDGE_UI="master"
 REPO_BRIDGE_MONITOR="master"
+PASSWORD=""
 
 
 ARGS="$@"
@@ -103,6 +104,9 @@ while [ "$1" != "" ]; do
     --repo-bridge-monitor-tag )       shift
       REPO_BRIDGE_MONITOR=$1
       ;;
+    --password )       shift
+      PASSWORD=$1
+      ;;
     -h | --help )           help
       exit
       ;;
@@ -136,6 +140,11 @@ if [ -z $TEST_IP ] ; then
   exit 1
 fi
 
+if [ -z $PASSWORD ] ; then
+  echo "--password arg is mandatory"
+  help
+  exit 1
+fi
 
 
 
@@ -256,9 +265,13 @@ docker-compose up -d
 
 
 
-ADMIN_PRIVATE_KEY=$(cat ../wallets/wallets/wallet-abc.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g' | cut  -c3-)
+#ADMIN_PRIVATE_KEY=$(cat ../wallets/wallets/wallet-abc.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g' | cut  -c3-)
+
+ADMIN_PRIVATE_KEY=$(iexec wallet show --show-private-key --keystoredir /home/ubuntu/wallets/wallets --wallet-file wallet-abc.json --password $PASSWORD --raw | jq '.wallet.privateKey' | sed 's/\"//g')
+
 ADMIN_ADDRESS=$(cat ../wallets/wallets/wallet-abc.json | grep address | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g')
 
+echo "ADMIN_PRIVATE_KEY is $ADMIN_PRIVATE_KEY"
 echo "ADMIN_ADDRESS is $ADMIN_ADDRESS"
 
 cd $CURRENT_DIR
