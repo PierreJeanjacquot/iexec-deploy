@@ -266,7 +266,7 @@ cp -rf PoCo PoCo-home-chain
 cd PoCo-home-chain
 #sed -i "s/\^5.0.0-beta.2/5.0.0-beta.2/g" package.json
 #git checkout ABILegacy
-npm install truffle-hdwallet-provider@1.0.0-web3one.3
+#npm install truffle-hdwallet-provider@1.0.0-web3one.3
 npm i
 
 #npm install truffle@beta
@@ -314,7 +314,7 @@ cd PoCo-foreign-chain
 #sed -i "s/\^5.0.0-beta.2/5.0.0-beta.2/g" package.json
 #git checkout ABILegacy
 npm i
-npm install truffle-hdwallet-provider@1.0.0-web3one.3
+#npm install truffle-hdwallet-provider@1.0.0-web3one.3
 #npm install truffle@beta
 
 
