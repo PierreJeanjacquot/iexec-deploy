@@ -256,8 +256,8 @@ docker-compose up -d
 
 
 
-ADMIN_PRIVATE_KEY=$(cat ../wallets/admin/wallet.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g' | cut  -c3-)
-ADMIN_ADDRESS=$(cat ../wallets/admin/wallet.json | grep address | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g')
+ADMIN_PRIVATE_KEY=$(cat ../wallets/wallet-abc.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g' | cut  -c3-)
+ADMIN_ADDRESS=$(cat ../wallets/wallet-abc.json | grep address | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g')
 
 echo "ADMIN_ADDRESS is $ADMIN_ADDRESS"
 
