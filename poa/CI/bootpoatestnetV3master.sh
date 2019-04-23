@@ -360,7 +360,7 @@ cd $CURRENT_DIR
 cd wallets
 
 # set the right IexecHub find in PoCo-dev/build/contracts/IexecClerk.json contract address
-sed -i "s/0x60E25C038D70A15364DAc11A042DB1dD7A2cccBC/${IexecHubAddress}/g" admin/chain.json
+sed -i "s/0x60E25C038D70A15364DAc11A042DB1dD7A2cccBC/${IexecHubAddress}/g" chain.json
 
 
 iexec --version
@@ -369,12 +369,12 @@ mkdir -p ~/.ethereum/keystore
 #end of workaround
 
 #* in network id
-sed -i "s/\"17\"/\"*\"/g" admin/chain.json
+sed -i "s/\"17\"/\"*\"/g" chain.json
 
 # richman used in topUpWallets on homechain
 ./topUpWallets --base=admin --from=1 --to=${NB_WALLETS} --minETH=${ETH_AMOUNT} --maxETH=${ETH_AMOUNT} --chain=dev --minRLC=${RLC_AMOUNT}
 
-sed -i "s/8545/9545/g" admin/chain.json
+sed -i "s/8545/9545/g" chain.json
 
 
 # richman used in topUpWallets on foreinchain
