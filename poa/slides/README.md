@@ -6,6 +6,6 @@ https://www.youtube.com/watch?v=B3t48F0n5Oc&t
 
 # substrate 0 presentation : 
 
-video link to come
+https://www.youtube.com/watch?v=s5lVxwTW5Hg
 
 [iexec-substrate-0-event.pdf](./iexec-substrate-0-event.pdf)
