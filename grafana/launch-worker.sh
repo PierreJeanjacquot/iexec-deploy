@@ -9,6 +9,7 @@ HUBCONTRACT=0x759b25b358b9f9c18812a69c0a9cf8b5a11c2e2d
 WORKER_DOCKER_IMAGE_VERSION=31dc033
 IEXEC_CORE_HOST=api-test-kovan-pool.iex.ec
 IEXEC_CORE_PORT=18090
+IEXEC_SDK_VERSION=latest
 
 # Function that prints messages
 function message() {
@@ -78,9 +79,9 @@ fi
 # Launch iexec sdk function
 function iexec {
   if [ "$DISTRO" != "darwin" ]; then
-    docker run -e DEBUG=$DEBUG --interactive --tty --rm -v /tmp:/tmp -v $(pwd):/iexec-project -v /home/$(whoami)/.ethereum/keystore:/home/node/.ethereum/keystore -w /iexec-project iexechub/iexec-sdk:next "$@"
+    docker run -e DEBUG=$DEBUG --interactive --tty --rm -v /tmp:/tmp -v $(pwd):/iexec-project -v /home/$(whoami)/.ethereum/keystore:/home/node/.ethereum/keystore -w /iexec-project iexechub/iexec-sdk:$IEXEC_SDK_VERSION "$@"
   else
-    docker run -e DEBUG=$DEBUG --interactive --tty --rm -v /tmp:/tmp -v $(pwd):/iexec-project -v /Users/$(whoami)/Library/Ethereum/keystore:/home/node/.ethereum/keystore -w /iexec-project iexechub/iexec-sdk:next "$@"    
+    docker run -e DEBUG=$DEBUG --interactive --tty --rm -v /tmp:/tmp -v $(pwd):/iexec-project -v /Users/$(whoami)/Library/Ethereum/keystore:/home/node/.ethereum/keystore -w /iexec-project iexechub/iexec-sdk:$IEXEC_SDK_VERSION "$@"    
   fi
 }
 
@@ -171,7 +172,7 @@ else
 
     # Pulling iexec sdk
     message "INFO" "Pulling iexec sdk..."
-    docker pull iexechub/iexec-sdk:next
+    docker pull iexechub/iexec-sdk:$IEXEC_SDK_VERSION
     checkExitStatus $? "Failed to pull image. Check docker service state or if user has rights to launch docker commands."
 
     # Looping over wallet files in inverse order (from the most recent to older one)

@@ -1,0 +1,18 @@
+version: '2'
+services:
+  order-consumer:
+    image: iexechub/iexec-order-consumer:latest
+    environment:
+      - POOLS=0xE4F0A428c71e9C9647907Fb339991748fC345413 0x6689f82df4A02120722Fe02E7c171847f98836b0
+      - CHAIN=kovan
+      - APP=0x6e257864c38A37253468236a810D29e32875E2Fb
+      - APP_PARAM=ace
+      - DATASET=
+      - WALLETPASSWORD=whatever
+      - SLEEP_VALUE=300-900
+      - MAXPRICE=99999999999
+    volumes:
+      - ./iexec:/iexec
+      - ./iexec/wallets/wallet.json:/wallets/wallet.json
+    restart: unless-stopped
+    

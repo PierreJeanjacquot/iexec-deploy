@@ -19,6 +19,7 @@ else
     fi
 fi
 
+
 # Calculate number of workers needed from trust value
 function getWorkersNumberFromTrust(){
     if [ 1 -le "$1" ] && [ "$1" -lt 3 ]; then
@@ -69,10 +70,14 @@ do
     echo "[INFO] Opened orders in order book: $ORDERBOOK_NUMBER."
 
     echo "[INFO] Checking scheduler info."
-    SCHEDULER_INFO=$(curl -s -X GET "$CORE_URL/metrics" -H "accept: */*" | jq '.aliveAvailableCpu')
-    echo "[INFO] Scheduler Info $SCHEDULER_INFO."
+    CORE_REQUEST_RESULT=$(curl -s -X GET "$CORE_URL/metrics" -H "accept: */*")
+    AVALIABLE_CPU=$(echo $CORE_REQUEST_RESULT | jq '.aliveAvailableCpu')
+    ALIVE_WORKERS=$(echo $CORE_REQUEST_RESULT | jq '.aliveWorkers')
+    echo "[INFO] Scheduler Avaliable CPU $AVALIABLE_CPU."
 
-    CAN_PUBLISH_NUMBER=`expr $SCHEDULER_INFO - $ORDERBOOK_NUMBER`
+
+
+    CAN_PUBLISH_NUMBER=`expr $AVALIABLE_CPU - $ORDERBOOK_NUMBER`
     echo "[INFO] Avaliable publish number $CAN_PUBLISH_NUMBER."
 
     if [ "$CAN_PUBLISH_NUMBER" -gt 0 ]; then
@@ -99,8 +104,8 @@ do
         	sed -i "s/@ORDER_VOLUME@/$ORDER_VOLUME/g" iexec.json
 
         	# Sign and publish an order
-        	iexec order sign --workerpool --chain $CHAIN --force
-        	iexec order publish --workerpool --chain $CHAIN --force
+        	iexec order sign --workerpool --chain $CHAIN --force --keystoredir /wallets --wallet-file wallet.json --password $WALLETPASSWORD
+        	iexec order publish --workerpool --chain $CHAIN --force --keystoredir /wallets --wallet-file wallet.json --password $WALLETPASSWORD
 
             # Wait for the next publish
             echo "[INFO] Waiting $PUBLISH_PERIOD sec before next publish."

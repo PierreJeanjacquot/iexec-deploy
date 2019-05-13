@@ -1,4 +1,4 @@
-FROM iexechub/iexec-sdk:next
+FROM iexechub/iexec-sdk
 LABEL maintainer "vladimir.ostapenco@iex.ec"
 
 USER root

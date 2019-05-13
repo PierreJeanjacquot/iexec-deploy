@@ -201,6 +201,13 @@ if [ ! -z $ACTIVATE_POOL_JOIN ] && [ "$ACTIVATE_POOL_JOIN" == "1" ]; then
   	sed -i "s/^IEXEC_CORE_HOST=.*$/IEXEC_CORE_HOST=mainnet/g" /launch-worker.sh
   fi
 
+  if [ ! -z "$POOL_JOIN_IEXEC_SDK_VERSION" ] ; then
+    sed -i "s/^IEXEC_SDK_VERSION=.*$/IEXEC_SDK_VERSION=$POOL_JOIN_IEXEC_SDK_VERSION/g" /launch-worker.sh
+  else 
+    sed -i "s/^IEXEC_SDK_VERSION=.*$/IEXEC_SDK_VERSION=latest/g" /launch-worker.sh
+  fi
+
+
   if [ ! -z "$POOL_JOIN_IEXEC_CORE_PORT" ] ; then
   	sed -i "s/^IEXEC_CORE_PORT=.*$/IEXEC_CORE_PORT=$POOL_JOIN_IEXEC_CORE_PORT/g" /launch-worker.sh
   else 
@@ -211,6 +218,6 @@ if [ ! -z $ACTIVATE_POOL_JOIN ] && [ "$ACTIVATE_POOL_JOIN" == "1" ]; then
 
 fi
 
-echo "Config was finished."
+echo "Grafana was successfully configured."
 
 wait
