@@ -1,0 +1,16 @@
+version: '2'
+services:
+  order-consumer:
+    image: iexechub/iexec-balance-checker:latest
+    environment:
+      - MIN_ETH=0.5
+      - MIN_NRLC=0
+      - MIN_STAKE=50000
+      - CHAIN=kovan
+      - SLACK_URL=https://hooks.slack.com/services/xxx
+      - CHECK_PERIOD=60
+    volumes:
+      - ./iexec:/iexec
+      - ./iexec/wallets/:/wallets/
+    restart: unless-stopped
+    
