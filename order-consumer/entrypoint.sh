@@ -15,6 +15,7 @@ do
     for cat in $(seq 0 4)
     do
 
+
       echo "[INFO] Searching orders in cat $cat by worker pool $value"
       ORDERBOOK=$(iexec orderbook workerpool $value --category $cat --chain $CHAIN --raw)
       ORDER_HASH=$(echo $ORDERBOOK | jq '.workerpoolOrders[].orderHash' | tail -n 1 | sed "s/\"//g")
@@ -22,6 +23,10 @@ do
 
       if [ ! -z $ORDER_HASH ]
       then
+
+        echo "[INFO] Wallet info"
+        iexec wallet show --keystoredir $KEYSTOREPATH --wallet-file wallet.json --password "$WALLETPASSWORD"
+        iexec account show --keystoredir $KEYSTOREPATH --wallet-file wallet.json --password "$WALLETPASSWORD"
 
         echo "[INFO] Order with hash $ORDER_HASH and trust $TRUST_VALUE found in cat $cat"
 
