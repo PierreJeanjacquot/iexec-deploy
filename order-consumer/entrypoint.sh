@@ -25,13 +25,13 @@ do
       then
 
         echo "[INFO] Wallet info"
-        iexec wallet show --keystoredir $KEYSTOREPATH --wallet-file wallet.json --password "$WALLETPASSWORD"
-        iexec account show --keystoredir $KEYSTOREPATH --wallet-file wallet.json --password "$WALLETPASSWORD"
+        iexec wallet show --keystoredir $KEYSTOREPATH --wallet-file wallet.json --password "$WALLETPASSWORD" --chain $CHAIN
+        iexec account show --keystoredir $KEYSTOREPATH --wallet-file wallet.json --password "$WALLETPASSWORD" --chain $CHAIN
 
         echo "[INFO] Order with hash $ORDER_HASH and trust $TRUST_VALUE found in cat $cat"
 
         echo "[INFO] Init order."
-        iexec order init --request --keystoredir $KEYSTOREPATH --wallet-file wallet.json
+        iexec order init --request --keystoredir $KEYSTOREPATH --wallet-file wallet.json --chain $CHAIN
 
         echo "[INFO] Changing request data in iexec.json"
         sed -i "s/\"app\":\ \".*\"/\"app\":\ \"$APP\"/g" ./iexec.json
@@ -52,7 +52,7 @@ do
         #cat ./iexec.json
 
         echo "[INFO] Signing order"
-        iexec order sign --request --keystoredir $KEYSTOREPATH --wallet-file wallet.json --password "$WALLETPASSWORD"
+        iexec order sign --request --keystoredir $KEYSTOREPATH --wallet-file wallet.json --password "$WALLETPASSWORD" --chain $CHAIN
 
         echo "[INFO] Get app order hash"
         APP_ORDER_HASH=$(iexec orderbook app $APP --chain $CHAIN --raw | jq '.appOrders[] | select((.status | contains("open")) and (.remaining > 0)) | .orderHash' | tail -n 1 | sed "s/\"//g")

@@ -3,16 +3,15 @@ services:
   order-consumer:
     image: iexechub/iexec-order-consumer:latest
     environment:
-      - POOLS=0xE4F0A428c71e9C9647907Fb339991748fC345413 0xCa7c0e9a96666bC3636ff3d3E84805f75D49A83c 0x2C1d10E9A908F3D7D7F7C844df91Dede322E72F2 0x9B919d74f8Ef49C33343AD3056954A8E3e2F7Dc9 0xf2004414Ad75254AF3C6FFD381868383Adea7fb2 0xC84C7603B6c527b1664B28B915c5ADF6C3DD1aa2
-      - CHAIN=kovan
-      - APP=0x6e257864c38A37253468236a810D29e32875E2Fb
+      - POOLS=0xD34b0356D3A80De34d4fd71eF51346E468fe8cC2
+      - CHAIN=mainnet
+      - APP=0xfD783f8168D3d2413dA3F42599F317D6B457497e
       - APP_PARAM=ace
       - DATASET=
       - WALLETPASSWORD=whatever
-      - SLEEP_VALUE=300-900
+      - SLEEP_VALUE=3500-3600
       - MAXPRICE=99999999999
     volumes:
       - ./iexec:/iexec
       - ./iexec/wallets/wallet.json:/wallets/wallet.json
     restart: unless-stopped
-    

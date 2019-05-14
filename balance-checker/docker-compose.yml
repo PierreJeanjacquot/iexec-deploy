@@ -7,7 +7,7 @@ services:
       - MIN_NRLC=0
       - MIN_STAKE=50000
       - CHAIN=kovan
-      - SLACK_URL=https://hooks.slack.com/services/xxx
+      - SLACK_URL=https://hooks.slack.com/services/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
       - CHECK_PERIOD=60
     volumes:
       - ./iexec:/iexec
