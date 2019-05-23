@@ -8,6 +8,7 @@ SDK_VERSION=$(iexec --version)
 
 echo "[INFO] iExec SDK version $SDK_VERSION"
 
+
 while true
 do
   for value in $POOLS
@@ -41,6 +42,11 @@ do
           sed -i "s/\"dataset\":\ \".*\"/\"dataset\":\ \"$DATASET\"/g" ./iexec.json
         fi
 
+        if [ -f $PARAMS_FILE ]; then
+          APP_PARAM=$(eval $(shuf -n 1 parameters))
+          echo "[INFO] Selected application parameter is $APP_PARAM"
+        fi
+
         sed -i "s/\"workerpool\":\ \".*\"/\"workerpool\":\ \"$value\"/g" ./iexec.json
         sed -i "s/\"category\":\ .*/\"category\":\ $cat,/g" ./iexec.json
         sed -i "s/\"params\":\ \".*\"/\"params\":\ \"{\ \\\\\"0\\\\\": \\\\\"$APP_PARAM\\\\\"\ }\"/g" ./iexec.json
@@ -48,8 +54,10 @@ do
         sed -i "s/\"datasetmaxprice\":\ .*/\"datasetmaxprice\":\ $MAXPRICE,/g" ./iexec.json
         sed -i "s/\"workerpoolmaxprice\":\ .*/\"workerpoolmaxprice\":\ $MAXPRICE,/g" ./iexec.json
         sed -i "s/\"trust\":\ .*/\"trust\":\ $TRUST_VALUE,/g" ./iexec.json
+        sed -i "s/\"callback\":\ \".*\"/\"callback\":\ \"$CALLBACK\"/g" ./iexec.json
+        sed -i "s/\"beneficiary\":\ \".*\"/\"beneficiary\":\ \"$BENEFICIARY\"/g" ./iexec.json
 
-        #cat ./iexec.json
+        cat ./iexec.json
 
         echo "[INFO] Signing order"
         iexec order sign --request --keystoredir $KEYSTOREPATH --wallet-file wallet.json --password "$WALLETPASSWORD" --chain $CHAIN

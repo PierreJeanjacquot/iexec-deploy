@@ -1,0 +1,2 @@
+echo "BTC USD 9 $(date '+%Y-%m-%dT%T.')$(date +%N | cut -b1-3)Z"
+echo "BTC ETH 9 $(date '+%Y-%m-%dT%T.')$(date +%N | cut -b1-3)Z"

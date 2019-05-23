@@ -3,7 +3,7 @@ LABEL maintainer "vladimir.ostapenco@iex.ec"
 
 USER root
 
-RUN apk add --no-cache curl jq
+RUN apk add --no-cache curl jq coreutils
 
 RUN mkdir /wallets
 
