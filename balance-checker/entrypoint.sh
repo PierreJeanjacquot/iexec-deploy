@@ -70,10 +70,12 @@ while true; do
       continue
     fi
 
-    if [ $(echo "$STAKE < $MIN_STAKE" | bc -l) -eq 1 ]; then
-      echo "[ALERT] [$file] [$ADDRESS] [CHAIN: $CHAIN] The wallets STAKE is $STAKE nRLC but must be $MIN_STAKE nRLC."
-      post_to_slack "[$file] [$ADDRESS] [CHAIN: $CHAIN] The wallets STAKE is $STAKE nRLC but must be $MIN_STAKE nRLC." "WARNING"
-      continue
+    if [ "$(echo $file | grep no-stake)" = "" ]; then
+      if [ $(echo "$STAKE < $MIN_STAKE" | bc -l) -eq 1 ]; then
+        echo "[ALERT] [$file] [$ADDRESS] [CHAIN: $CHAIN] The wallets STAKE is $STAKE nRLC but must be $MIN_STAKE nRLC."
+        post_to_slack "[$file] [$ADDRESS] [CHAIN: $CHAIN] The wallets STAKE is $STAKE nRLC but must be $MIN_STAKE nRLC." "WARNING"
+        continue
+      fi
     fi
 
   done

@@ -5,7 +5,7 @@ cd /iexec
 
 # Check if template file is present
 if [ ! -f iexec.json.template ]; then
-    echo "[ERROR] iexec.json.template in /iexec folder required." 
+    echo "[ERROR] iexec.json.template in /iexec folder required."
     exit
 fi
 
@@ -53,13 +53,13 @@ function getWorkersNumberFromTrust(){
     elif [ 3252 -le "$1" ] && [ "$1" -lt 9999 ]; then
         echo "15"
     else
-        echo "1" 
+        echo "1"
     fi
 }
 
 # Looping
 while true
-do 
+do
 
     # Workers needed from trust
     NUM_WORKERS=$(getWorkersNumberFromTrust $TRUST_VALUE)
@@ -74,8 +74,6 @@ do
     AVALIABLE_CPU=$(echo $CORE_REQUEST_RESULT | jq '.aliveAvailableCpu')
     ALIVE_WORKERS=$(echo $CORE_REQUEST_RESULT | jq '.aliveWorkers')
     echo "[INFO] Scheduler Avaliable CPU $AVALIABLE_CPU."
-
-
 
     CAN_PUBLISH_NUMBER=`expr $AVALIABLE_CPU - $ORDERBOOK_NUMBER`
     echo "[INFO] Avaliable publish number $CAN_PUBLISH_NUMBER."
@@ -117,5 +115,5 @@ do
 	# Wait for the next check
     echo "[INFO] Sleeping 10 seconds before next check."
     sleep 10
-    
+
 done
