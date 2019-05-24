@@ -21,7 +21,7 @@
     "links": [],
     "panels": [
       {
-        "content": "<input type='button' value='Join Worker Pool' id='button' class='navbar-button' onclick=\"location.href='/d/JoinWorkerPool';\"/><div class='text-center dashboard-header'>\n  <img src='http://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/1024/iExec-RLC-RLC-icon.png' width='35' height='35' />\n  <span>V3 Kovan Worker Pool</span>\n</div>",
+        "content": "",
         "gridPos": {
           "h": 3,
           "w": 24,
@@ -1261,7 +1261,7 @@
       }
     ],
     "refresh": "5s",
-    "schemaVersion": 16,
+    "schemaVersion": 18,
     "style": "dark",
     "tags": [],
     "templating": {
