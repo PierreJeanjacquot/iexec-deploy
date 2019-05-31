@@ -38,16 +38,16 @@ while true; do
       continue
     fi
 
-    WALLET_SHOW=$(iexec wallet show --chain $CHAIN --keystoredir $KEYSTOREPATH --wallet-file $(basename $file) --password "$(cat $file.password)" --raw 2>&1)
-    ACCOUNT_SHOW=$(iexec account show --chain $CHAIN --keystoredir $KEYSTOREPATH --wallet-file $(basename $file) --password "$(cat $file.password)" --raw 2>&1)
+    WALLET_SHOW=$(iexec wallet show --chain $CHAIN --keystoredir $KEYSTOREPATH --wallet-file $(basename $file) --password "$(cat $file.password)" --raw)
+    ACCOUNT_SHOW=$(iexec account show --chain $CHAIN --keystoredir $KEYSTOREPATH --wallet-file $(basename $file) --password "$(cat $file.password)" --raw)
 
-    if [ "$(echo $WALLET_SHOW | jq .error)" != "null" ]; then
-      echo "[ERROR] $(echo $WALLET_SHOW | jq .error)"
+    if [ "$WALLET_SHOW" == "" ]; then
+      echo "[ERROR] Can't get wallet info."
       continue
     fi
 
-    if [ "$(echo $ACCOUNT_SHOW | jq .error)" != "null" ]; then
-      echo "[ERROR] $(echo $ACCOUNT_SHOW | jq .error)"
+    if [ "$ACCOUNT_SHOW" == "" ]; then
+      echo "[ERROR] Can't get account info."
       continue
     fi
 
