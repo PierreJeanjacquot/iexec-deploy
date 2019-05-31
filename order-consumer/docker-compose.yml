@@ -14,6 +14,7 @@ services:
       - CALLBACK=0xed4a0189511859427c33dcc7c85fdd36575ae946
       - BENEFICIARY=0x0000000000000000000000000000000000000000
       - PARAMS_FILE=/iexec/parameters
+      - GAS_PRICE=10000000000
     volumes:
       - ./iexec:/iexec
       - ./iexec/wallets/wallet.json:/wallets/wallet.json

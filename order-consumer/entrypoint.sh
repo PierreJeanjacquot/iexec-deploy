@@ -9,6 +9,12 @@ SDK_VERSION=$(iexec --version)
 echo "[INFO] iExec SDK version $SDK_VERSION"
 
 
+OTHER_PARAMS=""
+if [ ! -z $GAS_PRICE ]; then
+  echo "[INFO] Found GAS_PRICE so setting it."
+  OTHER_PARAMS="$OTHER_PARAMS --gas-price $GAS_PRICE"
+fi
+
 while true
 do
   for value in $POOLS
@@ -24,10 +30,6 @@ do
 
       if [ ! -z $ORDER_HASH ]
       then
-
-        echo "[INFO] Wallet info"
-        iexec wallet show --keystoredir $KEYSTOREPATH --wallet-file wallet.json --password "$WALLETPASSWORD" --chain $CHAIN
-        iexec account show --keystoredir $KEYSTOREPATH --wallet-file wallet.json --password "$WALLETPASSWORD" --chain $CHAIN
 
         echo "[INFO] Order with hash $ORDER_HASH and trust $TRUST_VALUE found in cat $cat"
 
@@ -79,10 +81,10 @@ do
             exit 1
           fi
           echo "[INFO] Filling order"
-          iexec order fill --workerpool $ORDER_HASH --app $APP_ORDER_HASH --dataset $DATASET_ORDER_HASH --chain $CHAIN --keystoredir $KEYSTOREPATH --wallet-file wallet.json --password "$WALLETPASSWORD"
+          iexec order fill --workerpool $ORDER_HASH --app $APP_ORDER_HASH --dataset $DATASET_ORDER_HASH --chain $CHAIN --keystoredir $KEYSTOREPATH --wallet-file wallet.json --password "$WALLETPASSWORD" $OTHER_PARAMS
         else
           echo "[INFO] Filling order"
-          iexec order fill --workerpool $ORDER_HASH --app $APP_ORDER_HASH --keystoredir $KEYSTOREPATH --chain $CHAIN --wallet-file wallet.json --password "$WALLETPASSWORD"
+          iexec order fill --workerpool $ORDER_HASH --app $APP_ORDER_HASH --keystoredir $KEYSTOREPATH --chain $CHAIN --wallet-file wallet.json --password "$WALLETPASSWORD" $OTHER_PARAMS
         fi
       fi
     done
