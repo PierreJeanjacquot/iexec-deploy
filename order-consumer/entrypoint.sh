@@ -44,8 +44,8 @@ do
           sed -i "s/\"dataset\":\ \".*\"/\"dataset\":\ \"$DATASET\"/g" ./iexec.json
         fi
 
-        if [ -f $PARAMS_FILE ]; then
-          APP_PARAM=$(eval $(shuf -n 1 parameters))
+        if [ ! -z $PARAMS_FILE ] && [ -f $PARAMS_FILE ]; then
+          APP_PARAM=$(eval $(shuf -n 1 $PARAMS_FILE))
           echo "[INFO] Selected application parameter is $APP_PARAM"
         fi
 
