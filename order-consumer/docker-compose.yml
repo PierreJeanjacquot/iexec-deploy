@@ -1,0 +1,21 @@
+version: '2'
+services:
+  order-consumer:
+    image: iexechub/iexec-order-consumer:latest
+    environment:
+      - POOLS=0xD34b0356D3A80De34d4fd71eF51346E468fe8cC2
+      - CHAIN=mainnet
+      - APP=0xfD783f8168D3d2413dA3F42599F317D6B457497e
+      - APP_PARAM=
+      - DATASET=
+      - WALLETPASSWORD=whatever
+      - SLEEP_VALUE=3500-3600
+      - MAXPRICE=99999999999
+      - CALLBACK=0xed4a0189511859427c33dcc7c85fdd36575ae946
+      - BENEFICIARY=0x0000000000000000000000000000000000000000
+      - PARAMS_FILE=/iexec/parameters
+      - GAS_PRICE=10000000000
+    volumes:
+      - ./iexec:/iexec
+      - ./iexec/wallets/wallet.json:/wallets/wallet.json
+    restart: unless-stopped

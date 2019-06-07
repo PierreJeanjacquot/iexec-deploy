@@ -5,7 +5,7 @@ cd /iexec
 
 # Check if template file is present
 if [ ! -f iexec.json.template ]; then
-    echo "[ERROR] iexec.json.template in /iexec folder required." 
+    echo "[ERROR] iexec.json.template in /iexec folder required."
     exit
 fi
 
@@ -18,6 +18,7 @@ else
     	exit
     fi
 fi
+
 
 # Calculate number of workers needed from trust value
 function getWorkersNumberFromTrust(){
@@ -52,13 +53,13 @@ function getWorkersNumberFromTrust(){
     elif [ 3252 -le "$1" ] && [ "$1" -lt 9999 ]; then
         echo "15"
     else
-        echo "1" 
+        echo "1"
     fi
 }
 
 # Looping
 while true
-do 
+do
 
     # Workers needed from trust
     NUM_WORKERS=$(getWorkersNumberFromTrust $TRUST_VALUE)
@@ -68,49 +69,58 @@ do
     ORDERBOOK_NUMBER=$(iexec orderbook workerpool $WORKERPOOL_ADDRESS --category $CATEGORY_INDEX --chain $CHAIN --raw | jq '.openVolume')
     echo "[INFO] Opened orders in order book: $ORDERBOOK_NUMBER."
 
-    echo "[INFO] Checking scheduler info."
-    SCHEDULER_INFO=$(curl -s -X GET "$CORE_URL/metrics" -H "accept: */*" | jq '.aliveAvailableCpu')
-    echo "[INFO] Scheduler Info $SCHEDULER_INFO."
+    if [ $ORDERBOOK_NUMBER -ge $MAX_ORDER_NUMBER ]; then
+      echo "[INFO] Orderbook contains maximum order number."
 
-    CAN_PUBLISH_NUMBER=`expr $SCHEDULER_INFO - $ORDERBOOK_NUMBER`
-    echo "[INFO] Avaliable publish number $CAN_PUBLISH_NUMBER."
+    else
 
-    if [ "$CAN_PUBLISH_NUMBER" -gt 0 ]; then
+      echo "[INFO] Checking scheduler info."
+      CORE_REQUEST_RESULT=$(curl -s -X GET "$CORE_URL/metrics" -H "accept: */*")
+      AVALIABLE_CPU=$(echo $CORE_REQUEST_RESULT | jq '.aliveAvailableCpu')
+      ALIVE_WORKERS=$(echo $CORE_REQUEST_RESULT | jq '.aliveWorkers')
+      echo "[INFO] Scheduler Avaliable CPU $AVALIABLE_CPU."
 
-        for i in $(seq 1 $CAN_PUBLISH_NUMBER); do
+      CAN_PUBLISH_NUMBER=`expr $AVALIABLE_CPU - $ORDERBOOK_NUMBER`
+      echo "[INFO] Avaliable publish number $CAN_PUBLISH_NUMBER."
 
-            # Calculate order price
-            if [ -z $ORDER_PRICE ]; then
-                ORDER_PRICE_SEND=$(shuf -i $ORDER_PRICE_MIN-$ORDER_PRICE_MAX -n 1)
-            fi
+      if [ "$CAN_PUBLISH_NUMBER" -gt 0 ]; then
 
-            echo "[INFO] Signing and publishing order $i."
+          for i in $(seq 1 $CAN_PUBLISH_NUMBER); do
 
-            # Delete old files and copy template file
-        	rm -f iexec.json orders.json
-        	cp iexec.json.template iexec.json
+              # Calculate order price
+              if [ -z $ORDER_PRICE ]; then
+                  ORDER_PRICE_SEND=$(shuf -i $ORDER_PRICE_MIN-$ORDER_PRICE_MAX -n 1)
+              fi
 
-            # Preparing order
-        	sed -i "s/@WORKERPOOL_ADDRESS@/$WORKERPOOL_ADDRESS/g" iexec.json
-        	sed -i "s/@CATEGORY_INDEX@/$CATEGORY_INDEX/g" iexec.json
-        	sed -i "s/@TRUST_VALUE@/$TRUST_VALUE/g" iexec.json
-        	sed -i "s/@ORDER_PRICE@/$ORDER_PRICE_SEND/g" iexec.json
-        	sed -i "s/@TAG_VALUE@/$TAG_VALUE/g" iexec.json
-        	sed -i "s/@ORDER_VOLUME@/$ORDER_VOLUME/g" iexec.json
+              echo "[INFO] Signing and publishing order $i."
 
-        	# Sign and publish an order
-        	iexec order sign --workerpool --chain $CHAIN --force
-        	iexec order publish --workerpool --chain $CHAIN --force
+              # Delete old files and copy template file
+          	rm -f iexec.json orders.json
+          	cp iexec.json.template iexec.json
 
-            # Wait for the next publish
-            echo "[INFO] Waiting $PUBLISH_PERIOD sec before next publish."
-            sleep $PUBLISH_PERIOD
+              # Preparing order
+          	sed -i "s/@WORKERPOOL_ADDRESS@/$WORKERPOOL_ADDRESS/g" iexec.json
+          	sed -i "s/@CATEGORY_INDEX@/$CATEGORY_INDEX/g" iexec.json
+          	sed -i "s/@TRUST_VALUE@/$TRUST_VALUE/g" iexec.json
+          	sed -i "s/@ORDER_PRICE@/$ORDER_PRICE_SEND/g" iexec.json
+          	sed -i "s/@TAG_VALUE@/$TAG_VALUE/g" iexec.json
+          	sed -i "s/@ORDER_VOLUME@/$ORDER_VOLUME/g" iexec.json
 
-        done
+          	# Sign and publish an order
+          	iexec order sign --workerpool --chain $CHAIN --force --keystoredir /wallets --wallet-file wallet.json --password $WALLETPASSWORD
+          	iexec order publish --workerpool --chain $CHAIN --force --keystoredir /wallets --wallet-file wallet.json --password $WALLETPASSWORD
+
+              # Wait for the next publish
+              echo "[INFO] Waiting $PUBLISH_PERIOD sec before next publish."
+              sleep $PUBLISH_PERIOD
+
+          done
+      fi
+
     fi
 
 	# Wait for the next check
-    echo "[INFO] Sleeping 10 seconds before next check."
-    sleep 10
-    
+    echo "[INFO] Sleeping $CHECK_SLEEP_TIME seconds before next check."
+    sleep $CHECK_SLEEP_TIME
+
 done

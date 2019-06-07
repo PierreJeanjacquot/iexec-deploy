@@ -1,19 +1,23 @@
 version: '2'
 services:
   order-publisher:
-    image: iexechub/iexec-order-publisher
+    image: iexechub/iexec-order-publisher:3.0.1
     environment:
-      - CORE_URL=http://api-test-kovan-pool.iex.ec:18090
+      - CORE_URL=http://api-v3-kovan-pool.iex.ec:18090
       - CHAIN=kovan
       - TRUST_VALUE=1
       - CATEGORY_INDEX=3
-      - WORKERPOOL_ADDRESS=0x4E61C418cFcF080DbCA9544AAd64572e68BD9802
+      - WORKERPOOL_ADDRESS=0x70a5Ea2256C7C1b4998BeA1e18A1198794Ac6DF2
       - TAG_VALUE=0x0000000000000000000000000000000000000000000000000000000000000000
       - ORDER_PRICE=
       - ORDER_PRICE_MIN=8
       - ORDER_PRICE_MAX=20
       - ORDER_VOLUME=1
       - PUBLISH_PERIOD=30
+      - WALLETFILE=core-wallet.json
+      - WALLETPASSWORD=whatever
+      - MAX_ORDER_NUMBER=50
+      - CHECK_SLEEP_TIME=60
     volumes:
       - ./iexec:/iexec
     restart: always
