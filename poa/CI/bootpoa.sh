@@ -262,5 +262,15 @@ sed -i "s/30303/40303/g" deployment/chain/reserved_peers
 echo "docker-compose up -d ..."
 docker-compose up -d
 
+#ADMIN_PRIVATE_KEY=$(cat ../wallets/wallets/wallet-abc.json | grep privateKey | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g' | cut  -c3-)
+iexec init --password $PASSWORD --force
+ADMIN_PRIVATE_KEY=$(iexec wallet show --show-private-key --keystoredir /home/ubuntu/wallets/wallets --wallet-file wallet-abc.json --password $PASSWORD --raw | jq '.wallet.privateKey' | sed 's/\"//g' | cut  -c3-)
+
+ADMIN_ADDRESS=$(cat ../wallets/wallets/wallet-abc.json | grep address | cut -d ":" -f2 | cut -d "," -f1 | sed 's/\"//g' | sed 's/ //g')
+
+echo "ADMIN_PRIVATE_KEY is $ADMIN_PRIVATE_KEY"
+echo "ADMIN_ADDRESS is $ADMIN_ADDRESS"
+
+
 
 exit 0
