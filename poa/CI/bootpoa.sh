@@ -213,7 +213,8 @@ sed -i "s/\"networkID\" : \"0x11\"/\"networkID\" : \"`echo $NETWORK_ID_HOME`\"/g
 sed -i "s/host1/host-home-chain/g" docker-compose.yml
 
 
-sed -i "s/d \/home\/parity\/data/d \/home\/parity\/data --min-gas-price 0 --logging sync=info,snapshot=debug,txqueue=trace,tx=trace,tx_filter=trace,rpc=trace/g" docker-compose.yml
+#sed -i "s/d \/home\/parity\/data/d \/home\/parity\/data --min-gas-price 0 --logging sync=info,snapshot=debug,txqueue=trace,tx=trace,tx_filter=trace,rpc=trace/g" docker-compose.yml
+sed -i "s/d \/home\/parity\/data/d \/home\/parity\/data --logging sync=info,snapshot=debug,txqueue=trace,tx=trace,tx_filter=trace,rpc=trace/g" docker-compose.yml
 
 
 sed -i "s/host1/host-home-chain/g" deployment/chain/reserved_peers
@@ -253,7 +254,10 @@ sed -i "s/- 8545/- 9545/g" docker-compose.yml
 sed -i "s/- 8546/- 9546/g" docker-compose.yml
 sed -i "s/- 30303/- 40303/g" docker-compose.yml
 sed -i "s/host1/host-foreign-chain/g" docker-compose.yml
-sed -i "s/d \/home\/parity\/data/d \/home\/parity\/data --min-gas-price 0 --logging sync=info,snapshot=debug,txqueue=trace,tx=trace,tx_filter=trace,rpc=trace/g" docker-compose.yml
+#sed -i "s/d \/home\/parity\/data/d \/home\/parity\/data --min-gas-price 0 --logging sync=info,snapshot=debug,txqueue=trace,tx=trace,tx_filter=trace,rpc=trace/g" docker-compose.yml
+
+sed -i "s/d \/home\/parity\/data/d \/home\/parity\/data --logging sync=info,snapshot=debug,txqueue=trace,tx=trace,tx_filter=trace,rpc=trace/g" docker-compose.yml
+
 
 sed -i "s/host1/host-foreign-chain/g" deployment/chain/reserved_peers
 sed -i "s/30303/40303/g" deployment/chain/reserved_peers
