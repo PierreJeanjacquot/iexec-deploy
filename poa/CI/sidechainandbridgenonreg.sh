@@ -46,6 +46,7 @@ REPO_POCO_TAG="master"
 REPO_PARITY_DEPLOY_TAG="master"
 REPO_POA_BRIDGE_CONTRACTS="master"
 REPO_TOKEN_BRIDGE_MONO="master"
+REPO_POA_NETWORK_CONSENSUS_CONTRACTS="master"
 PASSWORD=""
 
 
@@ -95,6 +96,9 @@ while [ "$1" != "" ]; do
       ;;
     --repo-token-bridge-tag )       shift
       REPO_TOKEN_BRIDGE_MONO=$1
+      ;;
+    --repo-poa-network-consensus-contracts-tag )       shift
+      REPO_POA_NETWORK_CONSENSUS_CONTRACTS=$1
       ;;
     --password )       shift
       PASSWORD=$1
@@ -161,6 +165,9 @@ git clone -b $REPO_WALLETS_TAG  https://"$GIT_LOGIN":"$GIT_TOKEN"@github.com/iEx
 git clone -b $REPO_POCO_TAG https://github.com/iExecBlockchainComputing/PoCo.git
 
 git clone -b $REPO_PARITY_DEPLOY_TAG https://github.com/iExecBlockchainComputing/parity-deploy.git
+
+
+
 
 
 ##create docker network
@@ -389,8 +396,23 @@ sed -i "s/8545/9545/g" chain.json
 echo "POA test FOREIGN-CHAIN chain and HOME-CHAIN chain is installed and up "
 
 ############################################
+#deploy poa consensus contracts
+############################################
+
+cd $CURRENT_DIR
+echo "deploy smart contract poa consenus on network"
+
+git clone -b $REPO_POA_NETWORK_CONSENSUS_CONTRACTS https://github.com/iExecBlockchainComputing/poa-network-consensus-contracts.git
+cd poa-network-consensus-contracts
+npm i
+./make_flat.sh
+
+
+
+############################################
 #deploy poa smart contract  bridges on network
 ############################################
+
 cd $CURRENT_DIR
 echo "deploy smart contract poa bridges on network"
 

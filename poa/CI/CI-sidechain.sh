@@ -37,6 +37,7 @@ sudo rm -rf poa-bridge-contracts
 sudo rm -rf token-bridge
 sudo rm -rf bridge-ui
 sudo rm -rf bridge-monitor
+sudo rm -rf poa-network-consensus-contracts
 
 
 sudo rm -rf /home/ubuntu/iexec-deploy
@@ -53,6 +54,7 @@ sudo rm -rf /home/ubuntu/bridge-ui
 sudo rm -rf /home/ubuntu/bridge_data/
 sudo rm -rf /home/ubuntu/parity-ethereum
 sudo rm -rf /home/ubuntu/bridge-monitor
+sudo rm -rf /home/ubuntu/poa-network-consensus-contracts
 
 
 npm
