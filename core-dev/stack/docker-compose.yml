@@ -1,0 +1,77 @@
+version: '3.4'
+
+networks:
+  iexec-net:
+    external: true
+
+services:
+
+  chain:
+    image: nexus.iex.ec/poco-chain:lv3.0.35-2
+    container_name: chain
+    ports:
+      - 8545:8545
+    networks:
+      - iexec-net
+
+  sms:
+    image: nexus.iex.ec/sms:1.0.0
+    container_name: sms
+    environment:
+      - HUB=0x60E25C038D70A15364DAc11A042DB1dD7A2cccBC
+      - GATEWAY=http://chain:8545
+      - CAS=cas:8081
+    ports:
+      - 5000:5000
+    networks:
+      - iexec-net
+    devices:
+      - /dev/isgx
+    depends_on:
+      - chain
+
+  cas:
+    image: nexus.iex.ec/iexec-cas:0.0.2
+    container_name: cas
+    ports:
+      - 18765:18765
+      - 18767:8081
+    networks:
+      - iexec-net
+    devices:
+      - /dev/isgx
+
+  mongo:
+    image: mongo:4-xenial
+    container_name: mongo
+    ports:
+      - 27017:27017
+    networks:
+      - iexec-net
+
+  mongo_ui:
+    image: mongo-express:0.49
+    container_name: mongo_ui
+    environment:
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=admin
+    ports:
+      - 8081:8081
+    networks:
+      - iexec-net
+    depends_on:
+      - mongo
+
+  ipfs:
+    image: ipfs/go-ipfs:v0.4.20
+    container_name: ipfs
+    volumes:
+      - /tmp/ipfs-docker-staging:/export
+      - /tmp/ipfs-docker-data:/data/ipfs
+    ports:
+      - 8080:8080
+      - 4001:4001
+      - 5001:5001
+    restart: on-failure
+    networks:
+      - iexec-net

@@ -1,0 +1,10 @@
+#!/bin/bash
+#./rmworkers
+
+nbWorker=10 #will docker rm silently
+workerId=1
+while [ "$workerId" -le "$nbWorker" ]; do
+  ./rmworker $workerId
+  workerId=$(($workerId + 1))
+done
+

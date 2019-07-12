@@ -1,0 +1,10 @@
+#!/bin/sh
+cd $(dirname $0)
+
+./rmstack
+
+#TODO add docker create/rm -f network
+
+cd ./stack
+echo "Starting stack ..."
+docker-compose up -d

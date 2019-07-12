@@ -1,0 +1,13 @@
+#!/bin/sh
+# ./rmworker 1
+
+WORKER_ID=$1
+
+cd $(dirname $0)/worker
+NAME=$(cat ./worker-name.conf)
+
+containerName=$NAME$WORKER_ID
+
+echo "Stopping $containerName  ..."
+docker rm -f $containerName > /dev/null 2>&1
+

@@ -1,0 +1,4 @@
+#!/bin/sh
+cd $(dirname $0)/stack
+echo "Stopping stack ..."
+docker-compose down -t 0 > /dev/null 2>&1

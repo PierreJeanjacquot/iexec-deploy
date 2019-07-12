@@ -1,0 +1,15 @@
+#!/bin/bash
+# ./upworkerjar.sh 1
+
+cd ~/iexecdev/iexec-worker/
+
+workerId=$1
+
+java -DIEXEC_WORKER_PORT=$((18090 + $workerId)) \
+     -DIEXEC_WORKER_NAME=worker$workerId \
+     -DIEXEC_WORKER_LOCAL_PATH=/home/james/iexectmp \
+     -DIEXEC_WORKER_WALLET_PATH=/home/james/iexecdev/wallets/wallets/wallet$workerId.json \
+     -jar ./build/libs/iexec-worker-*.jar
+
+    #-Dhttp.proxyHost=192.168.20.165 \
+    #-Dhttp.proxyPort=3128 \
