@@ -1,0 +1,11 @@
+#!/bin/bash
+# ./rmpool
+echo "Stopping pool (stack-core-workers)..."
+
+cd $(dirname $0)
+
+./rmstack
+
+./rmcore
+
+./rmworkers

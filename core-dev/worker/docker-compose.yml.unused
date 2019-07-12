@@ -1,0 +1,29 @@
+version: '3.4'
+
+networks:
+  iexec-net:
+    external: true
+
+services:
+
+  core:
+    image: nexus.iex.ec/iexec-core:dev
+    container_name: core
+    environment:
+      - IEXEC_CORE_WALLET_PATH=/iexec-wallets/wallet0.json
+      - IEXEC_PRIVATE_CHAIN_ADDRESS=http://chain:8545
+      - IEXEC_PUBLIC_CHAIN_ADDRESS=http://chain:8545
+      - REVEAL_TIMEOUT_PERIOD=60000
+      - MONGO_HOST=mongo
+      - IEXEC_IPFS_HOST=ipfs
+      - IEXEC_RESULT_REPOSITORY_HOST=core
+      - IEXEC_SMS_HOST=sms
+      - IEXEC_SCONE_CAS_HOST=cas
+    volumes:
+      - ~/iexecdev/wallets/wallets:/iexec-wallets
+    ports:
+      - 18090:18090
+    restart: on-failure
+    networks:
+      - iexec-net
+    

@@ -1,0 +1,34 @@
+#!/bin/bash
+
+cd $(dirname $0)
+
+for i in "$@"
+do
+case $i in
+    -j*)
+    launchWithJar=true
+    shift
+    ;;
+    -d*)
+    launchWithDocker=true
+    shift
+    ;;
+esac
+done
+
+
+if [[ $launchWithJar == true ]]; then
+	echo "Starting core ... (jar)"
+	gnome-terminal --tab -- bash -c "./core/upcorejar; read line"
+	exit 0
+fi
+
+
+#if [[ $launchWithDocker == true ]]; then fi
+./rmcore
+echo "Starting core ... (docker)"
+gnome-terminal --tab -- bash -c "./core/upcoredocker; read line" #https://stackoverflow.com/a/3512861
+exit 0
+
+
+

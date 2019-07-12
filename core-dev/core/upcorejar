@@ -1,0 +1,4 @@
+#!/bin/bash
+cd ~/iexecdev/iexec-core/
+#gradle clean build -Dtest.profile=skipDocker --refresh-dependencies
+java -DIEXEC_CORE_PORT=18090 -jar ~/iexecdev/iexec-core/build/libs/iexec-core-*.jar

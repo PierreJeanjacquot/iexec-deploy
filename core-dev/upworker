@@ -1,0 +1,30 @@
+#!/bin/bash
+
+cd $(dirname $0)
+
+workerId=$1
+
+for i in "$@"
+do
+case $i in
+    -j*)
+    launchWithJar=true
+    shift
+    ;;
+esac
+done
+
+
+if [[ $launchWithJar == true ]]; then
+    echo "Starting worker$workerId... (jar)"
+    gnome-terminal --tab -- bash -c "./worker/upworkerjar $workerId; read line"
+    exit 0
+fi
+
+#if [[ $launchWithDocker == true ]]; then fi
+./rmworker $workerId
+echo "Starting worker$workerId... (docker)"
+gnome-terminal --tab -- bash -c "./worker/upworkerdocker $workerId; read line"
+exit 0
+
+
