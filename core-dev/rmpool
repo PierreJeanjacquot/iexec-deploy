@@ -9,3 +9,6 @@ cd $(dirname $0)
 ./rmcore
 
 ./rmworkers
+
+echo "Removing iexec-net..."
+docker network rm iexec-net > /dev/null 2>&1

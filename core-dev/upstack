@@ -3,7 +3,8 @@ cd $(dirname $0)
 
 ./rmstack
 
-#TODO add docker create/rm -f network
+echo "Creating iexec-net..."
+docker network create iexec-net > /dev/null 2>&1
 
 cd ./stack
 echo "Starting stack ..."

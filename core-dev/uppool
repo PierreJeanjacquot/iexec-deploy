@@ -7,12 +7,14 @@ if [[ -z $nbWorker ]]; then
 	nbWorker=1
 fi
 
-echo "Starting pool (with $nbWorker workers)..."
 
 cd $(dirname $0)
 
-./upstack
+./rmpool
 
+echo ""
+echo "Starting pool (with $nbWorker workers)..."
+./upstack
 ./upcore
 
 ~/iexecdev/wallets/deploy --workerpool=yes --app=docker.io/iexechub/vanityeth:1.1.1 --dataset=http://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/512/iExec-RLC-RLC-icon.png
