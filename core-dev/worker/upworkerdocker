@@ -13,7 +13,7 @@ CORE_HOST="core"
 WORKER_VERSION="dev"
 NAME=$(cat ./worker-name.conf) #"worker"
 workerId=$1
-
+USER=`whoami`
 WORKER_NAME=$NAME$workerId
 
 docker run -it --name "$WORKER_NAME" \
@@ -21,11 +21,11 @@ docker run -it --name "$WORKER_NAME" \
            --env "IEXEC_WORKER_NAME=$WORKER_NAME" \
            --env "IEXEC_CORE_HOST=$CORE_HOST" \
            --env "IEXEC_CORE_PORT=18090" \
+           --env "IEXEC_CORE_PROTOCOL=http" \
            --env "IEXEC_WORKER_WALLET_PATH=/iexec-wallet/encrypted-wallet.json" \
            --env "IEXEC_WORKER_WALLET_PASSWORD=whatever" \
-           -v /home/james/iexecdev/wallets/walletsKovan/wallet$workerId.json:/iexec-wallet/encrypted-wallet.json \
+           -v /home/$USER/iexecdev/wallets/walletsKovan/wallet$workerId.json:/iexec-wallet/encrypted-wallet.json \
            -v /tmp/iexec-worker:/tmp/iexec-worker\
            -v /var/run/docker.sock:/var/run/docker.sock \
            --net iexec-net \
            nexus.iex.ec/iexec-worker:$WORKER_VERSION
-

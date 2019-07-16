@@ -27,8 +27,5 @@ fi
 #if [[ $launchWithDocker == true ]]; then fi
 ./rmcore
 echo "Starting core ... (docker)"
-gnome-terminal --tab -- bash -c "./core/upcoredocker; read line" #https://stackoverflow.com/a/3512861
+gnome-terminal --tab --title="Core" -- bash -c "./core/upcoredocker; read line" #https://stackoverflow.com/a/3512861
 exit 0
-
-
-

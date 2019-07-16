@@ -24,7 +24,5 @@ fi
 #if [[ $launchWithDocker == true ]]; then fi
 ./rmworker $workerId
 echo "Starting worker$workerId... (docker)"
-gnome-terminal --tab -- bash -c "./worker/upworkerdocker $workerId; read line"
+gnome-terminal --tab --title="Worker$workerId" -- bash -c "./worker/upworkerdocker $workerId; read line"
 exit 0
-
-
