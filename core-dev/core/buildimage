@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd ~/iexecdev/iexec-core/
+./gradlew clean build buildImage --refresh-dependencies -PforceDockerBuild -Dtest.profile=skipDocker

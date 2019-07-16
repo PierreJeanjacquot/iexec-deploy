@@ -1,27 +1,44 @@
 #!/bin/bash
 # ./uppool 5
 
-nbWorker=$1
+BUILD=false
+WORKERS=1
 
-if [[ -z $nbWorker ]]; then
-	nbWorker=1
-fi
+for i in "$@"
+do
+case $i in
+    -b|--build)
+    BUILD=true
+    ;;
+
+    -w=*|--nbworkers=*)
+    WORKERS="${i#*=}"
+    ;;
+
+esac
+done
 
 
 cd $(dirname $0)
 
+echo "Removing old pool"
 ./rmpool
 
+if [[ $BUILD == true ]]; then
+	echo "Build core docker image"
+	./core/buildimage
+
+	echo "Build worker docker image"
+	./worker/buildimage
+fi
+
 echo ""
-echo "Starting pool (with $nbWorker workers)..."
+echo "Starting pool (with $WORKERS workers)..."
 ./upstack
 ./upcore
 
 ~/iexecdev/wallets/deploy --workerpool=yes --app=docker.io/iexechub/vanityeth:1.1.1 --dataset=http://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/512/iExec-RLC-RLC-icon.png
 
-./upworkers $nbWorker
+./upworkers $WORKERS
 
 ~/iexecdev/wallets/buy --workerpool=0xc0c288EC5242E7f53F6594DC7BADF417b69631Ba --app=0x63C8De22025a7A463acd6c89C50b27013eCa6472 --dataset=0x4b40D43da477bBcf69f5fd26467384355a1686d6
-
-
-
