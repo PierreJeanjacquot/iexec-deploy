@@ -1,20 +1,36 @@
 #!/bin/bash
-#./upworkers 5
+#./upworkers 5 -b
+
+cd $(dirname $0)
 
 nbWorker=$1
+
+for i in "$@"
+do
+case $i in
+    -b|--build)
+    BUILD=true
+    ;;
+esac
+done
 
 if [[ -z nbWorker ]]; then
 	nbWorker=1
 fi
 
-echo "Starting workers (with $nbWorker workers)..."
+if [[ $BUILD == true ]]; then
+    echo "Building worker ..."
+    ./worker/buildimage
+fi
+
+echo "Starting workers (with $nbWorker workers) ..."
 
 cd $(dirname $0)
 
 workerId=1
 while [ "$workerId" -le "$nbWorker" ]; do
   ./upworker $workerId
-  echo "Worker $workerId started"
+  echo "Started worker$workerId"
   workerId=$(($workerId + 1))
 done
 

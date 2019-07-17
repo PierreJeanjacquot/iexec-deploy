@@ -1,4 +1,5 @@
 #!/bin/bash
+# upworker 1 -b
 
 cd $(dirname $0)
 
@@ -11,18 +12,26 @@ case $i in
     launchWithJar=true
     shift
     ;;
+    -b|--build)
+    BUILD=true
+    ;;
 esac
 done
 
+if [[ $BUILD == true ]]; then
+    echo "Building worker ..."
+    ./worker/buildimage
+fi
+
 
 if [[ $launchWithJar == true ]]; then
-    echo "Starting worker$workerId... (jar)"
+    echo "Starting worker$workerId ... (jar)"
     gnome-terminal --tab -- bash -c "./worker/upworkerjar $workerId; read line"
     exit 0
 fi
 
 #if [[ $launchWithDocker == true ]]; then fi
 ./rmworker $workerId
-echo "Starting worker$workerId... (docker)"
+echo "Starting worker$workerId ... (docker)"
 gnome-terminal --tab --title="Worker$workerId" -- bash -c "./worker/upworkerdocker $workerId; read line"
 exit 0
