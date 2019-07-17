@@ -11,7 +11,7 @@ case $i in
     BUILD=true
     ;;
 
-    -w=*|--nbworkers=*)
+    -w=*|--workers=*|--nbworkers=*)
     WORKERS="${i#*=}"
     ;;
 
@@ -21,14 +21,14 @@ done
 
 cd $(dirname $0)
 
-echo "Removing old pool"
+echo "Removing pool ..."
 ./rmpool
 
 if [[ $BUILD == true ]]; then
-	echo "Build core docker image"
+	echo "Building core ..."
 	./core/buildimage
 
-	echo "Build worker docker image"
+	echo "Building worker ..."
 	./worker/buildimage
 fi
 
