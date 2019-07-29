@@ -43,6 +43,9 @@ alias uppool="$HOME/iexecdev/iexec-deploy/core-dev/uppool"
 alias rmpool="$HOME/iexecdev/iexec-deploy/core-dev/rmpool"
 alias buy="$HOME/iexecdev/wallets/buy --workerpool=0xc0c288EC5242E7f53F6594DC7BADF417b69631Ba --app=0x63C8De22025a7A463acd6c89C50b27013eCa6472 --dataset=0x4b40D43da477bBcf69f5fd26467384355a1686d6"
 
+alias rmimages="docker rmi -f $(docker images -f dangling=true -q); docker rmi -f $(docker images -a |  grep iexec-core); docker rmi -f $(docker images -a |  grep iexec-worker)"
+alias rmvolumes="docker volume rm `docker volume ls -q -f dangling=true`"
+
 # iExec-components
 alias sde='docker run -it --rm -v $(pwd):/sde/files iexechub/iexec-sde'
 
