@@ -19,6 +19,8 @@ services:
     container_name: core-mongo
     entrypoint: "/bin/bash"
     command: -c "mongod --bind_ip_all --port 27017"
+    ports:
+      - 27017:27017
     networks:
       - iexec-net
 
@@ -68,6 +70,22 @@ services:
     depends_on:
       - chain
 
+  iexec-sms:
+    image: nexus.iex.ec/iexec-sms:0.0.1
+    container_name: iexec-sms
+    environment:
+      - HUB=0x60E25C038D70A15364DAc11A042DB1dD7A2cccBC
+      - GATEWAY=http://chain:8545
+      - CAS=cas:8081
+    ports:
+      - 15000:15000
+    networks:
+      - iexec-net
+    devices:
+      - /dev/isgx
+    depends_on:
+      - chain
+
   cas:
     image: nexus.iex.ec/iexec-cas:0.0.2
     container_name: cas
@@ -84,8 +102,12 @@ services:
     container_name: sms-mongo
     entrypoint: "/bin/bash"
     command: -c "mongod --bind_ip_all --port 37017"
+    ports:
+      - 37017:37017
     networks:
       - iexec-net
+    devices:
+      - /dev/isgx
 
   sms-mongo-ui:
     image: mongo-express:0.49

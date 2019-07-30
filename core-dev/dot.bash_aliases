@@ -29,6 +29,7 @@ alias cdcom="cd $HOME/iexecdev/iexec-common"
 alias cdint="cd $HOME/iexecdev/iexec-core-integration-tests"
 alias cdwal="cd $HOME/iexecdev/wallets"
 alias cddep="cd $HOME/iexecdev/iexec-deploy"
+alias cdsms="cd $HOME/iexecdev/iexec-sms"
 
 # iExec-core dev
 alias upstack="$HOME/iexecdev/iexec-deploy/core-dev/upstack"
