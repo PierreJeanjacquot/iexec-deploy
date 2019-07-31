@@ -14,7 +14,7 @@ services:
       - IEXEC_PRIVATE_CHAIN_ADDRESS=http://chain:8545
       - IEXEC_PUBLIC_CHAIN_ADDRESS=http://chain:8545
       - REVEAL_TIMEOUT_PERIOD=60000
-      - MONGO_HOST=mongo
+      - MONGO_HOST=core-mongo
       - IEXEC_IPFS_HOST=ipfs
       - IEXEC_RESULT_REPOSITORY_HOST=core
       - IEXEC_SMS_HOST=sms

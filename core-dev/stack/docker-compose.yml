@@ -14,6 +14,46 @@ services:
     networks:
       - iexec-net
 
+  core-mongo:
+    image: mongo:4-xenial
+    container_name: core-mongo
+    entrypoint: "/bin/bash"
+    command: -c "mongod --bind_ip_all --port 27017"
+    ports:
+      - 27017:27017
+    networks:
+      - iexec-net
+
+  core-mongo-ui:
+    image: mongo-express:0.49
+    container_name: core-mongo-ui
+    environment:
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=admin
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_MONGODB_SERVER=core-mongo
+      - VCAP_APP_PORT=8081
+    ports:
+      - 8081:8081
+    networks:
+      - iexec-net
+    depends_on:
+      - core-mongo
+
+  ipfs:
+    image: ipfs/go-ipfs:v0.4.20
+    container_name: ipfs
+    volumes:
+      - /tmp/ipfs-docker-staging:/export
+      - /tmp/ipfs-docker-data:/data/ipfs
+    ports:
+      - 8080:8080
+      - 4001:4001
+      - 5001:5001
+    restart: on-failure
+    networks:
+      - iexec-net
+
   sms:
     image: nexus.iex.ec/sms:1.0.3
     container_name: sms
@@ -23,6 +63,22 @@ services:
       - CAS=cas:8081
     ports:
       - 5000:5000
+    networks:
+      - iexec-net
+    devices:
+      - /dev/isgx
+    depends_on:
+      - chain
+
+  iexec-sms:
+    image: nexus.iex.ec/iexec-sms:0.0.1
+    container_name: iexec-sms
+    environment:
+      - HUB=0x60E25C038D70A15364DAc11A042DB1dD7A2cccBC
+      - GATEWAY=http://chain:8545
+      - CAS=cas:8081
+    ports:
+      - 15000:15000
     networks:
       - iexec-net
     devices:
@@ -41,37 +97,30 @@ services:
     devices:
       - /dev/isgx
 
-  mongo:
+  sms-mongo:
     image: mongo:4-xenial
-    container_name: mongo
+    container_name: sms-mongo
+    entrypoint: "/bin/bash"
+    command: -c "mongod --bind_ip_all --port 37017"
     ports:
-      - 27017:27017
+      - 37017:37017
     networks:
       - iexec-net
+    devices:
+      - /dev/isgx
 
-  mongo_ui:
+  sms-mongo-ui:
     image: mongo-express:0.49
-    container_name: mongo_ui
+    container_name: sms-mongo-ui
     environment:
       - ME_CONFIG_BASICAUTH_USERNAME=admin
       - ME_CONFIG_BASICAUTH_PASSWORD=admin
+      - ME_CONFIG_MONGODB_PORT=37017
+      - ME_CONFIG_MONGODB_SERVER=sms-mongo
+      - VCAP_APP_PORT=8082
     ports:
-      - 8081:8081
+      - 8082:8082
     networks:
       - iexec-net
     depends_on:
-      - mongo
-
-  ipfs:
-    image: ipfs/go-ipfs:v0.4.20
-    container_name: ipfs
-    volumes:
-      - /tmp/ipfs-docker-staging:/export
-      - /tmp/ipfs-docker-data:/data/ipfs
-    ports:
-      - 8080:8080
-      - 4001:4001
-      - 5001:5001
-    restart: on-failure
-    networks:
-      - iexec-net
+      - sms-mongo
