@@ -86,6 +86,7 @@ do
           echo "[INFO] Filling order"
           iexec order fill --workerpool $ORDER_HASH --app $APP_ORDER_HASH --keystoredir $KEYSTOREPATH --chain $CHAIN --wallet-file wallet.json --password "$WALLETPASSWORD" $OTHER_PARAMS
         fi
+        break
       fi
     done
   done
