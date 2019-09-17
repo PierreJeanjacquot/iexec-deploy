@@ -17,8 +17,9 @@ services:
       - MONGO_HOST=core-mongo
       - IEXEC_IPFS_HOST=ipfs
       - IEXEC_RESULT_REPOSITORY_HOST=core
-      - IEXEC_SMS_HOST=sms
-      - IEXEC_SCONE_CAS_HOST=cas
+      - IEXEC_SMS_HOST=iexec-sms
+      - IEXEC_SMS_PORT=15000
+      - IEXEC_SCONE_CAS_HOST=iexec-cas
     volumes:
       - ~/iexecdev/wallets/wallets:/iexec-wallets
     ports:

@@ -53,4 +53,10 @@ alias sde='docker run -it --rm -v $(pwd):/sde/files iexechub/iexec-sde'
 # General
 alias tophistory='history | sed "s/^ *//" | cut -d" " -f2- | sort | uniq -c | sort -nr | head -n 30'
 
+dockerfile()
+{
+    docker run -v /var/run/docker.sock:/var/run/docker.sock --rm chenzj/dfimage $(docker images --filter=reference=$1 --format "{{.ID}}")
+}
+
+
 
