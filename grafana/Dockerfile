@@ -1,6 +1,6 @@
 FROM grafana/grafana:latest
 USER root
-RUN apt-get update && apt-get install -y jq  curl
+RUN apk add jq curl
 
 COPY ./init.sh /init.sh
 COPY ./dashboards dashboards
