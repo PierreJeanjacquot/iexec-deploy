@@ -4,7 +4,7 @@
 # Import this bash_aliases file to yours with:
 #
 # echo -e "\n#iExec-core dev\nsource $HOME/iexecdev/iexec-deploy/core-dev/dot.bash_aliases" >> $HOME/.bash_aliases
-# 
+#
 # (and restart your terminal)
 #
 ###############################################################################################
@@ -44,11 +44,14 @@ alias uppool="$HOME/iexecdev/iexec-deploy/core-dev/uppool"
 alias rmpool="$HOME/iexecdev/iexec-deploy/core-dev/rmpool"
 alias buy="$HOME/iexecdev/wallets/buy --workerpool=0xc0c288EC5242E7f53F6594DC7BADF417b69631Ba --app=0x63C8De22025a7A463acd6c89C50b27013eCa6472 --dataset=0x4b40D43da477bBcf69f5fd26467384355a1686d6"
 
+alias installsgx="curl -fssl https://raw.githubusercontent.com/SconeDocs/SH/master/install_sgx_driver.sh | bash"
+alias checksgx="ls /dev/isgx >/dev/null 2>1  && echo \"SGX Driver installed\" || echo \"SGX Driver NOT installed\""
+
 alias rmimages="docker rmi -f $(docker images -f dangling=true -q); docker rmi -f $(docker images -a |  grep iexec-core); docker rmi -f $(docker images -a |  grep iexec-worker)"
 alias rmvolumes="docker volume rm `docker volume ls -q -f dangling=true`"
 
 # iExec-components
-alias sde='docker run -it --rm -v $(pwd):/sde/files iexechub/iexec-sde'
+#alias sde='docker run -it --rm -v $(pwd):/sde/files iexechub/iexec-sde'
 
 # General
 alias tophistory='history | sed "s/^ *//" | cut -d" " -f2- | sort | uniq -c | sort -nr | head -n 30'
@@ -57,6 +60,3 @@ dockerfile()
 {
     docker run -v /var/run/docker.sock:/var/run/docker.sock --rm chenzj/dfimage $(docker images --filter=reference=$1 --format "{{.ID}}")
 }
-
-
-

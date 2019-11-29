@@ -37,16 +37,29 @@ echo "Starting pool (with $WORKERS workers)..."
 ./upstack
 ./upcore
 
+~/iexecdev/iexec-sms/src/main/resources/boot/bootSms.sh
+
+
+sleep 3m # required for Sconified SMS
+
 #~/iexecdev/wallets/deploy --workerpool=yes --app=docker.io/iexechub/vanityeth:1.1.1 --dataset=http://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/512/iExec-RLC-RLC-icon.png
 #~/iexecdev/wallets/deploy --workerpool=yes --app=docker.io/iexechub/vanityeth:1.1.1 --dataset=https://raw.githubusercontent.com/iExecBlockchainComputing/iexec-apps/master/IntegrationTests/SgxApp/dataset.enc.zip
 #~/iexecdev/wallets/deploy --workerpool=yes --app=nexus.iex.ec/sgx-app:it-1.0.1 --mrenclave='076a8539be7e2f8a7a0dbc99e400d04aa92caf21a6c7c46582ebbfd10b2b23bc|263fc492e0d39d919f09d5643e6be484|726b560078f9e5c33857b5cc917a8d36db7e4f814723437546928defcf21824d' --dataset=https://raw.githubusercontent.com/iExecBlockchainComputing/iexec-apps/master/IntegrationTests/SgxApp/dataset.enc.zip
 #~/iexecdev/wallets/deploy --workerpool=yes --app=nexus.iex.ec/sgx-app:it-1.0.2 --mrenclave='b3fd442e062225342e799d167ff2e88ef460a0890b76aa29d5fed8938d27cc8c|e7daba8433800a8d0fda8bb9012e1f14|4e6758e38f332d8eb718bc0037dbdedd00d3bb196dd3ff894938b32156179c38' --dataset=https://raw.githubusercontent.com/iExecBlockchainComputing/iexec-apps/master/IntegrationTests/SgxApp/dataset.enc.zip
 #~/iexecdev/wallets/deploy --workerpool=yes --app=nexus.iex.ec/tee-hello-dataset:1.0.0 --mrenclave='10b4f7e6891b8081ca5de598a118e77ed26574252e4ebff765d09de81efa6e74|4464a68e28bb982f27ee84655de5cb0f|4e6758e38f332d8eb718bc0037dbdedd00d3bb196dd3ff894938b32156179c38' --dataset=https://raw.githubusercontent.com/iExecBlockchainComputing/iexec-apps/master/IntegrationTests/SgxApp/dataset.enc.zip
 #~/iexecdev/wallets/deploy --workerpool=yes --app=nexus.iex.ec/tee-hello:1.0.0 --mrenclave='21daa9c9c8775eb97c21bfed7d5f78b4e339a6a95778fa693cdc7f2b317d2a19|97064fcbe46b814afdf60fd97774d1a4|4e6758e38f332d8eb718bc0037dbdedd00d3bb196dd3ff894938b32156179c38'
-~/iexecdev/wallets/deploy --workerpool=yes --app=nexus.iex.ec/tee-hello:1.0.1 --mrenclave='d1f2ee27de7590458d2e0cd8e48810462a30b9a70740a4e00c93df4a5f91e7dd|fb1453a356125963bfc85008cee7f7d8|4e6758e38f332d8eb718bc0037dbdedd00d3bb196dd3ff894938b32156179c38'
+#~/iexecdev/wallets/deploy --workerpool=yes --app=nexus.iex.ec/tee-hello:1.0.1 --mrenclave='d1f2ee27de7590458d2e0cd8e48810462a30b9a70740a4e00c93df4a5f91e7dd|fb1453a356125963bfc85008cee7f7d8|4e6758e38f332d8eb718bc0037dbdedd00d3bb196dd3ff894938b32156179c38'
+
+#~/iexecdev/wallets/deploy --workerpool=yes --app=nexus.iex.ec/tee-hello:1.0.1 --mrenclave='eef86263797800392d17564dc48ac0dc7411637d0bbd44c0a192ca87a724750b|e6703eda06ae0b2b52b818cf99bd36cb|4e6758e38f332d8eb718bc0037dbdedd00d3bb196dd3ff894938b32156179c38'
+
+#~/iexecdev/wallets/deploy --workerpool=yes --app=nexus.iex.ec/tee-hello:end-tag-1 --mrenclave='a3dd56d452d63b3d5888e1c43309249706f158099a8edab6db87378e62c7e5d5|7284ef86e86434f0b2874f4618e46ab6|4e6758e38f332d8eb718bc0037dbdedd00d3bb196dd3ff894938b32156179c38'
+
+
 
 
 #~/iexecdev/wallets/deploy --workerpool=yes --app=nexus.iex.ec/tee-hello-with-dataset:1.0.0 --mrenclave='45a2b624298e70240be092a70c0e7210c44724b84c37f22b5e76a147d6bb0ad4|0c47b372ffd3b1433984ef443391bf01|4e6758e38f332d8eb718bc0037dbdedd00d3bb196dd3ff894938b32156179c38' --dataset=https://raw.githubusercontent.com/iExecBlockchainComputing/iexec-apps/master/IntegrationTests/SgxApp/dataset.enc.zip
+
+~/iexecdev/wallets/deploy --workerpool=yes --app=nexus.iex.ec/tee-hello-with-dataset:1.0.1 --mrenclave='c16a42cf04134839ba2d5a93189eb33d84cb82f395396ab571cf8fc4b8a248a9|3d20904268b4ab76362f1ec24f6ba10d|4e6758e38f332d8eb718bc0037dbdedd00d3bb196dd3ff894938b32156179c38' --dataset=https://raw.githubusercontent.com/iExecBlockchainComputing/iexec-apps/master/IntegrationTests/SgxApp/dataset.enc.zip
 
 
 ./upworkers $WORKERS
@@ -62,10 +75,17 @@ BENEFICIARY_KEY='LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJ
 
 #curl -X POST "http://localhost:15000/secrets/offchain?checkSignature=false&ownerAddress=0xabcd1339ec7e762e639f4887e2bfe5ee8023e23e" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"address\": \"Kb\", \"value\": \"$BENEFICIARY_KEY\"}"
 
-DROPBOX_TOKEN='rhX12y6f6hAAAAAAAAAACUi3pFkWsMTWtDF6UuAFxqrIYLiaMugCxuUDuzCyBkqA'
-curl -X POST "http://localhost:15000/secrets/offchain?checkSignature=false&ownerAddress=0xabcd1339ec7e762e639f4887e2bfe5ee8023e23e" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"address\": \"dropbox-token\", \"value\": \"$DROPBOX_TOKEN\"}"
+
+curl -X POST "http://localhost:15000/secrets/offchain?checkSignature=false&ownerAddress=0xabcd1339ec7e762e639f4887e2bfe5ee8023e23e&secretKey=Kb" -H "accept: */*" -H "Content-Type: application/json" -d "$BENEFICIARY_KEY"
+
+# Use requester
+DROPBOX_TOKEN='rhX12y6f6hAAAAAAAAAAFxzvuJ0YncB02rCRh-0GrNkg3Mk_kZQIIZmRtf9_fcVL'
+#curl -X POST "http://localhost:15000/secrets/offchain?checkSignature=false&ownerAddress=0xabcd1339ec7e762e639f4887e2bfe5ee8023e23e" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"address\": \"dropbox-token\", \"value\": \"$DROPBOX_TOKEN\"}"
+# curl -X POST "http://localhost:15000/secrets/offchain?checkSignature=false&ownerAddress=0xabcd1339ec7e762e639f4887e2bfe5ee8023e23e" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"address\": \"dropbox-token\", \"value\": \"rhX12y6f6hAAAAAAAAAACUi3pFkWsMTWtDF6UuAFxqrIYLiaMugCxuUDuzCyBkqA\"}"
+
+curl -X POST "http://localhost:15000/secrets/offchain?checkSignature=false&ownerAddress=0xabcd1339ec7e762e639f4887e2bfe5ee8023e23e&secretKey=dropbox-token" -H "accept: */*" -H "Content-Type: application/json" -d "$DROPBOX_TOKEN"
 
 
 #~/iexecdev/wallets/buy --workerpool=0xc0c288EC5242E7f53F6594DC7BADF417b69631Ba --app=0x63C8De22025a7A463acd6c89C50b27013eCa6472 --dataset=0x4b40D43da477bBcf69f5fd26467384355a1686d6 --tag=0x0000000000000000000000000000000000000000000000000000000000000000 --params='{\\"iexec_args\\":\\"ace\\"}' --beneficiary=0xabcd1339ec7e762e639f4887e2bfe5ee8023e23e
 
-~/iexecdev/wallets/buy --workerpool=0xc0c288EC5242E7f53F6594DC7BADF417b69631Ba --app=0x63C8De22025a7A463acd6c89C50b27013eCa6472 --tag=0x0000000000000000000000000000000000000000000000000000000000000001 --params='{\\"iexec_args\\":\\"python3 \/app\/app.py\\"}' --beneficiary=0xabcd1339ec7e762e639f4887e2bfe5ee8023e23e #--dataset=0x4b40D43da477bBcf69f5fd26467384355a1686d6
+~/iexecdev/wallets/buy --workerpool=0xc0c288EC5242E7f53F6594DC7BADF417b69631Ba --app=0x63C8De22025a7A463acd6c89C50b27013eCa6472 --tag=0x0000000000000000000000000000000000000000000000000000000000000001 --params='{\\"iexec_args\\":\\"python3 \/app\/app.py\\", \\"iexec_result_encryption\\":\\"none\\", \\"iexec_result_storage_provider\\":\\"dropbox\\"}' --beneficiary=0xabcd1339ec7e762e639f4887e2bfe5ee8023e23e --dataset=0x4b40D43da477bBcf69f5fd26467384355a1686d6
