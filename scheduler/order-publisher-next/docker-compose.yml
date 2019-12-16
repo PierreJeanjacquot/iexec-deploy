@@ -1,7 +1,7 @@
 version: '2'
 services:
   order-publisher:
-    image: iexechub/iexec-order-publisher:3.0.1
+    image: iexechub/iexec-order-publisher:4.0.1
     environment:
       - CORE_URL=http://api-v3-kovan-pool.iex.ec:18090
       - CHAIN=kovan
@@ -18,6 +18,7 @@ services:
       - WALLETPASSWORD=whatever
       - MAX_ORDER_NUMBER=50
       - CHECK_SLEEP_TIME=60
+      - IS_GPU_POOL=false
     volumes:
       - ./iexec:/iexec
     restart: always
