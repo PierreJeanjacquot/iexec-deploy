@@ -4,7 +4,7 @@
 # Import this bash_aliases file to yours with:
 #
 # echo -e "\n#iExec-core dev\nsource $HOME/iexecdev/iexec-deploy/core-dev/dot.bash_aliases" >> $HOME/.bash_aliases
-# 
+#
 # (and restart your terminal)
 #
 ###############################################################################################
@@ -48,9 +48,6 @@ alias rmimages="docker rmi -f $(docker images -f dangling=true -q); docker rmi -
 alias rmvolumes="docker volume rm `docker volume ls -q -f dangling=true`"
 
 # iExec-components
-alias sde='docker run -it --rm -v $(pwd):/sde/files iexechub/iexec-sde'
-
+alias sde='docker run -it --rm -v $(pwd):/sde/files -v ~/.ssh/id_rsa:/sde/ssh/id_rsa:ro iexechub/iexec-sde:1.0.1'
 # General
 alias tophistory='history | sed "s/^ *//" | cut -d" " -f2- | sort | uniq -c | sort -nr | head -n 30'
-
-
