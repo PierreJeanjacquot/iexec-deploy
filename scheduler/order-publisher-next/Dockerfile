@@ -11,4 +11,6 @@ COPY /entrypoint.sh /
 
 RUN chmod +x /entrypoint.sh
 
+ENV IS_GPU_POOL false
+
 ENTRYPOINT ["/entrypoint.sh"]

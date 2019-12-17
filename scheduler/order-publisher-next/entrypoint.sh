@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# DOCKER ENV: IS_GPU_POOL=false;
+
 # Go to iexec sdk directory
 cd /iexec
 
@@ -76,11 +78,17 @@ do
 
       echo "[INFO] Checking scheduler info."
       CORE_REQUEST_RESULT=$(curl -s -X GET "$CORE_URL/metrics" -H "accept: */*")
-      AVALIABLE_CPU=$(echo $CORE_REQUEST_RESULT | jq '.aliveAvailableCpu')
-      ALIVE_WORKERS=$(echo $CORE_REQUEST_RESULT | jq '.aliveWorkers')
-      echo "[INFO] Scheduler Avaliable CPU $AVALIABLE_CPU."
 
-      CAN_PUBLISH_NUMBER=`expr $AVALIABLE_CPU - $ORDERBOOK_NUMBER`
+      if [[ $IS_GPU_POOL ]]; then
+      	AVAILABLE_COMPUTING_POWER_UNIT=$(echo $CORE_REQUEST_RESULT | jq '.aliveAvailableGpu')
+      else
+      	AVAILABLE_COMPUTING_POWER_UNIT=$(echo $CORE_REQUEST_RESULT | jq '.aliveAvailableCpu')
+      fi
+
+      ALIVE_WORKERS=$(echo $CORE_REQUEST_RESULT | jq '.aliveWorkers')
+      echo "[INFO] Scheduler Available computing power unit $AVAILABLE_COMPUTING_POWER_UNIT [isGpu:$IS_GPU_POOL]"
+
+      CAN_PUBLISH_NUMBER=`expr $AVAILABLE_COMPUTING_POWER_UNIT - $ORDERBOOK_NUMBER`
       echo "[INFO] Avaliable publish number $CAN_PUBLISH_NUMBER."
 
       if [ "$CAN_PUBLISH_NUMBER" -gt 0 ]; then
