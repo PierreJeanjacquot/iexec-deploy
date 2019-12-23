@@ -627,7 +627,7 @@
             "unit": "short"
           },
           {
-            "alias": "Active Tasks",
+            "alias": "Running Tasks",
             "colorMode": null,
             "colors": [
               "rgba(245, 54, 54, 0.9)",
@@ -684,9 +684,6 @@
             ],
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
             "decimals": 2,
-            "link": true,
-            "linkTooltip": "More info about worker",
-            "linkUrl": "/d/WorkerInfo/worker-info?var-worker=$__cell_0",
             "mappingType": 1,
             "pattern": "Wallet",
             "thresholds": [],
@@ -742,7 +739,7 @@
                 }
               ]
             ],
-            "target": "db.worker.aggregate( [ \n    {\"$sort\" : {\"lastAliveDate\" : -1}},\n    { \"$project\": { \n        \"_id\": 0, \n        \"Wallet\": \"$walletAddress\",\n        \"Name\": \"$name\", \n        \"Delay\": { \"$toInt\": { \"$divide\" : [ { \"$subtract\":  [\"$now\", \"$lastAliveDate\"]} , 1000 ]}},\n        \"OS\": \"$os\", \n        \"Platform\": \"$cpu\", \n        \"CPUNumber\": \"$cpuNb\", \n        \"Running Tasks\": { \"$cond\": { \"if\": { \"$isArray\": \"$participatingChainTaskIds\" }, \"then\": { \"$size\": \"$participatingChainTaskIds\" }, \"else\": \"0\"}},\n        \"Last Seen\": \"$lastAliveDate\"\n         }},\n    {\"$match\":{\"Delay\": {\"$lt\": 600}}}\n])",
+            "target": "db.worker.aggregate( [ \n    {\"$sort\" : {\"lastAliveDate\" : -1}},\n    { \"$project\": { \n        \"_id\": 0, \n        \"Wallet\": \"$walletAddress\",\n        \"Name\": \"$name\", \n        \"Delay\": { \"$toInt\": { \"$divide\" : [ { \"$subtract\":  [\"$now\", \"$lastAliveDate\"]} , 1000 ]}},\n        \"OS\": \"$os\", \n        \"Platform\": \"$cpu\", \n        \"CPUs\": \"$cpuNb\", \n        \"Running Tasks\": { \"$cond\": { \"if\": { \"$isArray\": \"$computingChainTaskIds\" }, \"then\": { \"$size\": \"$computingChainTaskIds\" }, \"else\": \"0\"}},\n        \"Last Seen\": \"$lastAliveDate\"\n         }},\n    {\"$match\":{\"Delay\": {\"$lt\": 600}}}\n])",
             "timeColumn": "time",
             "type": "table",
             "where": [
