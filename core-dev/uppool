@@ -37,8 +37,24 @@ echo "Starting pool (with $WORKERS workers)..."
 ./upstack
 ./upcore
 
-~/iexecdev/wallets/deploy --workerpool=yes --app=docker.io/iexechub/vanityeth:1.1.1 --dataset=http://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/512/iExec-RLC-RLC-icon.png
+#~/iexecdev/wallets/deploy --workerpool=yes --app=docker.io/iexechub/vanityeth:1.1.1 --dataset=http://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/512/iExec-RLC-RLC-icon.png
+# TEE GOOD ----> ~/iexecdev/wallets/deploy --workerpool=yes --app=jeremyjames/sgx-hello:1.0.0  --mrenclave='708451ae67dec806bb0f475fe0031926436809577327980ea20c20d6e24b04e3|3a2a85a7e694259e1b4e3d923ec82248|b84bc68bae8cdc8703ca4525b2cc16deffe9def4247498ebcc467830a67caf6d'
+# TEE GOOG TOO ~/iexecdev/wallets/deploy --workerpool=yes --app=jeremyjames/trusted-random-generator:1.0.0  --mrenclave='02e897e1bdd32e58d985174786220c093abacb70e9c330dc09b29d81671b9c71|ff0cd0822b0d3c47f939f6327063ec49|4e6758e38f332d8eb718bc0037dbdedd00d3bb196dd3ff894938b32156179c38'
+
+~/iexecdev/wallets/deploy --workerpool=yes --app=iexechub/trusted-kaiko-pricefeed:1.0.0  --mrenclave='220abf28a41e5f72fc60574adb6c43785c0ee65496bfcc6f13c16b8715347955|82722198f224f234b6f890e347010983|16e7c11e75448e31c94d023e40ece7429fb17481bc62f521c8f70da9c48110a1' --dataset=https://raw.githubusercontent.com/iExecBlockchainComputing/iexec-apps/trusted-kaiko-pricefeed/PriceFeed-Kaiko/datasets/encrypted/dataset_key.txt.zip
+#~/iexecdev/wallets/deploy --workerpool=yes --app=nexus.iex.ec/sgx-app:it --mrenclave='3f59c446d67d23527d50453af1e5d15d6584ad784ce08ef1e39fc948b3518615|c232e172b4b515ed86ebbbd00656c65e|726b560078f9e5c33857b5cc917a8d36db7e4f814723437546928defcf21824d' --dataset=https://raw.githubusercontent.com/iExecBlockchainComputing/iexec-apps/master/IntegrationTests/SgxApp/dataset.enc.zip
+
+
+#iexec init --skip-wallet
+
+#ls /home/james/bla/iexecjames/.secrets/datasets/dataset_key.txt.scone.secret
+
+iexec dataset push-secret 0x4b40D43da477bBcf69f5fd26467384355a1686d6 --secret-path /home/james/bla/iexecjames/.secrets/datasets/dataset.secret --chain dev --wallet-file=wallet0.json --password=whatever --keystoredir=/home/james/iexecdev/wallets/wallets
+#iexec dataset push-secret 0x4b40D43da477bBcf69f5fd26467384355a1686d6 --secret-path /home/james/iexecdev/iexec-apps/IntegrationTests/SgxApp/dataset.secret --chain dev --wallet-file=wallet0.json --password=whatever --keystoredir=/home/james/iexecdev/wallets/wallets
 
 ./upworkers $WORKERS
 
-~/iexecdev/wallets/buy --workerpool=0xc0c288EC5242E7f53F6594DC7BADF417b69631Ba --app=0x63C8De22025a7A463acd6c89C50b27013eCa6472 --dataset=0x4b40D43da477bBcf69f5fd26467384355a1686d6
+~/iexecdev/wallets/buy --workerpool=0xc0c288EC5242E7f53F6594DC7BADF417b69631Ba --app=0x63C8De22025a7A463acd6c89C50b27013eCa6472 --params='python3 /app/oracle.py pricefeed btc usd spot_direct_exchange_rate 1d 9 2020-01-01T12:00:00' --tag=0x0000000000000000000000000000000000000000000000000000000000000001 --beneficiary=0x0000000000000000000000000000000000000000 --dataset=0x4b40D43da477bBcf69f5fd26467384355a1686d6
+#~/iexecdev/wallets/buy --workerpool=0xc0c288EC5242E7f53F6594DC7BADF417b69631Ba --app=0x63C8De22025a7A463acd6c89C50b27013eCa6472 --params='python3 /app/app.py' --tag=0x0000000000000000000000000000000000000000000000000000000000000001 --beneficiary=0x0000000000000000000000000000000000000000 --dataset=0x4b40D43da477bBcf69f5fd26467384355a1686d6
+
+
