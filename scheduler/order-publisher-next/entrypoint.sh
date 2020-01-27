@@ -79,7 +79,7 @@ do
       echo "[INFO] Checking scheduler info."
       CORE_REQUEST_RESULT=$(curl -s -X GET "$CORE_URL/metrics" -H "accept: */*")
 
-      if [[ $IS_GPU_POOL ]]; then
+      if [[ $IS_GPU_POOL == true ]]; then
       	AVAILABLE_COMPUTING_POWER_UNIT=$(echo $CORE_REQUEST_RESULT | jq '.aliveAvailableGpu')
       else
       	AVAILABLE_COMPUTING_POWER_UNIT=$(echo $CORE_REQUEST_RESULT | jq '.aliveAvailableCpu')
