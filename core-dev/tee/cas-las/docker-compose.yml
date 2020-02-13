@@ -10,7 +10,10 @@ services:
 
   iexec-cas:
     image: nexus.iex.ec/iexec-cas:0.0.3
+    #image: sconecuratedimages/iexec:cas-master
     container_name: iexec-cas
+    #environment:
+      #- RUST_LOG=debug
     ports:
       - 18765:18765
       - 18767:8081
