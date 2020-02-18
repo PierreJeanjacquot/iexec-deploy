@@ -46,7 +46,7 @@ jq ".dashboard.panels[0].content = \" \
 </style> \
 <div class='main-div'> \
   <div class='element-div'> \
-    <input type='button' value='Start A Worker' id='button' class='navbar-button navbar-button-new' onclick=\\\"window.open('https://docs.iex.ec/worker.html');\\\"/> \
+    <input type='button' value='Start A Worker' id='button' class='navbar-button navbar-button-new' onclick=\\\"window.open('https://docs.iex.ec/for-workers');\\\"/> \
   </div> \
   <div class='element-div'> \
     <input type='button' value='Buy Orders' id='button' class='navbar-button navbar-button-new' onclick=\\\"window.open('https://market.iex.ec');\\\"/> \
