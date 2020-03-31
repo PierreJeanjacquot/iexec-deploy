@@ -16,8 +16,10 @@ services:
       - REVEAL_TIMEOUT_PERIOD=60000
       - MONGO_HOST=core-mongo
       - IEXEC_IPFS_HOST=ipfs
-      - IEXEC_RESULT_REPOSITORY_HOST=core
-      - IEXEC_SMS_HOST=sms
+      - IEXEC_RESULT_REPOSITORY_PROTOCOL=http
+      - IEXEC_RESULT_REPOSITORY_HOST=result-proxy
+      - IEXEC_RESULT_REPOSITORY_PORT=18092
+      - IEXEC_SMS_HOST=iexec-sms
       - IEXEC_SCONE_CAS_HOST=cas
     volumes:
       - ~/iexecdev/wallets/wallets:/iexec-wallets

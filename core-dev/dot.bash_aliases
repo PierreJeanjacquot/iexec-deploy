@@ -31,6 +31,7 @@ alias cdint="cd $HOME/iexecdev/iexec-core-integration-tests"
 alias cdwal="cd $HOME/iexecdev/wallets"
 alias cddep="cd $HOME/iexecdev/iexec-deploy"
 alias cdsms="cd $HOME/iexecdev/iexec-sms"
+alias cdres="cd $HOME/iexecdev/iexec-result-proxy"
 
 # iExec-core dev
 alias upstack="$HOME/iexecdev/iexec-deploy/core-dev/upstack"

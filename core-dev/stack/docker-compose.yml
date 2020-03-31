@@ -32,9 +32,9 @@ services:
       - ME_CONFIG_BASICAUTH_PASSWORD=admin
       - ME_CONFIG_MONGODB_PORT=27017
       - ME_CONFIG_MONGODB_SERVER=core-mongo
-      - VCAP_APP_PORT=8081
+      # - VCAP_APP_PORT=8081
     ports:
-      - 8081:8081
+      - 8082:8080
     networks:
       - iexec-net
     depends_on:
@@ -71,7 +71,7 @@ services:
       - chain
 
   iexec-sms:
-    image: nexus.iex.ec/iexec-sms:0.0.1
+    image: nexus.iex.ec/iexec-sms:0.0.1-SNAPSHOT-bd4543b
     container_name: iexec-sms
     environment:
       - HUB=0x60E25C038D70A15364DAc11A042DB1dD7A2cccBC
@@ -117,10 +117,49 @@ services:
       - ME_CONFIG_BASICAUTH_PASSWORD=admin
       - ME_CONFIG_MONGODB_PORT=37017
       - ME_CONFIG_MONGODB_SERVER=sms-mongo
-      - VCAP_APP_PORT=8082
+      # - VCAP_APP_PORT=8082
     ports:
-      - 8082:8082
+      - 8083:8080
     networks:
       - iexec-net
     depends_on:
       - sms-mongo
+
+  result-proxy:
+    image: nexus.iex.ec/iexec-result-proxy:dev
+    container_name: result-proxy
+    environment:
+      - IEXEC_PRIVATE_CHAIN_ADDRESS=http://chain:8545
+      - IEXEC_PUBLIC_CHAIN_ADDRESS=http://chain:8545
+      - MONGO_HOST=result-proxy-mongo
+      - IEXEC_IPFS_HOST=ipfs
+    ports:
+      - 18092:18092
+    networks:
+      - iexec-net
+
+  result-proxy-mongo:
+    image: mongo:4-xenial
+    container_name: result-proxy-mongo
+    entrypoint: "/bin/bash"
+    command: -c "mongod --bind_ip_all --port 47017"
+    ports:
+      - 47017:47017
+    networks:
+      - iexec-net
+
+  result-proxy-mongo-ui:
+    image: mongo-express:0.49
+    container_name: result-proxy-mongo-ui
+    environment:
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=admin
+      - ME_CONFIG_MONGODB_PORT=47017
+      - ME_CONFIG_MONGODB_SERVER=result-proxy-mongo
+      # - VCAP_APP_PORT=8081
+    ports:
+      - 8084:8080
+    networks:
+      - iexec-net
+    depends_on:
+      - core-mongo
