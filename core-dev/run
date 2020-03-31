@@ -15,16 +15,22 @@ DATASET=$(echo $(~/iexecdev/wallets/deploy --dataset=https://raw.githubuserconte
 echo "App: $APP"
 echo "Dataset: $DATASET"
 
+XABC_ADDRESS="0xabcd1339ec7e762e639f4887e2bfe5ee8023e23e"
+
 # Dataset secret push
-curl -X POST "http://localhost:15000/secrets/web3?checkSignature=false&secretAddress=$DATASET" -H "accept: */*" -H "Content-Type: application/json" -d "f58a3f36cd7095acc90dace3045bbd23c5c5a8f26623d7a0e7016f985f593da8|7a637210b156ba842e6f0b32aa904431"
+DATASET_SECRET="f58a3f36cd7095acc90dace3045bbd23c5c5a8f26623d7a0e7016f985f593da8|7a637210b156ba842e6f0b32aa904431"
+curl -X POST "http://localhost:15000/secrets/web3?secretAddress=$DATASET" -H "accept: */*" -H "Authorization: *" -H "Content-Type: application/json" -d "$DATASET_SECRET"
+
 # Beneficiary secret push
 BENEFICIARY_KEY='LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUEwR0FQTnJTWGZzUVJKZjNlUndOMApkOXIwaEhFL1Q2bmNOVkRDeHM4ZUNXa1h1SVJqUlBJVjYzdENyVGIyUVNNNWt0V080dE5UWm5wRVpBL2M0NXByCnAzWitwd0d1U1o4bjVxWWJoWDNUays0Q3BLZFFzMk1DSExMV0xsNGltMzE5eTlpL3l5Z3FoNXkyK01TQXU1ekMKeXpYZi9BV1E0Ry9jQkMvL3hEZWZYaEQvMmsvVDdsaTNmRXcrM1ZYWGZGQ215MVJWc1dBbkhmV1J3VVkwT3l4Lwp2TmFMUXplUThlVmcrdDY0OFFLRTRyUnRlM1Voa1UwMnBqTDQ3OFphWnFCOFhOYUwyU1JLUUxwWVg1ZHVLa0F6ClRzN2VwZ1ZsZ2tITDhCTmRZY1k0Sit5c2svTWRVYWVoSFdlb3VGL21YdTRObndLYkhPSWJ5OFJHeEdwNE5Ka3IKVVFJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg=='
-curl -X POST "http://localhost:15000/secrets/web2?checkSignature=false&ownerAddress=0xabcd1339ec7e762e639f4887e2bfe5ee8023e23e&secretKey=iexec-result-encryption-public-key" -H "accept: */*" -H "Content-Type: application/json" -d "$BENEFICIARY_KEY"
+curl -X POST "http://localhost:15000/secrets/web2?ownerAddress=$XABC_ADDRESS&secretKey=iexec-result-encryption-public-key" -H "accept: */*" -H "Authorization: *" -H "Content-Type: application/json" -d "$BENEFICIARY_KEY"
+
 # Requester Dropbox secret push
-curl -X POST "http://localhost:15000/secrets/web2?checkSignature=false&ownerAddress=0xabcd1339ec7e762e639f4887e2bfe5ee8023e23e&secretKey=iexec-result-dropbox-token" -H "accept: */*" -H "Content-Type: application/json" -d "$DROPBOX_IEXEC_APP_FOLDER_TOKEN" #first do: << ~/.bash_aliases; export DROPBOX_IEXEC_APP_FOLDER_TOKEN='abcdef'; >>
+curl -X POST "http://localhost:15000/secrets/web2?ownerAddress=$XABC_ADDRESS&secretKey=iexec-result-dropbox-token" -H "accept: */*" -H "Authorization: *" -H "Content-Type: application/json" -d "$DROPBOX_IEXEC_APP_FOLDER_TOKEN" #first do: << ~/.bash_aliases; export DROPBOX_IEXEC_APP_FOLDER_TOKEN='abcdef'; >>
+
 # Requester iExecResultProxy secret push
 IEXEC_IPFS_TOKEN=$(curl -X POST "http://localhost:18090/results/login?chainId=1" -H "accept: */*" -H "Content-Type: application/json" -d "mySignedChallenge")
-curl -X POST "http://localhost:15000/secrets/web2?checkSignature=false&ownerAddress=0xabcd1339ec7e762e639f4887e2bfe5ee8023e23e&secretKey=iexec-result-iexec-ipfs-token" -H "accept: */*" -H "Content-Type: application/json" -d "$IEXEC_IPFS_TOKEN"
+curl -X POST "http://localhost:15000/secrets/web2?ownerAddress=$XABC_ADDRESS&secretKey=iexec-result-iexec-ipfs-token" -H "accept: */*" -H "Authorization: *" -H "Content-Type: application/json" -d "$IEXEC_IPFS_TOKEN"
 
 
 # Buy bundle
