@@ -38,18 +38,6 @@ echo "Starting pool (with $WORKERS workers)..."
 ./upcore
 ./uptee #tee services
 
-# Deploy App & Dataset
-~/iexecdev/wallets/deploy --workerpool=yes --app=nexus.iex.ec/tee-hello-with-dataset:1.0.1 --mrenclave='c16a42cf04134839ba2d5a93189eb33d84cb82f395396ab571cf8fc4b8a248a9|3d20904268b4ab76362f1ec24f6ba10d|4e6758e38f332d8eb718bc0037dbdedd00d3bb196dd3ff894938b32156179c38' --dataset=https://raw.githubusercontent.com/iExecBlockchainComputing/iexec-apps/master/IntegrationTests/SgxApp/dataset.enc.zip
-
 ./upworkers $WORKERS
 
-# Dataset secret push
-curl -X POST "http://localhost:15000/secrets/web3?checkSignature=false&secretAddress=0x4b40d43da477bbcf69f5fd26467384355a1686d6" -H "accept: */*" -H "Content-Type: application/json" -d "f58a3f36cd7095acc90dace3045bbd23c5c5a8f26623d7a0e7016f985f593da8|7a637210b156ba842e6f0b32aa904431"
-# Beneficiary secret push
-BENEFICIARY_KEY='LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUEwR0FQTnJTWGZzUVJKZjNlUndOMApkOXIwaEhFL1Q2bmNOVkRDeHM4ZUNXa1h1SVJqUlBJVjYzdENyVGIyUVNNNWt0V080dE5UWm5wRVpBL2M0NXByCnAzWitwd0d1U1o4bjVxWWJoWDNUays0Q3BLZFFzMk1DSExMV0xsNGltMzE5eTlpL3l5Z3FoNXkyK01TQXU1ekMKeXpYZi9BV1E0Ry9jQkMvL3hEZWZYaEQvMmsvVDdsaTNmRXcrM1ZYWGZGQ215MVJWc1dBbkhmV1J3VVkwT3l4Lwp2TmFMUXplUThlVmcrdDY0OFFLRTRyUnRlM1Voa1UwMnBqTDQ3OFphWnFCOFhOYUwyU1JLUUxwWVg1ZHVLa0F6ClRzN2VwZ1ZsZ2tITDhCTmRZY1k0Sit5c2svTWRVYWVoSFdlb3VGL21YdTRObndLYkhPSWJ5OFJHeEdwNE5Ka3IKVVFJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg=='
-curl -X POST "http://localhost:15000/secrets/web2?checkSignature=false&ownerAddress=0xabcd1339ec7e762e639f4887e2bfe5ee8023e23e&secretKey=iexec-result-encryption-public-key" -H "accept: */*" -H "Content-Type: application/json" -d "$BENEFICIARY_KEY"
-# Requester Dropbox secret push
-curl -X POST "http://localhost:15000/secrets/web2?checkSignature=false&ownerAddress=0xabcd1339ec7e762e639f4887e2bfe5ee8023e23e&secretKey=iexec-result-dropbox-token" -H "accept: */*" -H "Content-Type: application/json" -d "$DROPBOX_IEXEC_APP_FOLDER_TOKEN" #first do: << ~/.bash_aliases; export DROPBOX_IEXEC_APP_FOLDER_TOKEN='abcdef'; >>
-
-# Buy bundle
-~/iexecdev/wallets/buy --workerpool=0xc0c288EC5242E7f53F6594DC7BADF417b69631Ba --app=0x63C8De22025a7A463acd6c89C50b27013eCa6472 --tag=0x0000000000000000000000000000000000000000000000000000000000000001 --params='{\\"iexec_args\\":\\"python3 \/app\/app.py\\", \\"iexec_result_encryption\\":\\"none\\", \\"iexec_result_storage_provider\\":\\"dropbox\\"}' --beneficiary=0xabcd1339ec7e762e639f4887e2bfe5ee8023e23e --dataset=0x4b40D43da477bBcf69f5fd26467384355a1686d6
+~/iexecdev/wallets/deploy --workerpool=yes

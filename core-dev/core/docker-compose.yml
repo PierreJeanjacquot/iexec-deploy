@@ -3,6 +3,8 @@ version: '3.4'
 networks:
   iexec-net:
     external: true
+  iexec-worker-net:
+    external: true
 
 services:
 
@@ -27,4 +29,4 @@ services:
     restart: on-failure
     networks:
       - iexec-net
-    
+      - iexec-worker-net #required for enclave push to result proxy

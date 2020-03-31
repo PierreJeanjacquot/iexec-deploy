@@ -32,7 +32,7 @@ else
 fi
 
 gnome-terminal --tab --title="SMS" -- bash -c "docker-compose up; read line" #https://stackoverflow.com/a/3512861
-WAIT=3m
+WAIT=15s #3m with Scone
 
 echo "Starting SMS ...($WAIT)"
 sleep $WAIT # required for Sconified SMS

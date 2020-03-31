@@ -18,8 +18,9 @@ services:
       - SCONE_LAS_ADDR=iexec-las:18766
       - SCONE_CONFIG_ID=s1/iexec-sms
       - SCONE_HEAP=3G
-      - SCONE_LOG=7
+      - SCONE_LOG=6
       - SCONE_VERSION=1
+      - SCONE_SYSLIBS=1
     ports:
       - 15000:15000
       - 15443:15443
