@@ -132,6 +132,7 @@ services:
       - IEXEC_PRIVATE_CHAIN_ADDRESS=http://chain:8545
       - IEXEC_PUBLIC_CHAIN_ADDRESS=http://chain:8545
       - MONGO_HOST=result-proxy-mongo
+      - MONGO_PORT=47017
       - IEXEC_IPFS_HOST=ipfs
     ports:
       - 18092:18092
