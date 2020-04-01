@@ -44,19 +44,33 @@ alias upworkers="$HOME/iexecdev/iexec-deploy/core-dev/upworkers"
 alias rmworkers="$HOME/iexecdev/iexec-deploy/core-dev/rmworkers"
 alias uppool="$HOME/iexecdev/iexec-deploy/core-dev/uppool"
 alias rmpool="$HOME/iexecdev/iexec-deploy/core-dev/rmpool"
+<<<<<<< HEAD
 alias deploy="$HOME/iexecdev/wallets/deploy --workerpool=yes --app=docker.io/iexechub/vanityeth:1.1.1 --dataset=http://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/512/iExec-RLC-RLC-icon.png"
+=======
+alias uptee="$HOME/iexecdev/iexec-deploy/core-dev/uptee"
+alias upcas="$HOME/iexecdev/iexec-deploy/core-dev/upcas"
+alias upsms="$HOME/iexecdev/iexec-deploy/core-dev/upsms"
+alias run="$HOME/iexecdev/iexec-deploy/core-dev/run"
+>>>>>>> sms
 alias buy="$HOME/iexecdev/wallets/buy --workerpool=0xc0c288EC5242E7f53F6594DC7BADF417b69631Ba --app=0x63C8De22025a7A463acd6c89C50b27013eCa6472 --dataset=0x4b40D43da477bBcf69f5fd26467384355a1686d6"
+
+alias installsgx="curl -fssl https://raw.githubusercontent.com/SconeDocs/SH/master/install_sgx_driver.sh | bash"
+alias checksgx="ls /dev/isgx >/dev/null 2>1  && echo \"SGX Driver installed\" || echo \"SGX Driver NOT installed\""
 
 alias rmimages="docker rmi -f $(docker images -f dangling=true -q); docker rmi -f $(docker images -a |  grep iexec-core); docker rmi -f $(docker images -a |  grep iexec-worker)"
 alias rmvolumes="docker volume rm `docker volume ls -q -f dangling=true`"
 
 # iExec-components
 alias sde='docker run -it --rm -v $(pwd):/sde/files -v ~/.ssh/id_rsa:/sde/ssh/id_rsa:ro iexechub/iexec-sde:1.0.4'
+<<<<<<< HEAD
 alias iexec-src='node /home/zied/iexecdev/iexec-sdk/src/iexec.js'
+=======
+>>>>>>> sms
 
 # General
 alias tophistory='history | sed "s/^ *//" | cut -d" " -f2- | sort | uniq -c | sort -nr | head -n 30'
 
+<<<<<<< HEAD
 # chain
 lastblock() {
     curl -X POST \
@@ -70,3 +84,9 @@ issyncing() {
         --data '{"jsonrpc":"2.0", "method":"eth_syncing", "params":[], "id":1}' \
         $1 | jq .result
 }
+=======
+dockerfile()
+{
+    docker run -v /var/run/docker.sock:/var/run/docker.sock --rm chenzj/dfimage $(docker images --filter=reference=$1 --format "{{.ID}}")
+}
+>>>>>>> sms

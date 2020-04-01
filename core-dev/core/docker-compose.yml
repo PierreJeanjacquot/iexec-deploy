@@ -3,6 +3,8 @@ version: '3.4'
 networks:
   iexec-net:
     external: true
+  iexec-worker-net:
+    external: true
 
 services:
 
@@ -20,7 +22,10 @@ services:
       - IEXEC_RESULT_REPOSITORY_HOST=result-proxy
       - IEXEC_RESULT_REPOSITORY_PORT=18092
       - IEXEC_SMS_HOST=iexec-sms
-      - IEXEC_SCONE_CAS_HOST=cas
+      - IEXEC_SCONE_CAS_HOST=iexec-cas
+      - IEXEC_SMS_PORT=15000
+      # - IEXEC_SMS_HOST=sms
+      # - IEXEC_SCONE_CAS_HOST=cas
     volumes:
       - ~/iexecdev/wallets/wallets:/iexec-wallets
     ports:
@@ -28,4 +33,4 @@ services:
     restart: on-failure
     networks:
       - iexec-net
-    
+      - iexec-worker-net #required for enclave push to result proxy

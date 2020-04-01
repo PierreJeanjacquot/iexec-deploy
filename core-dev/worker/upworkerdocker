@@ -24,6 +24,7 @@ docker run -it --name "$WORKER_NAME" \
            --env "IEXEC_CORE_PROTOCOL=http" \
            --env "IEXEC_WORKER_WALLET_PATH=/iexec-wallet/encrypted-wallet.json" \
            --env "IEXEC_WORKER_WALLET_PASSWORD=whatever" \
+           --env "IEXEC_TEE_ENABLED=true" \
            -v /home/$USER/iexecdev/wallets/walletsKovan/wallet$workerId.json:/iexec-wallet/encrypted-wallet.json \
            -v /tmp/iexec-worker:/tmp/iexec-worker\
            -v /var/run/docker.sock:/var/run/docker.sock \
