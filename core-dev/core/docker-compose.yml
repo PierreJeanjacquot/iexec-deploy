@@ -33,4 +33,3 @@ services:
     restart: on-failure
     networks:
       - iexec-net
-      - iexec-worker-net #required for enclave push to result proxy

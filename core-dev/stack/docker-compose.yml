@@ -36,7 +36,7 @@ services:
       - ME_CONFIG_MONGODB_SERVER=core-mongo
       # - VCAP_APP_PORT=8081
     ports:
-      - 8082:8080
+      - 8082:8081
     networks:
       - iexec-net
     depends_on:
@@ -165,6 +165,7 @@ services:
       - 18092:18092
     networks:
       - iexec-net
+      - iexec-worker-net #required for enclave push to result proxy
 
   result-proxy-mongo:
     image: mongo:4-xenial
@@ -184,10 +185,10 @@ services:
       - ME_CONFIG_BASICAUTH_PASSWORD=admin
       - ME_CONFIG_MONGODB_PORT=47017
       - ME_CONFIG_MONGODB_SERVER=result-proxy-mongo
-      # - VCAP_APP_PORT=8081
+      # - VCAP_APP_PORT=8084
     ports:
-      - 8084:8080
+      - 8084:8081
     networks:
       - iexec-net
     depends_on:
-      - core-mongo
+      - result-proxy-mongo
