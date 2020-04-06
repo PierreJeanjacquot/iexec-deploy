@@ -22,10 +22,8 @@ services:
       - IEXEC_RESULT_REPOSITORY_HOST=result-proxy
       - IEXEC_RESULT_REPOSITORY_PORT=18092
       - IEXEC_SMS_HOST=iexec-sms
-      - IEXEC_SCONE_CAS_HOST=iexec-cas
       - IEXEC_SMS_PORT=15000
-      # - IEXEC_SMS_HOST=sms
-      # - IEXEC_SCONE_CAS_HOST=cas
+      - IEXEC_SCONE_CAS_HOST=iexec-cas
     volumes:
       - ~/iexecdev/wallets/wallets:/iexec-wallets
     ports:
