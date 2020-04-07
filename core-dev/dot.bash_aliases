@@ -20,6 +20,7 @@ alias gl='git log'
 alias gdb='gradle clean build -Dtest.profile=skipDocker --refresh-dependencies' # gradle build
 alias gdbd='gradle clean build -Dtest.profile=skipDocker --refresh-dependencies buildImage -PforceDockerBuild' #gradle & docker build
 alias gdr='gradle bootRun'
+alias gdt='gradle test -i --test'
 
 # Shortcut directories
 alias cddev="cd $HOME/iexecdev"
@@ -30,6 +31,8 @@ alias cdint="cd $HOME/iexecdev/iexec-core-integration-tests"
 alias cdwal="cd $HOME/iexecdev/wallets"
 alias cddep="cd $HOME/iexecdev/iexec-deploy"
 alias cdsms="cd $HOME/iexecdev/iexec-sms"
+alias cdres="cd $HOME/iexecdev/iexec-result-proxy"
+alias cdpost="cd $HOME/iexecdev/tee-worker-post-compute"
 
 # iExec-core dev
 alias upstack="$HOME/iexecdev/iexec-deploy/core-dev/upstack"
@@ -42,6 +45,7 @@ alias upworkers="$HOME/iexecdev/iexec-deploy/core-dev/upworkers"
 alias rmworkers="$HOME/iexecdev/iexec-deploy/core-dev/rmworkers"
 alias uppool="$HOME/iexecdev/iexec-deploy/core-dev/uppool"
 alias rmpool="$HOME/iexecdev/iexec-deploy/core-dev/rmpool"
+alias deploy="$HOME/iexecdev/wallets/deploy --workerpool=yes --app=docker.io/iexechub/vanityeth:1.1.1 --dataset=http://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/512/iExec-RLC-RLC-icon.png"
 alias uptee="$HOME/iexecdev/iexec-deploy/core-dev/uptee"
 alias upcas="$HOME/iexecdev/iexec-deploy/core-dev/upcas"
 alias upsms="$HOME/iexecdev/iexec-deploy/core-dev/upsms"
@@ -56,10 +60,24 @@ alias rmvolumes="docker volume rm `docker volume ls -q -f dangling=true`"
 
 # iExec-components
 alias sde='docker run -it --rm -v $(pwd):/sde/files -v ~/.ssh/id_rsa:/sde/ssh/id_rsa:ro iexechub/iexec-sde:1.0.4'
+alias iexec-src='node $HOME/iexecdev/iexec-sdk/src/iexec.js'
 
 # General
 alias tophistory='history | sed "s/^ *//" | cut -d" " -f2- | sort | uniq -c | sort -nr | head -n 30'
 
+# chain
+lastblock() {
+    curl -X POST \
+        --header "Content-Type: application/json" \
+        --data '{"jsonrpc":"2.0", "method":"eth_getBlockByNumber", "params":["latest", false], "id":1}' \
+        $1 | jq .result.numbe | xargs printf '%d\n'
+}
+issyncing() {
+    curl -X POST \
+        --header "Content-Type: application/json" \
+        --data '{"jsonrpc":"2.0", "method":"eth_syncing", "params":[], "id":1}' \
+        $1 | jq .result
+}
 dockerfile()
 {
     docker run -v /var/run/docker.sock:/var/run/docker.sock --rm chenzj/dfimage $(docker images --filter=reference=$1 --format "{{.ID}}")

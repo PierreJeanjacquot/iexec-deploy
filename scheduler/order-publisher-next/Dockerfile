@@ -1,4 +1,4 @@
-FROM iexechub/iexec-sdk
+FROM nexus.iex.ec/iexec-sdk:4.0.0-alpha
 LABEL maintainer "vladimir.ostapenco@iex.ec"
 
 USER root
@@ -10,5 +10,7 @@ RUN mkdir /wallets
 COPY /entrypoint.sh /
 
 RUN chmod +x /entrypoint.sh
+
+ENV IS_GPU_POOL false
 
 ENTRYPOINT ["/entrypoint.sh"]

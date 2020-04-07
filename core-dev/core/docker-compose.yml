@@ -18,7 +18,9 @@ services:
       - REVEAL_TIMEOUT_PERIOD=60000
       - MONGO_HOST=core-mongo
       - IEXEC_IPFS_HOST=ipfs
-      - IEXEC_RESULT_REPOSITORY_HOST=core
+      - IEXEC_RESULT_REPOSITORY_PROTOCOL=http
+      - IEXEC_RESULT_REPOSITORY_HOST=result-proxy
+      - IEXEC_RESULT_REPOSITORY_PORT=18092
       - IEXEC_SMS_HOST=iexec-sms
       - IEXEC_SMS_PORT=15000
       - IEXEC_SCONE_CAS_HOST=iexec-cas
@@ -29,4 +31,3 @@ services:
     restart: on-failure
     networks:
       - iexec-net
-      - iexec-worker-net #required for enclave push to result proxy

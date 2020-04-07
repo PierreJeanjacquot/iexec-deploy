@@ -36,6 +36,7 @@
         "type": "text"
       },
       {
+        "datasource": "MongoDB",
         "cacheTimeout": null,
         "colorBackground": false,
         "colorValue": false,
@@ -44,7 +45,6 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": "MongoDB",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -55,8 +55,8 @@
         },
         "gridPos": {
           "h": 3,
-          "w": 2,
-          "x": 0,
+          "w": 3,
+          "x": 17,
           "y": 3
         },
         "id": 12,
@@ -93,7 +93,7 @@
           "lineColor": "rgb(31, 120, 193)",
           "show": false
         },
-        "tableColumn": "value",
+        "tableColumn": "",
         "targets": [
           {
             "format": "time_series",
@@ -135,111 +135,11 @@
             "value": "null"
           }
         ],
-        "valueName": "avg"
+        "valueName": "avg",
+        "options": {}
       },
       {
-        "cacheTimeout": null,
-        "colorBackground": false,
-        "colorValue": false,
-        "colors": [
-          "#299c46",
-          "rgba(237, 129, 40, 0.89)",
-          "#d44a3a"
-        ],
         "datasource": "MongoDB",
-        "format": "none",
-        "gauge": {
-          "maxValue": 100,
-          "minValue": 0,
-          "show": false,
-          "thresholdLabels": false,
-          "thresholdMarkers": true
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 2,
-          "y": 3
-        },
-        "id": 28,
-        "interval": null,
-        "links": [],
-        "mappingType": 1,
-        "mappingTypes": [
-          {
-            "name": "value to text",
-            "value": 1
-          },
-          {
-            "name": "range to text",
-            "value": 2
-          }
-        ],
-        "maxDataPoints": 100,
-        "nullPointMode": "connected",
-        "nullText": null,
-        "postfix": "",
-        "postfixFontSize": "50%",
-        "prefix": "",
-        "prefixFontSize": "50%",
-        "rangeMaps": [
-          {
-            "from": "null",
-            "text": "N/A",
-            "to": "null"
-          }
-        ],
-        "sparkline": {
-          "fillColor": "rgba(31, 118, 189, 0.18)",
-          "full": false,
-          "lineColor": "rgb(31, 120, 193)",
-          "show": false
-        },
-        "tableColumn": "value",
-        "targets": [
-          {
-            "format": "time_series",
-            "group": [],
-            "metricColumn": "none",
-            "rawQuery": true,
-            "rawSql": "SELECT\n  UNIX_TIMESTAMP(<time_column>) as time_sec,\n  <value column> as value,\n  <series name column> as metric\nFROM <table name>\nWHERE $__timeFilter(time_column)\nORDER BY <time_column> ASC\n",
-            "refId": "A",
-            "select": [
-              [
-                {
-                  "params": [
-                    "value"
-                  ],
-                  "type": "column"
-                }
-              ]
-            ],
-            "target": "db.worker.aggregate( [ \n    { \"$project\": {\n       \"Delay\": { \"$toInt\": { \"$divide\" : [ { \"$subtract\":  [\"$now\", \"$lastAliveDate\"]} , 1000 ]}}\n    }},\n    {\"$match\":{\"Delay\": {\"$lt\": 86400}}},\n    { \"$group\": { \"_id\": null, \"count\": { \"$sum\": 1 } } },\n    { \"$project\": { \"value\": \"$count\",\"_id\": 0}}\n] )",
-            "timeColumn": "time",
-            "type": "table",
-            "where": [
-              {
-                "name": "$__timeFilter",
-                "params": [],
-                "type": "macro"
-              }
-            ]
-          }
-        ],
-        "thresholds": "",
-        "title": "Active Last Day",
-        "type": "singlestat",
-        "valueFontSize": "50%",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "0",
-            "value": "null"
-          }
-        ],
-        "valueName": "avg"
-      },
-      {
         "cacheTimeout": null,
         "colorBackground": false,
         "colorPostfix": false,
@@ -249,7 +149,6 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": "MongoDB",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -260,9 +159,9 @@
         },
         "gridPos": {
           "h": 3,
-          "w": 2,
-          "x": 4,
-          "y": 3
+          "w": 3,
+          "x": 17,
+          "y": 6
         },
         "id": 10,
         "interval": null,
@@ -298,7 +197,7 @@
           "lineColor": "rgb(31, 120, 193)",
           "show": false
         },
-        "tableColumn": "value",
+        "tableColumn": "",
         "targets": [
           {
             "format": "time_series",
@@ -330,7 +229,7 @@
           }
         ],
         "thresholds": "",
-        "title": "Active Cores",
+        "title": "Total CPUs",
         "type": "singlestat",
         "valueFontSize": "50%",
         "valueMaps": [
@@ -340,19 +239,20 @@
             "value": "null"
           }
         ],
-        "valueName": "avg"
+        "valueName": "avg",
+        "options": {}
       },
       {
+        "datasource": "MongoDB",
         "aliasColors": {},
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": "MongoDB",
         "fill": 1,
         "gridPos": {
-          "h": 11,
-          "w": 12,
-          "x": 6,
+          "h": 9,
+          "w": 17,
+          "x": 0,
           "y": 3
         },
         "id": 2,
@@ -413,7 +313,7 @@
         "timeFrom": null,
         "timeRegions": [],
         "timeShift": null,
-        "title": "Tasks Info",
+        "title": "Tasks History",
         "tooltip": {
           "shared": false,
           "sort": 0,
@@ -450,9 +350,15 @@
         "yaxis": {
           "align": false,
           "alignLevel": null
-        }
+        },
+        "options": {
+          "dataLinks": []
+        },
+        "fillGradient": 0,
+        "hiddenSeries": false
       },
       {
+        "datasource": "MongoDB",
         "cacheTimeout": null,
         "colorBackground": false,
         "colorValue": false,
@@ -461,7 +367,6 @@
           "rgba(237, 129, 40, 0.89)",
           "#d44a3a"
         ],
-        "datasource": "MongoDB",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -472,111 +377,9 @@
         },
         "gridPos": {
           "h": 3,
-          "w": 2,
-          "x": 18,
-          "y": 3
-        },
-        "id": 22,
-        "interval": null,
-        "links": [],
-        "mappingType": 1,
-        "mappingTypes": [
-          {
-            "name": "value to text",
-            "value": 1
-          },
-          {
-            "name": "range to text",
-            "value": 2
-          }
-        ],
-        "maxDataPoints": 100,
-        "nullPointMode": "connected",
-        "nullText": null,
-        "postfix": "",
-        "postfixFontSize": "50%",
-        "prefix": "",
-        "prefixFontSize": "50%",
-        "rangeMaps": [
-          {
-            "from": "null",
-            "text": "N/A",
-            "to": "null"
-          }
-        ],
-        "sparkline": {
-          "fillColor": "rgba(31, 118, 189, 0.18)",
-          "full": false,
-          "lineColor": "rgb(31, 120, 193)",
-          "show": false
-        },
-        "tableColumn": "value",
-        "targets": [
-          {
-            "format": "time_series",
-            "group": [],
-            "metricColumn": "none",
-            "rawQuery": true,
-            "rawSql": "SELECT\n  UNIX_TIMESTAMP(<time_column>) as time_sec,\n  <value column> as value,\n  <series name column> as metric\nFROM <table name>\nWHERE $__timeFilter(time_column)\nORDER BY <time_column> ASC\n",
-            "refId": "A",
-            "select": [
-              [
-                {
-                  "params": [
-                    "value"
-                  ],
-                  "type": "column"
-                }
-              ]
-            ],
-            "target": "db.task.aggregate( [ \n    { \"$match\": { \"currentStatus\": \"COMPLETED\"}},\n    { \"$group\": { \"_id\": \"$dappName\", \"count\": { \"$sum\": 1 } } },\n   { \"$group\" : { \"_id\" : null, \"count\" : { \"$sum\" : 1 } } },\n    { \"$project\": { \"value\": \"$count\", \"_id\": 0}}\n])",
-            "timeColumn": "time",
-            "type": "table",
-            "where": [
-              {
-                "name": "$__timeFilter",
-                "params": [],
-                "type": "macro"
-              }
-            ]
-          }
-        ],
-        "thresholds": "",
-        "title": "Dapp Number",
-        "type": "singlestat",
-        "valueFontSize": "50%",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "0",
-            "value": "null"
-          }
-        ],
-        "valueName": "avg"
-      },
-      {
-        "cacheTimeout": null,
-        "colorBackground": false,
-        "colorValue": false,
-        "colors": [
-          "#299c46",
-          "rgba(237, 129, 40, 0.89)",
-          "#d44a3a"
-        ],
-        "datasource": "MongoDB",
-        "format": "none",
-        "gauge": {
-          "maxValue": 100,
-          "minValue": 0,
-          "show": false,
-          "thresholdLabels": false,
-          "thresholdMarkers": true
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 20,
-          "y": 3
+          "w": 3,
+          "x": 17,
+          "y": 9
         },
         "id": 4,
         "interval": null,
@@ -612,7 +415,7 @@
           "lineColor": "rgb(31, 120, 193)",
           "show": false
         },
-        "tableColumn": "value",
+        "tableColumn": "",
         "targets": [
           {
             "format": "time_series",
@@ -654,315 +457,11 @@
             "value": "null"
           }
         ],
-        "valueName": "avg"
+        "valueName": "avg",
+        "options": {}
       },
       {
-        "cacheTimeout": null,
-        "colorBackground": false,
-        "colorValue": false,
-        "colors": [
-          "#299c46",
-          "rgba(237, 129, 40, 0.89)",
-          "#d44a3a"
-        ],
         "datasource": "MongoDB",
-        "format": "none",
-        "gauge": {
-          "maxValue": 100,
-          "minValue": 0,
-          "show": false,
-          "thresholdLabels": false,
-          "thresholdMarkers": true
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 22,
-          "y": 3
-        },
-        "id": 8,
-        "interval": null,
-        "links": [],
-        "mappingType": 1,
-        "mappingTypes": [
-          {
-            "name": "value to text",
-            "value": 1
-          },
-          {
-            "name": "range to text",
-            "value": 2
-          }
-        ],
-        "maxDataPoints": 100,
-        "nullPointMode": "connected",
-        "nullText": null,
-        "postfix": "",
-        "postfixFontSize": "50%",
-        "prefix": "",
-        "prefixFontSize": "50%",
-        "rangeMaps": [
-          {
-            "from": "null",
-            "text": "N/A",
-            "to": "null"
-          }
-        ],
-        "sparkline": {
-          "fillColor": "rgba(31, 118, 189, 0.18)",
-          "full": false,
-          "lineColor": "rgb(31, 120, 193)",
-          "show": false
-        },
-        "tableColumn": "value",
-        "targets": [
-          {
-            "format": "time_series",
-            "group": [],
-            "metricColumn": "none",
-            "rawQuery": true,
-            "rawSql": "SELECT\n  UNIX_TIMESTAMP(<time_column>) as time_sec,\n  <value column> as value,\n  <series name column> as metric\nFROM <table name>\nWHERE $__timeFilter(time_column)\nORDER BY <time_column> ASC\n",
-            "refId": "A",
-            "select": [
-              [
-                {
-                  "params": [
-                    "value"
-                  ],
-                  "type": "column"
-                }
-              ]
-            ],
-            "target": "db.task.aggregate( [ \n    { \"$match\": { \"currentStatus\": {\n            \"$nin\": [\"INITIALIZE_FAILED\",\"REOPEN_FAILED\",\"FINALIZE_FAILED\",\"ERROR\",\"COMPLETED\",\"CONTRIBUTION_TIMEOUT\"]\n    }}},\n    { \"$group\": { \"_id\": null, \"count\": { \"$sum\": 1 } } },\n    { \"$project\": { \"value\": \"$count\", \"_id\": 0}}\n\n])",
-            "timeColumn": "time",
-            "type": "table",
-            "where": [
-              {
-                "name": "$__timeFilter",
-                "params": [],
-                "type": "macro"
-              }
-            ]
-          }
-        ],
-        "thresholds": "",
-        "title": "Running Tasks",
-        "type": "singlestat",
-        "valueFontSize": "50%",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "0",
-            "value": "null"
-          }
-        ],
-        "valueName": "avg"
-      },
-      {
-        "cacheTimeout": null,
-        "colorBackground": false,
-        "colorValue": false,
-        "colors": [
-          "#299c46",
-          "rgba(237, 129, 40, 0.89)",
-          "#d44a3a"
-        ],
-        "datasource": "MongoDB",
-        "format": "none",
-        "gauge": {
-          "maxValue": 100,
-          "minValue": 0,
-          "show": false,
-          "thresholdLabels": false,
-          "thresholdMarkers": true
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 0,
-          "y": 6
-        },
-        "id": 26,
-        "interval": null,
-        "links": [],
-        "mappingType": 1,
-        "mappingTypes": [
-          {
-            "name": "value to text",
-            "value": 1
-          },
-          {
-            "name": "range to text",
-            "value": 2
-          }
-        ],
-        "maxDataPoints": 100,
-        "nullPointMode": "connected",
-        "nullText": null,
-        "postfix": "",
-        "postfixFontSize": "50%",
-        "prefix": "",
-        "prefixFontSize": "50%",
-        "rangeMaps": [
-          {
-            "from": "null",
-            "text": "N/A",
-            "to": "null"
-          }
-        ],
-        "sparkline": {
-          "fillColor": "rgba(31, 118, 189, 0.18)",
-          "full": false,
-          "lineColor": "rgb(31, 120, 193)",
-          "show": false
-        },
-        "tableColumn": "value",
-        "targets": [
-          {
-            "format": "time_series",
-            "group": [],
-            "metricColumn": "none",
-            "rawQuery": true,
-            "rawSql": "SELECT\n  UNIX_TIMESTAMP(<time_column>) as time_sec,\n  <value column> as value,\n  <series name column> as metric\nFROM <table name>\nWHERE $__timeFilter(time_column)\nORDER BY <time_column> ASC\n",
-            "refId": "A",
-            "select": [
-              [
-                {
-                  "params": [
-                    "value"
-                  ],
-                  "type": "column"
-                }
-              ]
-            ],
-            "target": "db.worker.aggregate( [ \n    { \"$group\": { \"_id\": \"$os\", \"count\": { \"$sum\": 1 } } },\n    { \"$sort\": { \"count\": 1}},\n    { \"$group\": {\"_id\": null, \"count\": { \"$max\": \"$count\"}, \"os\": { \"$last\": \"$_id\"}}},\n    { \"$project\": { \"value\": \"$os\", \"_id\": 0}}\n])",
-            "timeColumn": "time",
-            "type": "table",
-            "where": [
-              {
-                "name": "$__timeFilter",
-                "params": [],
-                "type": "macro"
-              }
-            ]
-          }
-        ],
-        "thresholds": "",
-        "title": "Principal OS",
-        "type": "singlestat",
-        "valueFontSize": "50%",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "N/A",
-            "value": "null"
-          }
-        ],
-        "valueName": "avg"
-      },
-      {
-        "cacheTimeout": null,
-        "colorBackground": false,
-        "colorValue": false,
-        "colors": [
-          "#299c46",
-          "rgba(237, 129, 40, 0.89)",
-          "#d44a3a"
-        ],
-        "datasource": "MongoDB",
-        "format": "none",
-        "gauge": {
-          "maxValue": 100,
-          "minValue": 0,
-          "show": false,
-          "thresholdLabels": false,
-          "thresholdMarkers": true
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 2,
-          "y": 6
-        },
-        "id": 24,
-        "interval": null,
-        "links": [],
-        "mappingType": 1,
-        "mappingTypes": [
-          {
-            "name": "value to text",
-            "value": 1
-          },
-          {
-            "name": "range to text",
-            "value": 2
-          }
-        ],
-        "maxDataPoints": 100,
-        "nullPointMode": "connected",
-        "nullText": null,
-        "postfix": "",
-        "postfixFontSize": "50%",
-        "prefix": "",
-        "prefixFontSize": "50%",
-        "rangeMaps": [
-          {
-            "from": "null",
-            "text": "N/A",
-            "to": "null"
-          }
-        ],
-        "sparkline": {
-          "fillColor": "rgba(31, 118, 189, 0.18)",
-          "full": false,
-          "lineColor": "rgb(31, 120, 193)",
-          "show": false
-        },
-        "tableColumn": "value",
-        "targets": [
-          {
-            "format": "time_series",
-            "group": [],
-            "metricColumn": "none",
-            "rawQuery": true,
-            "rawSql": "SELECT\n  UNIX_TIMESTAMP(<time_column>) as time_sec,\n  <value column> as value,\n  <series name column> as metric\nFROM <table name>\nWHERE $__timeFilter(time_column)\nORDER BY <time_column> ASC\n",
-            "refId": "A",
-            "select": [
-              [
-                {
-                  "params": [
-                    "value"
-                  ],
-                  "type": "column"
-                }
-              ]
-            ],
-            "target": "db.worker.aggregate( [ \n    { \"$group\": { \"_id\": \"$cpu\", \"count\": { \"$sum\": 1 } } },\n    { \"$sort\": { \"count\": 1}},\n    { \"$group\": {\"_id\": null, \"count\": { \"$max\": \"$count\"}, \"cpu\": { \"$last\": \"$_id\"}}},\n    { \"$project\": { \"value\": \"$cpu\", \"_id\": 0}}\n])",
-            "timeColumn": "time",
-            "type": "table",
-            "where": [
-              {
-                "name": "$__timeFilter",
-                "params": [],
-                "type": "macro"
-              }
-            ]
-          }
-        ],
-        "thresholds": "",
-        "title": "Principal CPU",
-        "type": "singlestat",
-        "valueFontSize": "50%",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "N/A",
-            "value": "null"
-          }
-        ],
-        "valueName": "avg"
-      },
-      {
         "cacheTimeout": null,
         "colorBackground": false,
         "colorValue": false,
@@ -971,7 +470,6 @@
           "rgba(237, 129, 40, 0.89)",
           "#299c46"
         ],
-        "datasource": "MongoDB",
         "format": "none",
         "gauge": {
           "maxValue": 100,
@@ -981,10 +479,10 @@
           "thresholdMarkers": true
         },
         "gridPos": {
-          "h": 6,
+          "h": 9,
           "w": 4,
-          "x": 18,
-          "y": 6
+          "x": 20,
+          "y": 3
         },
         "id": 30,
         "interval": null,
@@ -1020,7 +518,7 @@
           "lineColor": "rgb(31, 120, 193)",
           "show": false
         },
-        "tableColumn": "value",
+        "tableColumn": "",
         "targets": [
           {
             "format": "time_series",
@@ -1062,17 +560,18 @@
             "value": "null"
           }
         ],
-        "valueName": "avg"
+        "valueName": "avg",
+        "options": {}
       },
       {
-        "columns": [],
         "datasource": "MongoDB",
+        "columns": [],
         "fontSize": "100%",
         "gridPos": {
-          "h": 9,
+          "h": 10,
           "w": 24,
           "x": 0,
-          "y": 14
+          "y": 12
         },
         "id": 6,
         "links": [],
@@ -1128,7 +627,7 @@
             "unit": "short"
           },
           {
-            "alias": "Active Tasks",
+            "alias": "Running Tasks",
             "colorMode": null,
             "colors": [
               "rgba(245, 54, 54, 0.9)",
@@ -1185,9 +684,6 @@
             ],
             "dateFormat": "YYYY-MM-DD HH:mm:ss",
             "decimals": 2,
-            "link": true,
-            "linkTooltip": "More info about worker",
-            "linkUrl": "/d/WorkerInfo/worker-info?var-worker=$__cell_0",
             "mappingType": 1,
             "pattern": "Wallet",
             "thresholds": [],
@@ -1243,7 +739,7 @@
                 }
               ]
             ],
-            "target": "db.worker.aggregate( [ \n    {\"$sort\" : {\"lastAliveDate\" : -1}},\n    { \"$project\": { \n        \"_id\": 0, \n        \"Wallet\": \"$walletAddress\",\n        \"Name\": \"$name\", \n        \"Delay\": { \"$toInt\": { \"$divide\" : [ { \"$subtract\":  [\"$now\", \"$lastAliveDate\"]} , 1000 ]}},\n        \"OS\": \"$os\", \n        \"Platform\": \"$cpu\", \n        \"CPUNumber\": \"$cpuNb\", \n        \"Running Tasks\": { \"$cond\": { \"if\": { \"$isArray\": \"$participatingChainTaskIds\" }, \"then\": { \"$size\": \"$participatingChainTaskIds\" }, \"else\": \"0\"}},\n        \"Last Seen\": \"$lastAliveDate\"\n         }},\n    {\"$match\":{\"Delay\": {\"$lt\": 600}}}\n])",
+            "target": "db.worker.aggregate( [ \n    {\"$sort\" : {\"lastAliveDate\" : -1}},\n    { \"$project\": { \n        \"_id\": 0, \n        \"Wallet\": \"$walletAddress\",\n        \"Name\": \"$name\", \n        \"Delay\": { \"$toInt\": { \"$divide\" : [ { \"$subtract\":  [\"$now\", \"$lastAliveDate\"]} , 1000 ]}},\n        \"OS\": \"$os\", \n        \"Platform\": \"$cpu\", \n        \"CPUs\": \"$cpuNb\", \n        \"Running Tasks\": { \"$cond\": { \"if\": { \"$isArray\": \"$computingChainTaskIds\" }, \"then\": { \"$size\": \"$computingChainTaskIds\" }, \"else\": \"0\"}},\n        \"Last Seen\": \"$lastAliveDate\"\n         }},\n    {\"$match\":{\"Delay\": {\"$lt\": 600}}}\n])",
             "timeColumn": "time",
             "type": "table",
             "where": [
@@ -1257,10 +753,11 @@
         ],
         "title": "Active Worker List",
         "transform": "table",
-        "type": "table"
+        "type": "table",
+        "options": {}
       }
     ],
-    "refresh": "5s",
+    "refresh": "1m",
     "schemaVersion": 18,
     "style": "dark",
     "tags": [],
@@ -1275,25 +772,15 @@
       "hidden": false,
       "nowDelay": "",
       "refresh_intervals": [
-        "5s",
-        "10s",
-        "30s",
         "1m",
         "5m",
-        "15m",
-        "30m",
         "1h",
-        "2h",
         "1d"
       ],
       "time_options": [
-        "5m",
-        "15m",
+        "1m",
         "1h",
-        "6h",
-        "12h",
-        "24h",
-        "2d",
+        "1d",
         "7d",
         "30d"
       ]
