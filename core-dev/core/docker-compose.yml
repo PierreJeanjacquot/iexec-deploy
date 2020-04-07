@@ -3,8 +3,6 @@ version: '3.4'
 networks:
   iexec-net:
     external: true
-  iexec-worker-net:
-    external: true
 
 services:
 
