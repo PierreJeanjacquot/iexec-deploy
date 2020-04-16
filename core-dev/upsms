@@ -31,7 +31,8 @@ else
   docker-compose down > /dev/null 2>&1
 fi
 
-gnome-terminal --tab --title="SMS" -- bash -c "docker-compose up; read line" #https://stackoverflow.com/a/3512861
+# gnome-terminal --tab --title="SMS" -- bash -c "docker-compose up; read line" #https://stackoverflow.com/a/3512861
+docker-compose up -d
 WAIT=15s #3m with Scone
 
 echo "Starting SMS ...($WAIT)"
