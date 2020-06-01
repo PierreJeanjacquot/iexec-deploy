@@ -59,21 +59,28 @@ alias rmimages="docker rmi -f $(docker images -f dangling=true -q); docker rmi -
 alias rmvolumes="docker volume rm `docker volume ls -q -f dangling=true`"
 
 # iExec-components
-alias sde='docker run -it --rm -v $(pwd):/sde/files -v ~/.ssh/id_rsa:/sde/ssh/id_rsa:ro iexechub/iexec-sde:1.0.4'
+alias sde='docker run -it --rm -v $(pwd):/sde/files -v ~/.ssh/id_rsa:/sde/ssh/id_rsa:ro iexechub/iexec-sde:1.0.6'
 alias iexec-src='node $HOME/iexecdev/iexec-sdk/src/iexec.js'
 
 # General
 alias tophistory='history | sed "s/^ *//" | cut -d" " -f2- | sort | uniq -c | sort -nr | head -n 30'
 
 # chain
+
+LATEST_BLOCK_DATA='{"jsonrpc":"2.0", "method":"eth_getBlockByNumber", "params":["latest", false], "id":1}'
+REQUEST_CONFIG='-s -X POST -H "Content-Type: application/json"'
+alias LATEST_BLOCK_CMD=$(echo "curl $REQUEST_CONFIG -d '${LATEST_BLOCK_DATA}' $1 | jq .result.number | xargs printf '%d\n'")
+
+alias latestblock="curl -s -X POST -H 'Content-Type: application/json' -d '${LATEST_BLOCK_DATA}' $1 | jq .result.number | xargs printf '%d\n'"
+
 lastblock() {
-    curl -X POST \
+    curl -s -X POST \
         --header "Content-Type: application/json" \
         --data '{"jsonrpc":"2.0", "method":"eth_getBlockByNumber", "params":["latest", false], "id":1}' \
-        $1 | jq .result.numbe | xargs printf '%d\n'
+        $1 | jq .result.number | xargs printf '%d\n'
 }
 issyncing() {
-    curl -X POST \
+    curl -s -X POST \
         --header "Content-Type: application/json" \
         --data '{"jsonrpc":"2.0", "method":"eth_syncing", "params":[], "id":1}' \
         $1 | jq .result

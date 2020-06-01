@@ -10,5 +10,6 @@ cd $(dirname $0)
 
 ./rmworkers
 
+docker container rm -f $(docker container ls -aq)
 echo "Removing iexec-net..."
 docker network rm iexec-net > /dev/null 2>&1
