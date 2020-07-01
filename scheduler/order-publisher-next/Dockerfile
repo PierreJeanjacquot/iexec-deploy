@@ -1,5 +1,7 @@
-FROM nexus.iex.ec/iexec-sdk:4.0.0-alpha
+FROM iexechub/iexec-sdk:5.0.0-alpha.8
 LABEL maintainer "vladimir.ostapenco@iex.ec"
+
+COPY iexec /iexec
 
 USER root
 

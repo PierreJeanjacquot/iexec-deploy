@@ -1,25 +1,20 @@
 {
-  "default": "kovan",
+  "default": "goerli",
   "chains": {
     "dev": {
+      "id": "65535",
       "host": "http://localhost:8545",
-      "id": "17"
+      "resultProxy": "http://localhost:18089",
+      "sms": "http://localhost:5000",
+      "hub": "0xC08e9Be37286B7Bbf04875369cf28C21b3F06FCB"
     },
-    "ropsten": {
-      "host": "https://ropsten.infura.io/v3/b2fd33d1c9cc440ba84752c2a4cf949d",
-      "id": "3"
+    "goerli": {
+      "id": "5"
     },
-    "rinkeby": {
-      "host": "https://rinkeby.infura.io/v3/b2fd33d1c9cc440ba84752c2a4cf949d",
-      "id": "4"
-    },
-    "kovan": {
-      "host": "https://kovan.infura.io/v3/b2fd33d1c9cc440ba84752c2a4cf949d",
-      "hub": "0x759b25b358b9f9c18812a69c0a9cf8b5a11c2e2d",
-      "id": "42"
+    "viviani": {
+      "id": "133"
     },
     "mainnet": {
-      "host": "https://mainnet.infura.io/v3/b2fd33d1c9cc440ba84752c2a4cf949d",
       "id": "1"
     }
   }
