@@ -31,6 +31,9 @@ alias cdint="cd $HOME/iexecdev/iexec-core-integration-tests"
 alias cdwal="cd $HOME/iexecdev/wallets"
 alias cddep="cd $HOME/iexecdev/iexec-deploy"
 alias cdsms="cd $HOME/iexecdev/iexec-sms"
+alias cdres="cd $HOME/iexecdev/iexec-result-proxy"
+alias cdpost="cd $HOME/iexecdev/tee-worker-post-compute"
+alias cdcloud="cd $HOME/iexecdev/iexec-cloud-api"
 
 # iExec-core dev
 alias upstack="$HOME/iexecdev/iexec-deploy/core-dev/upstack"
@@ -50,8 +53,9 @@ alias rmimages="docker rmi -f $(docker images -f dangling=true -q); docker rmi -
 alias rmvolumes="docker volume rm `docker volume ls -q -f dangling=true`"
 
 # iExec-components
-alias sde='docker run -it --rm -v $(pwd):/sde/files -v ~/.ssh/id_rsa:/sde/ssh/id_rsa:ro iexechub/iexec-sde:1.0.4'
-alias iexec-src='node /home/zied/iexecdev/iexec-sdk/src/iexec.js'
+alias sde='docker run -it --rm -v $(pwd):/sde/files -v ~/.ssh/id_rsa:/sde/ssh/id_rsa:ro iexechub/iexec-sde:1.0.6'
+alias devsde='docker run -it --rm -v $(pwd):/sde/files -v ~/.ssh/id_rsa:/sde/ssh/id_rsa:ro nexus.iex.ec/iexec-sde:dev'
+alias iexec-src='node $HOME/iexecdev/iexec-sdk/src/iexec.js'
 
 # General
 alias tophistory='history | sed "s/^ *//" | cut -d" " -f2- | sort | uniq -c | sort -nr | head -n 30'
@@ -68,4 +72,9 @@ issyncing() {
         --header "Content-Type: application/json" \
         --data '{"jsonrpc":"2.0", "method":"eth_syncing", "params":[], "id":1}' \
         $1 | jq .result
+}
+
+dockerfile()
+{
+    docker run -v /var/run/docker.sock:/var/run/docker.sock --rm chenzj/dfimage $(docker images --filter=reference=$1 --format "{{.ID}}")
 }
