@@ -21,6 +21,9 @@ else
     fi
 fi
 
+REQUESTER_RESTRICT=${REQUESTER_RESTRICT:-"0x0000000000000000000000000000000000000000"}
+echo "REQUESTER_RESTRICT: $REQUESTER_RESTRICT"
+
 
 # Calculate number of workers needed from trust value
 function getWorkersNumberFromTrust(){
@@ -113,6 +116,7 @@ do
           	sed -i "s/@ORDER_PRICE@/$ORDER_PRICE_SEND/g" iexec.json
           	sed -i "s/@TAG_VALUE@/$TAG_VALUE/g" iexec.json
           	sed -i "s/@ORDER_VOLUME@/$ORDER_VOLUME/g" iexec.json
+            sed -i "s/@REQUESTER_RESTRICT@/$REQUESTER_RESTRICT/g" iexec.json
 
           	# Sign and publish an order
           	iexec order sign --workerpool --chain $CHAIN --force --keystoredir /wallets --wallet-file wallet.json --password $WALLETPASSWORD

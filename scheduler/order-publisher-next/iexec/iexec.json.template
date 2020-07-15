@@ -26,7 +26,7 @@
       "tag": "@TAG_VALUE@",
       "apprestrict": "0x0000000000000000000000000000000000000000",
       "datasetrestrict": "0x0000000000000000000000000000000000000000",
-      "requesterrestrict": "0x0000000000000000000000000000000000000000"
+      "requesterrestrict": "@REQUESTER_RESTRICT@"
     }
   }
 }
