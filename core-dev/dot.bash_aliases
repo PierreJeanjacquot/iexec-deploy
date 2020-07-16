@@ -78,3 +78,13 @@ dockerfile()
 {
     docker run -v /var/run/docker.sock:/var/run/docker.sock --rm chenzj/dfimage $(docker images --filter=reference=$1 --format "{{.ID}}")
 }
+
+changelog() # Usage: `changelog 2.0.0 1.0.0` or `changelog 1.0.0` to get from beginning
+{
+    NEW_TAG=$1
+    OLD_TAG=$2
+
+    OLD_TAG=${OLD_TAG:-$(git rev-list --max-parents=0 HEAD)} # gets very first commit
+
+    git log $NEW_TAG...$OLD_TAG --pretty=format:%s | grep -oP "Merge pull request \K.*" | sed -e 's/from iExecBlockchainComputing\///g'
+}
